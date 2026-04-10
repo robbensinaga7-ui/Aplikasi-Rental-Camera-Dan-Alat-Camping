@@ -347,16 +347,6 @@ to {opacity: 1; transform: translateY(0);}
 
 </section>
 
-<!-- CATALOG -->
-<section class="catalog">
-
-<h2>Katalog Peralatan</h2>
-<p class="subtitle">Temukan peralatan camping terbaik</p>
-
-<div class="search-box" data-aos="zoom-in">
-
-<input type="text" placeholder="Cari peralatan...">
-
 
 </div>
 

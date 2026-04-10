@@ -15,4 +15,8 @@ Route::get('/about', function () {
 });
 Route::get('/product', function () {
     return view('product');
+    
+use App\Http\Controllers\ProductController;
+
+Route::get('/product', [ProductController::class, 'index']);
 });
