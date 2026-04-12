@@ -178,57 +178,133 @@ background:#ffda6a;
 <div class="product-container">
 
 <!-- 1 -->
-<div class="product-card product-item" data-name="tenda camping" data-aos="zoom-in">
-<img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b">
+<div class="product-container">
+
+@foreach($products as $product)
+
+<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+
+<img src="{{ asset($product->image) }}">
+
 <div class="product-body">
-<h3>Tenda Camping</h3>
-<p>Tenda kuat untuk 4 orang</p>
-<div class="price">Rp 500.000 / hari</div>
+<h3>{{ $product->name }}</h3>
+<p>{{ $product->description }}</p>
+
+<div class="price">
+Rp {{ number_format($product->price,0,',','.') }} / hari
+</div>
+
 <a href="#" class="btn">Sewa</a>
 </div>
+
+</div>
+
+@endforeach
+
 </div>
 
 <!-- 2 -->
-<div class="product-card product-item" data-name="carrier gunung" data-aos="zoom-in" data-aos-delay="100">
-<img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6">
+<div class="product-container">
+
+@foreach($products as $product)
+
+<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+
+<img src="{{ $product->image }}">
+
 <div class="product-body">
-<h3>Carrier Gunung</h3>
-<p>Ransel kapasitas besar</p>
-<div class="price">Rp 30.000 / hari</div>
+<h3>{{ $product->name }}</h3>
+<p>{{ $product->description }}</p>
+
+<div class="price">
+Rp {{ number_format($product->price,0,',','.') }} / hari
+</div>
+
 <a href="#" class="btn">Sewa</a>
 </div>
+
+</div>
+
+@endforeach
+
 </div>
 
 <!-- 3 -->
-<div class="product-card product-item" data-name="kompor portable" data-aos="zoom-in" data-aos-delay="200">
-<img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b">
+<div class="product-container">
+
+@foreach($products as $product)
+
+<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+
+<img src="{{ $product->image }}">
+
 <div class="product-body">
-<h3>Kompor Portable</h3>
-<p>Masak di alam bebas</p>
-<div class="price">Rp 20.000 / hari</div>
+<h3>{{ $product->name }}</h3>
+<p>{{ $product->description }}</p>
+
+<div class="price">
+Rp {{ number_format($product->price,0,',','.') }} / hari
+</div>
+
 <a href="#" class="btn">Sewa</a>
 </div>
+
+</div>
+
+@endforeach
+
 </div>
 
 <!-- 4 -->
-<div class="product-card product-item" data-name="sleeping bag" data-aos="zoom-in" data-aos-delay="300">
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+<div class="product-container">
+
+@foreach($products as $product)
+
+<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+
+<img src="{{ $product->image }}">
+
 <div class="product-body">
-<h3>Sleeping Bag</h3>
-<p>Hangat dan nyaman</p>
-<div class="price">Rp 25.000 / hari</div>
-<a href="#" class="btn">Sewa</a>
-</div>
+<h3>{{ $product->name }}</h3>
+<p>{{ $product->description }}</p>
+
+<div class="price">
+Rp {{ number_format($product->price,0,',','.') }} / hari
 </div>
 
-<div class="product-card product-item" data-name="sleeping bag" data-aos="zoom-in" data-aos-delay="300">
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-<div class="product-body">
-<h3>Sepatu Mendaki</h3>
-<p>Keamanan SElama Mendaki Gunung</p>
-<div class="price">Rp 25.000 / hari</div>
 <a href="#" class="btn">Sewa</a>
 </div>
+
+</div>
+
+@endforeach
+
+</div>
+
+<!-- 5 -->
+<div class="product-container">
+
+@foreach($products as $product)
+
+<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+
+<img src="{{ $product->image }}">
+
+<div class="product-body">
+<h3>{{ $product->name }}</h3>
+<p>{{ $product->description }}</p>
+
+<div class="price">
+Rp {{ number_format($product->price,0,',','.') }} / hari
+</div>
+
+<a href="#" class="btn">Sewa</a>
+</div>
+
+</div>
+
+@endforeach
+
 </div>
 
 </div>

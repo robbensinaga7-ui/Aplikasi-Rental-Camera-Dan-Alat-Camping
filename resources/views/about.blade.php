@@ -184,8 +184,20 @@ margin-bottom:10px;
 
 <div class="member" data-aos="zoom-in">
 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
-<h4>Mahasiswa IT</h4>
-<p>Developer</p>
+<h4>Robben Lamtipando Sinaga</h4>
+<p>Fullstack Developer</p>
+</div>
+
+<div class="member" data-aos="zoom-in" data-aos-delay="100">
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+<h4>Claudia M</h4>
+<p>UI/UX Designer</p>
+</div>
+
+<div class="member" data-aos="zoom-in" data-aos-delay="200">
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+<h4>John Feddly Nababan</h4>
+<p>Backend Developer</p>
 </div>
 
 </div>
