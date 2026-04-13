@@ -160,6 +160,7 @@ background:#ffda6a;
 <a href="/home">Home</a>
 <a href="/about">About</a>
 <a href="/product">Product</a>
+<a href="/contact">Contact</a>
 </div>
 </nav>
 

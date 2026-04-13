@@ -10,15 +10,6 @@ Route::get('/home', function () {
 Route::get('/app', function(){
     return view('app');
 });
-<<<<<<< HEAD
-=======
-Route::get('/register', function(){
-    return view('register');
-})
-Route::get('login', function(){
-    return view('login');
-})
->>>>>>> e1e85867fbbe68236b54cf7acba393b9f9c13fc6
 
 Route::get('/about', function () {
     return view('about');

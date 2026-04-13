@@ -278,6 +278,7 @@ to {opacity: 1; transform: translateY(0);}
 <a href="#">Catalog</a>
 <a href="#">Login</a>
 <a href="#">Daftar</a>
+<a href="/contact">Contact</a>
 </div>
 </nav>
 
