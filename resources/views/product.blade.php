@@ -160,6 +160,7 @@ background:#ffda6a;
 <a href="/home">Home</a>
 <a href="/about">About</a>
 <a href="/product">Product</a>
+<a href="/admin">Dashboard</a>
 </div>
 </nav>
 
@@ -171,141 +172,44 @@ background:#ffda6a;
 
 <!-- SEARCH -->
 <div class="search-box" data-aos="fade-up">
+    <div style="text-align:center; margin-bottom:20px;">
+    <a href="/product/create" class="btn">+ Tambah Produk</a>
+</div>
 <input type="text" id="searchInput" placeholder="Cari produk...">
 </div>
 
 <!-- PRODUCT LIST -->
 <div class="product-container">
 
-<!-- 1 -->
-<div class="product-container">
+@forelse($products as $product)
 
-@foreach($products as $product)
+<div class="product-card product-item"
+     data-name="{{ $product->name }}"
+     data-aos="zoom-in">
 
-<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
+    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/250' }}" alt="product">
 
-<img src="{{ asset($product->image) }}">
+    <div class="product-body">
+        <h3>{{ $product->name }}</h3>
+        <p>{{ $product->description }}</p>
+        <p>Stok: {{ $product->stock }}</p>
 
-<div class="product-body">
-<h3>{{ $product->name }}</h3>
-<p>{{ $product->description }}</p>
+        <div class="price">
+            Rp {{ number_format($product->price,0,',','.') }} / hari
+        </div>
 
-<div class="price">
-Rp {{ number_format($product->price,0,',','.') }} / hari
-</div>
-
-<a href="#" class="btn">Sewa</a>
-</div>
-
-</div>
-
-@endforeach
-
-</div>
-
-<!-- 2 -->
-<div class="product-container">
-
-@foreach($products as $product)
-
-<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
-
-<img src="{{ $product->image }}">
-
-<div class="product-body">
-<h3>{{ $product->name }}</h3>
-<p>{{ $product->description }}</p>
-
-<div class="price">
-Rp {{ number_format($product->price,0,',','.') }} / hari
-</div>
-
-<a href="#" class="btn">Sewa</a>
-</div>
+       @if($product->stock > 0)
+    <a href="#" class="btn">Sewa</a>
+@else
+    <button class="btn" disabled>Habis</button>
+@endif
+    </div>
 
 </div>
 
-@endforeach
-
-</div>
-
-<!-- 3 -->
-<div class="product-container">
-
-@foreach($products as $product)
-
-<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
-
-<img src="{{ $product->image }}">
-
-<div class="product-body">
-<h3>{{ $product->name }}</h3>
-<p>{{ $product->description }}</p>
-
-<div class="price">
-Rp {{ number_format($product->price,0,',','.') }} / hari
-</div>
-
-<a href="#" class="btn">Sewa</a>
-</div>
-
-</div>
-
-@endforeach
-
-</div>
-
-<!-- 4 -->
-<div class="product-container">
-
-@foreach($products as $product)
-
-<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
-
-<img src="{{ $product->image }}">
-
-<div class="product-body">
-<h3>{{ $product->name }}</h3>
-<p>{{ $product->description }}</p>
-
-<div class="price">
-Rp {{ number_format($product->price,0,',','.') }} / hari
-</div>
-
-<a href="#" class="btn">Sewa</a>
-</div>
-
-</div>
-
-@endforeach
-
-</div>
-
-<!-- 5 -->
-<div class="product-container">
-
-@foreach($products as $product)
-
-<div class="product-card product-item" data-name="{{ $product->name }}" data-aos="zoom-in">
-
-<img src="{{ $product->image }}">
-
-<div class="product-body">
-<h3>{{ $product->name }}</h3>
-<p>{{ $product->description }}</p>
-
-<div class="price">
-Rp {{ number_format($product->price,0,',','.') }} / hari
-</div>
-
-<a href="#" class="btn">Sewa</a>
-</div>
-
-</div>
-
-@endforeach
-
-</div>
+@empty
+    <p style="text-align:center; width:100%;">Tidak ada produk</p>
+@endforelse
 
 </div>
 

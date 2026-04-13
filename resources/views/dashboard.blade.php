@@ -116,6 +116,8 @@
 
         <a href="/admin">Dashboard</a>
         <a href="/product">Produk</a>
+        <a href="#">Transaksi</a>
+        <a href="#">Pengembalian</a>
         <a href="/transaksi">Transaksi</a>
         <a href="/pengembalian">Pengembalian</a>
     </div>
