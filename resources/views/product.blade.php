@@ -161,6 +161,7 @@ background:#ffda6a;
 <a href="/about">About</a>
 <a href="/product">Product</a>
 <a href="/admin">Dashboard</a>
+<a href="/contact">Contact</a>
 </div>
 </nav>
 

@@ -146,6 +146,7 @@ margin-bottom:10px;
 <a href="/product">Product</a>
 <a href="">Daftar</a>
 <a href="#">Login</a>
+<a href="/contact">Contact</a>
 </div>
 </nav>
 
