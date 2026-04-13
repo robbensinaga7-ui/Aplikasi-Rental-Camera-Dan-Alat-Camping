@@ -252,7 +252,21 @@ transition:0.3s;
 background:#2f80ed;
 transform: scale(1.05);
 }
+.footer{
+    background: rgba(0,0,0,0.4);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 20px;
+}
 
+.footer-content h3{
+    margin-bottom: 10px;
+}
+
+.contact p{
+    font-size: 14px;
+}
 /* ANIMATION */
 
 @keyframes slideUp {
@@ -278,7 +292,6 @@ to {opacity: 1; transform: translateY(0);}
 <a href="#">Catalog</a>
 <a href="#">Login</a>
 <a href="#">Daftar</a>
-<a href="/contact">Contact</a>
 </div>
 </nav>
 
