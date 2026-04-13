@@ -80,7 +80,7 @@
         <a href="/admin">Dashboard</a>
         <a href="/product">Produk</a>
         <a href="/transaksi">Transaksi</a>
-       <a href="/pengembalian" style="background: rgba(255,255,255,0.2);">Pengembalian</a>
+        <a href="/pengembalian">Pengembalian</a>
     </div>
 
     <!-- CONTENT -->
