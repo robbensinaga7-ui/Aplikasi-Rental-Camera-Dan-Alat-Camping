@@ -277,9 +277,8 @@ to {opacity: 1; transform: translateY(0);}
 <div class="menu">
 <a href="/about">About</a>
 <a href="/product">Product</a>
-<a href="#">Login</a>
-<a href="#">Daftar</a>
-<a href="/contact">Contact</a>
+<a href="/login">Login</a>
+<a href="/register">Daftar</a>
 </div>
 </nav>
 
@@ -361,6 +360,6 @@ duration: 1000,
 once: true
 });
 </script>
-
+@include('layouts.footer')
 </body>
 </html>

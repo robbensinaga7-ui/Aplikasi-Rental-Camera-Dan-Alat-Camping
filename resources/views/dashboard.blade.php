@@ -116,13 +116,10 @@
 
         <a href="/admin">Dashboard</a>
         <a href="/product">Produk</a>
-<<<<<<< HEAD
         <a href="#">Transaksi</a>
         <a href="#">Pengembalian</a>
-=======
         <a href="/transaksi">Transaksi</a>
         <a href="/pengembalian">Pengembalian</a>
->>>>>>> b255f0975de90fcf9c407b7cb4d32067a9709bb7
     </div>
 
     <!-- CONTENT -->

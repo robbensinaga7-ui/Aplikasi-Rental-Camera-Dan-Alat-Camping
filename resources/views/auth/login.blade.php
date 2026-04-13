@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Register - Camping Rental</title>
+<title>Login - Camping Rental</title>
 
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -16,16 +16,14 @@ body {
     justify-content: center;
     align-items: center;
 
-    /* background camping vibe */
     background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80');
     background-size: cover;
     background-position: center;
 }
 
-/* overlay gelap */
+/* overlay */
 .overlay {
     position: absolute;
-    top: 0; left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.5);
@@ -40,13 +38,19 @@ body {
     border-radius: 16px;
     width: 340px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    animation: fadeIn 0.8s ease;
+    animation: slideUp 0.8s ease;
 }
 
 /* animasi */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h2 {
@@ -77,6 +81,7 @@ input:focus {
     box-shadow: 0 0 5px rgba(46,125,50,0.4);
 }
 
+/* tombol */
 button {
     width: 100%;
     padding: 12px;
@@ -95,18 +100,26 @@ button:hover {
     transform: scale(1.03);
 }
 
-.success {
-    color: green;
+/* error */
+.error {
+    color: red;
     text-align: center;
     margin-bottom: 10px;
     font-size: 13px;
 }
 
+/* footer */
 .footer {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 12px;
     font-size: 12px;
     color: #444;
+}
+
+.footer a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: 500;
 }
 </style>
 </head>
@@ -117,30 +130,23 @@ button:hover {
 
 <div class="card">
     <h2>🌲 Camping Rental</h2>
-    <p>Buat akun untuk mulai sewa alat camping</p>
+    <p>Login untuk mulai petualanganmu</p>
 
-    @if(session('success'))
-        <div class="success">{{ session('success') }}</div>
+    @if(session('error'))
+        <div class="error">{{ session('error') }}</div>
     @endif
 
-    <form method="POST" action="/register">
+    <form method="POST" action="/login">
         @csrf
 
-        <input type="text" name="name" placeholder="Nama Lengkap">
-    <input type="email" name="email" placeholder="Email Aktif">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
 
-    <!-- tambahan baru -->
-    <input type="text" name="phone" placeholder="Nomor HP">
-    <input type="text" name="address" placeholder="Alamat Lengkap">
-
-    <input type="password" name="password" placeholder="Password">
-
-
-        <button type="submit">Daftar Sekarang</button>
+        <button type="submit">Login Sekarang</button>
     </form>
 
     <div class="footer">
-        Sudah punya akun? <a href="/login">Login di sini</a>
+        Belum punya akun? <a href="/register">Daftar di sini</a>
     </div>
 </div>
 

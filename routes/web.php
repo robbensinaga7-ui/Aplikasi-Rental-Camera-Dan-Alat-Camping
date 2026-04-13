@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/home', function () {
     return view('home');
@@ -17,27 +19,28 @@ Route::get('/admin', function () {
 });
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/register', function(){
-    return view('register');
-});
-Route::get('/login', function(){
-    return view('login');
-});
 Route::resource('/product', ProductController::class);
 Route::resource('/category', CategoryController::class);
 Route::get('/product/create', [ProductController::class, 'create']);
 Route::post('/product/store', [ProductController::class, 'store']);
 
+Route::get('/login', [AuthController::class, 'showLogin']);
+Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/logout', [AuthController::class, 'logout']);
+
+Route::get('/admin', function () {
+    if (!Auth::check()) {
+        return redirect('/login');
+    }
+
+    return view('admin.dashboard');
+});
 Route::get('/about', function () {
     return view('about');
 });
 
 Route::get('/product', [ProductController::class, 'index']);
-
-Route::get('/admin', function () {
-    return view('dashboard');
-});
 
 Route::get('/pengembalian', function () {
 
