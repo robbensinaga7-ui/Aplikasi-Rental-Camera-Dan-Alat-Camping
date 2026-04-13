@@ -49,7 +49,7 @@ Route::get('/pengembalian', function () {
             'nama' => 'John',
             'barang' => 'Kamera Canon',
             'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-12',
+            'tgl_kembali' => '2026-04-20',
             'status' => 'dipinjam'
         ],
         (object)[
