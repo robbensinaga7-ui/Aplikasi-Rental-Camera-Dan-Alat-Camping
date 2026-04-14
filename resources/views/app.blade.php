@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <title>Admin Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -16,7 +17,7 @@
 
 .wrapper {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .sidebar {
@@ -24,6 +25,8 @@
     background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
     color: white;
     padding: 20px;
+    position: fixed;
+    height: 100%;
 }
 
 .sidebar h2 {
@@ -38,15 +41,14 @@
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 10px;
-    transition: 0.3s;
 }
 
 .sidebar a:hover {
     background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
 }
 
 .content {
+    margin-left: 220px;
     flex: 1;
     background: #f4f6f9;
     padding: 20px;
@@ -57,33 +59,27 @@
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 </style>
 
 </head>
-
 <body>
 
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>🏕 Admin</h2>
         <a href="/admin">Dashboard</a>
         <a href="/product">Produk</a>
-        <a href="/transaksi">Transaksi</a>
         <a href="/pengembalian">Pengembalian</a>
     </div>
 
-    <!-- CONTENT -->
     <div class="content">
 
         <div class="header">

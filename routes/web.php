@@ -14,9 +14,7 @@ Route::get('/home', function () {
 Route::get('/app', function(){
     return view('app');
 });
-Route::get('/admin', function () {
-    return view('dashboard');
-});
+
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::resource('/product', ProductController::class);
@@ -30,11 +28,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/admin', function () {
-    if (!Auth::check()) {
+    if (!session('is_admin')) {
         return redirect('/login');
     }
 
-    return view('dashboard');
+    return view(' dashboard');
 });
 Route::get('/about', function () {
     return view('about');
