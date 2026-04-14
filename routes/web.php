@@ -54,3 +54,103 @@ Route::get('/pengembalian', function () {
 
     return view('pengembalian', compact('pengembalian'));
 });
+
+Route::get('/transaksi', function () {
+
+    $transaksi = [
+        (object)[
+            'nama' => 'John',
+            'barang' => 'Kamera Canon',
+            'tgl_pinjam' => '2026-04-10',
+            'tgl_kembali' => '2026-04-20',
+            'total' => 500000,
+            'metode' => 'Transfer',
+            'status' => 'belum_bayar'
+        ],
+        (object)[
+            'nama' => 'Budi',
+            'barang' => 'Tenda Camping',
+            'tgl_pinjam' => '2026-04-05',
+            'tgl_kembali' => '2026-04-07',
+            'total' => 200000,
+            'metode' => 'Cash',
+            'status' => 'lunas'
+        ]
+    ];
+
+    return view('transaksi', compact('transaksi'));
+});
+Route::get('/peminjaman', function () {
+
+    $peminjaman = [
+        (object)[
+            'nama' => 'John',
+            'barang' => 'Kamera Canon',
+            'tgl_pinjam' => '2026-04-10',
+            'tgl_kembali' => '2026-04-20',
+            'durasi' => '10 hari',
+            'status' => 'dipinjam'
+        ],
+        (object)[
+            'nama' => 'Budi',
+            'barang' => 'Tenda Camping',
+            'tgl_pinjam' => '2026-04-01',
+            'tgl_kembali' => '2026-04-05',
+            'durasi' => '4 hari',
+            'status' => 'terlambat'
+        ]
+    ];
+
+    return view('peminjaman', compact('peminjaman'));
+});
+Route::get('/peminjaman/{id}', function ($id) {
+
+    $data = [
+        [
+            'nama' => 'John',
+            'barang' => 'Kamera Canon',
+            'tgl_pinjam' => '2026-04-10',
+            'tgl_kembali' => '2026-04-20',
+            'durasi' => '10 hari',
+            'harga' => 50000,
+            'status' => 'dipinjam'
+        ],
+        [
+            'nama' => 'Budi',
+            'barang' => 'Tenda Camping',
+            'tgl_pinjam' => '2026-04-01',
+            'tgl_kembali' => '2026-04-05',
+            'durasi' => '4 hari',
+            'harga' => 30000,
+            'status' => 'terlambat'
+        ]
+    ];
+
+    $item = $data[$id];
+
+    return view('detail_peminjaman', compact('item'));
+});
+
+Route::get('/kembalikan/{id}', function ($id) {
+
+    $data = [
+        [
+            'nama' => 'John',
+            'barang' => 'Kamera Canon',
+            'tgl_pinjam' => '2026-04-10',
+            'tgl_kembali' => '2026-04-20',
+            'harga' => 50000
+        ],
+        [
+            'nama' => 'Budi',
+            'barang' => 'Tenda Camping',
+            'tgl_pinjam' => '2026-04-01',
+            'tgl_kembali' => '2026-04-05',
+            'harga' => 30000
+        ]
+    ];
+
+    $item = $data[$id];
+
+    return view('kembalikan', compact('item'));
+});
