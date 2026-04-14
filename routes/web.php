@@ -34,7 +34,7 @@ Route::get('/admin', function () {
         return redirect('/login');
     }
 
-    return view('admin.dashboard');
+    return view('dashboard');
 });
 Route::get('/about', function () {
     return view('about');
