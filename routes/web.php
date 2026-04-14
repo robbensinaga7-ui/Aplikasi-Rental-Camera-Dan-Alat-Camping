@@ -10,15 +10,13 @@ Route::get('/home', function () {
 Route::get('/app', function(){
     return view('app');
 });
-<<<<<<< HEAD
+
 Route::get('/register', function(){
     return view('register');
 });
 Route::get('login', function(){
     return view('login');
 });
-=======
->>>>>>> c45c20a9f2795052269331f2c7fc6acd250700fb
 
 Route::get('/about', function () {
     return view('about');
