@@ -45,17 +45,10 @@ Route::get('/pengembalian', function () {
     $pengembalian = [
         (object)[
             'nama' => 'John',
-            'barang' => 'Kamera Canon',
+            'barang' => 'Kamera',
             'tgl_pinjam' => '2026-04-10',
             'tgl_kembali' => '2026-04-20',
             'status' => 'dipinjam'
-        ],
-        (object)[
-            'nama' => 'Budi',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-05',
-            'tgl_kembali' => '2026-04-07',
-            'status' => 'dikembalikan'
         ]
     ];
 
