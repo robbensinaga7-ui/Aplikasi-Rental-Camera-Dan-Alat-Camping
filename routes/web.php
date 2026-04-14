@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -40,24 +42,10 @@ Route::get('/about', function () {
 
 Route::get('/product', [ProductController::class, 'index']);
 
-Route::get('/pengembalian', function () {
+Route::get('/transaksi', [TransactionController::class, 'index']);
+Route::get('/transaksi/create', [TransactionController::class, 'create']);
+Route::post('/transaksi', [TransactionController::class, 'store']);
 
-    $pengembalian = [
-        (object)[
-            'nama' => 'John',
-            'barang' => 'Kamera Canon',
-            'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-20',
-            'status' => 'dipinjam'
-        ],
-        (object)[
-            'nama' => 'Budi',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-05',
-            'tgl_kembali' => '2026-04-07',
-            'status' => 'dikembalikan'
-        ]
-    ];
-
-    return view('pengembalian', compact('pengembalian'));
-});
+Route::get('/pengembalian', [ReturnController::class, 'index']);
+Route::get('/pengembalian/create', [ReturnController::class, 'create']);
+Route::post('/pengembalian', [ReturnController::class, 'store']);
