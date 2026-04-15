@@ -144,8 +144,8 @@ margin-bottom:10px;
 <div class="menu">
 <a href="/home">Home</a>
 <a href="/product">Product</a>
-<a href="">Daftar</a>
-<a href="#">Login</a>
+<a href="/register">Daftar</a>
+<a href="/login">Login</a>
 </div>
 </nav>
 
