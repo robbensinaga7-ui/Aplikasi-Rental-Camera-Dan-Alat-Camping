@@ -142,7 +142,7 @@ Route::get('/kembalikan/{id}', function ($id) {
             'harga' => 50000
         ],
         [
-            'nama' => 'Budi',
+            'nama' => 'Roben',
             'barang' => 'Tenda Camping',
             'tgl_pinjam' => '2026-04-01',
             'tgl_kembali' => '2026-04-05',
