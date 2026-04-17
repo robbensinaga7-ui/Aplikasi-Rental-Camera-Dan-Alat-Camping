@@ -148,3 +148,7 @@ Route::get('/kembalikan/{id}', function ($id) {
 
     return view('kembalikan', compact('item'));
 });
+Route::get('/admin/product', function () {
+    $products = \App\Models\Product::all();
+    return view('admin_product', compact('products'));
+});

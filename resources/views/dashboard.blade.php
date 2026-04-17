@@ -115,7 +115,7 @@
         <h2>🏕 Admin</h2>
 
         <a href="/admin">Dashboard</a>
-        <a href="/product">Produk</a>
+        <a href="/admin/product">Produk</a>
         <a href="/transaksi">Transaksi</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
@@ -133,7 +133,7 @@
             <div class="card">
                 <h3>📦 Produk</h3>
                 <p>Kelola alat camping</p>
-                <a href="/product" class="btn">Buka</a>
+                <a href="/admin/product">Produk</a>
             </div>
 
             <div class="card">
