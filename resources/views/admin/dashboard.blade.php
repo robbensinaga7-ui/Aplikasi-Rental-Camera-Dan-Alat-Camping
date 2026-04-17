@@ -64,43 +64,13 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* CARD */
-.cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
+/* CHART BOX */
+.chart-box {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    width: 250px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-}
-
-.card h3 {
-    margin-bottom: 10px;
-}
-
-.btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: #2c5364;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    background: #0f2027;
+    margin-top: 20px;
 }
 </style>
 
@@ -128,31 +98,37 @@
             <h2>Dashboard Admin Camping Rental</h2>
         </div>
 
-        <div class="cards">
-
-            <div class="card">
-                <h3>📦 Produk</h3>
-                <p>Kelola alat camping</p>
-                <a href="/product" class="btn">Buka</a>
-            </div>
-
-            <div class="card">
-                <h3>💰 Transaksi</h3>
-                <p>Data penyewaan</p>
-                <a href="#" class="btn">Lihat</a>
-            </div>
-
-            <div class="card">
-                <h3>🔁 Pengembalian</h3>
-                <p>Barang kembali</p>
-                <a href="#" class="btn">Cek</a>
-            </div>
-
+        <!-- GRAFIK -->
+        <div class="chart-box">
+            <h3>📊 Grafik Transaksi</h3>
+            <canvas id="chart"></canvas>
         </div>
 
     </div>
 
 </div>
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('chart');
+
+const labels = {!! json_encode($chart->pluck('date')) !!};
+const data = {!! json_encode($chart->pluck('total')) !!};
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Transaksi per Hari',
+            data: data,
+            borderWidth: 2
+        }]
+    }
+});
+</script>
 
 </body>
 </html>

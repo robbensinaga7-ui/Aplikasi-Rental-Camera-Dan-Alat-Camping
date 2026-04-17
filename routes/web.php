@@ -37,13 +37,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/admin', function () {
-    if (!session('is_admin')) {
-        return redirect('/login');
-    }
-
-    return view(' dashboard');
-});
+Route::get('/admin', [TransactionController::class, 'adminDashboard']);
 Route::get('/about', function () {
     return view('about');
 });
@@ -156,3 +150,4 @@ Route::get('/kembalikan/{id}', function ($id) {
 
     return view('kembalikan', compact('item'));
 });
+Route::get('/dashboard-pelanggan', [TransactionController::class, 'dashboard'])->name('pelanggan.dashboard');
