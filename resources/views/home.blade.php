@@ -236,9 +236,9 @@ to {opacity: 1; transform: translateY(0);}
 <div class="logo">🏕 Camping Rental</div>
 
 <div class="menu">
-<a href="/about">About</a>
+<a href="/about">Tentang Kami</a>
 <a href="/product">Product</a>
-<a href="/login">Login</a>
+<a href="/login">Masuk</a>
 <a href="/register">Daftar</a>
 </div>
 </nav>

@@ -158,7 +158,7 @@ background:#ffda6a;
 
 <div class="menu">
 <a href="/home">Home</a>
-<a href="/about">About</a>
+<a href="/about">Tentang Kami</a>
 <a href="/product">Product</a>
 <a href="/admin">Dashboard</a>
 </div>
