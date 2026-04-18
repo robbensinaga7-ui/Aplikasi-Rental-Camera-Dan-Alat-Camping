@@ -7,7 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\AdminController;
 
 Route::get('/home', function () {
     return view('home');
@@ -35,13 +35,16 @@ Route::post('/product/store', [ProductController::class, 'store']);
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+});
 
 Route::get('/admin', [TransactionController::class, 'adminDashboard']);
 Route::get('/about', function () {
     return view('about');
 });
-
+Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/product', [ProductController::class, 'index']);
 
 Route::get('/transaksi', [TransactionController::class, 'index']);
