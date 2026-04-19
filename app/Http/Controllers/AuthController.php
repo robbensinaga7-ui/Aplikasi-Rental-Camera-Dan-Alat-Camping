@@ -43,15 +43,19 @@ public function showLogin()
 // PROSES LOGIN
 public function login(Request $request)
 {
-    // akun admin manual
-    if ($request->email == 'admin@gmail.com' && $request->password == 'admin123') {
+    $credentials = $request->only('email', 'password');
 
-        // set login manual
-        session([
-            'is_admin' => true
-        ]);
+    // LOGIN USER DARI DATABASE
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-        return redirect('/admin');
+        // cek kalau admin manual
+        if ($request->email == 'admin@gmail.com') {
+            session(['is_admin' => true]);
+            return redirect('/admin');
+        }
+
+       return redirect()->route('pelanggan.dashboard');
     }
 
     return back()->with('error', 'Email atau password salah');

@@ -8,7 +8,9 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\SewaController;
+use App\Http\Controllers\PelangganProductController;
 Route::get('/home', function () {
     return view('home');
 });
@@ -158,4 +160,8 @@ Route::get('/admin/product', function () {
     return view('admin_product', compact('products'));
 });
 
-Route::get('/dashboard-pelanggan', [TransactionController::class, 'dashboard'])->name('pelanggan.dashboard');
+Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
+->name('pelanggan.dashboard');
+Route::post('/sewa', [SewaController::class, 'store'])->name('sewa.store');
+Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
+->name('pelanggan.product');

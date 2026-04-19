@@ -54,7 +54,7 @@ public function update(Request $request, $id)
          'stock' => $request->stock
     ]);
 
-    return redirect('/product');
+    return redirect('/admin/product')->with('success', 'Product berhasil diupdate');
 }
 public function destroy($id)
 {
