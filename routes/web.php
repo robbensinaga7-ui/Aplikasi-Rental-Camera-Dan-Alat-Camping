@@ -7,8 +7,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReturnController;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\SewaController;
+use App\Http\Controllers\PelangganProductController;
 Route::get('/home', function () {
     return view('home');
 });
@@ -35,13 +37,16 @@ Route::post('/product/store', [ProductController::class, 'store']);
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+});
 
 Route::get('/admin', [TransactionController::class, 'adminDashboard']);
 Route::get('/about', function () {
     return view('about');
 });
-
+Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/product', [ProductController::class, 'index']);
 
 Route::get('/transaksi', [TransactionController::class, 'index']);
@@ -150,4 +155,13 @@ Route::get('/kembalikan/{id}', function ($id) {
 
     return view('kembalikan', compact('item'));
 });
-Route::get('/dashboard-pelanggan', [TransactionController::class, 'dashboard'])->name('pelanggan.dashboard');
+Route::get('/admin/product', function () {
+    $products = \App\Models\Product::all();
+    return view('admin_product', compact('products'));
+});
+
+Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
+->name('pelanggan.dashboard');
+Route::post('/sewa', [SewaController::class, 'store'])->name('sewa.store');
+Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
+->name('pelanggan.product');

@@ -173,7 +173,7 @@ background:#ffda6a;
 <!-- SEARCH -->
 <div class="search-box" data-aos="fade-up">
     <div style="text-align:center; margin-bottom:20px;">
-    <a href="/product/create" class="btn">+ Tambah Produk</a>
+    
 </div>
 <input type="text" id="searchInput" placeholder="Cari produk...">
 </div>

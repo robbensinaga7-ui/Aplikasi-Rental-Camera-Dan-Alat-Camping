@@ -115,45 +115,6 @@ animation: float 4s ease-in-out infinite;
 border-radius:20px;
 }
 
-/* FEATURES */
-
-.features{
-display:flex;
-justify-content:center;
-gap:30px;
-padding:60px 80px 80px;
-background: linear-gradient(135deg,#ffd166,#ff7f50);
-border-radius:20px;
-flex-wrap:wrap;
-}
-
-.card{
-background: rgba(255,255,255,0.15);
-padding:30px;
-border-radius:20px;
-width:220px;
-text-align:center;
-backdrop-filter: blur(10px);
-transition:0.5s;
-color:#fff;
-}
-
-.card:hover{
-transform: translateY(-15px) scale(1.1);
-background: rgba(255,255,255,0.35);
-box-shadow: 0 15px 25px rgba(0,0,0,0.4);
-}
-
-.card h3{
-margin-bottom:10px;
-font-size:18px;
-color:#fff;
-}
-
-.card p{
-font-size:14px;
-color:#f0f0f0;
-}
 
 /* WHY SECTION */
 
@@ -295,26 +256,6 @@ to {opacity: 1; transform: translateY(0);}
 
 <div class="hero-img" data-aos="fade-left">
 <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png">
-</div>
-
-</section>
-
-<!-- FEATURES -->
-<section class="features">
-
-<div class="card" data-aos="zoom-in" data-aos-delay="100">
-<h3>⛺ Peralatan Lengkap</h3>
-<p>Tenda, carrier, kompor, dan perlengkapan lainnya.</p>
-</div>
-
-<div class="card" data-aos="zoom-in" data-aos-delay="200">
-<h3>⚡ Cepat & Mudah</h3>
-<p>Pemesanan alat camping hanya dalam beberapa klik.</p>
-</div>
-
-<div class="card" data-aos="zoom-in" data-aos-delay="300">
-<h3>⭐ Terpercaya</h3>
-<p>Peralatan berkualitas dan siap digunakan.</p>
 </div>
 
 </section>
