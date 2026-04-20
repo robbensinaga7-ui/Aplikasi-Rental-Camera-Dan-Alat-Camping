@@ -348,7 +348,7 @@ to {opacity: 1; transform: translateY(0);}
 <div class="why-item" data-aos="fade-up" data-aos-delay="200">
 <div class="icon">📁</div>
 <h3>Harga Terjangkau</h3>
-<p>Harga sewa fleksibel sesuai kebutuhan Anda</p>
+<p>Harga sewa fleksibel sesuai kebutuhan Andaa</p>
 </div>
 
 <div class="why-item" data-aos="fade-up" data-aos-delay="300">
