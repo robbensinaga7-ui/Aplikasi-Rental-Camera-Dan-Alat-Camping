@@ -37,10 +37,7 @@ Route::post('/product/store', [ProductController::class, 'store']);
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-});
+Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/admin', [TransactionController::class, 'adminDashboard']);
 Route::get('/about', function () {
