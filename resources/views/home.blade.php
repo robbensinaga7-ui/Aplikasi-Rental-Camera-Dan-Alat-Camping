@@ -251,7 +251,7 @@ to {opacity: 1; transform: translateY(0);}
 
 <p>Sewa peralatan camping berkualitas untuk petualangan Anda. Mudah, cepat, dan terpercaya!</p>
 
-<a href="#" class="btn">Jelajahi Katalog</a>
+<a href="" class="btn">Jelajahi Katalog</a>
 </div>
 
 <div class="hero-img" data-aos="fade-left">
