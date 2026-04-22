@@ -60,12 +60,24 @@ margin-bottom:15px;
 box-shadow:0 5px 15px rgba(0,0,0,0.06);
 transition:0.3s;
 animation:fade 0.5s ease;
+max-width:320px;
 }
 
 .product:hover{
 transform:translateY(-5px);
 }
 
+/* GAMBAR */
+.product img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:10px;
+margin-bottom:10px;
+display:block;
+}
+
+/* BUTTON */
 button{
 background:#34495e;
 color:white;
@@ -116,22 +128,24 @@ to{opacity:1;transform:scale(1);}
 @foreach($products as $product)
 <div class="product">
 
-<h3>{{ $product->name }}</h3>
-<p>Stok: {{ $product->stock }}</p>
+    <img src="{{ asset('storage/' . $product->image) }}" 
+         alt="{{ $product->name }}">
 
-<form action="{{ route('sewa.store') }}" method="POST">
-@csrf
+    <h3>{{ $product->name }}</h3>
+    <p>Stok: {{ $product->stock }}</p>
 
-<input type="hidden" name="product_id" value="{{ $product->id }}">
-<input type="hidden" name="customer_name" value="{{ $name }}">
+    <form action="{{ route('sewa.store') }}" method="POST">
+        @csrf
 
-<input type="date" name="rent_date" required>
-<input type="date" name="return_date" required>
-<input type="number" name="qty" value="1" min="1">
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+        <input type="hidden" name="customer_name" value="{{ $name }}">
 
-<button type="submit">Sewa Sekarang</button>
+        <input type="date" name="rent_date" required>
+        <input type="date" name="return_date" required>
+        <input type="number" name="qty" value="1" min="1">
 
-</form>
+        <button type="submit">Sewa Sekarang</button>
+    </form>
 
 </div>
 @endforeach
