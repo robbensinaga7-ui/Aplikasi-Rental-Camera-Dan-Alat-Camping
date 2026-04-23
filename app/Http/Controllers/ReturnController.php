@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ReturnItem;
-use App\Models\Transaction;
+use App\Models\Transactions;
 use Carbon\Carbon;
 use App\Models\Product;      
 class ReturnController extends Controller
@@ -17,13 +17,13 @@ class ReturnController extends Controller
 
     public function create()
     {
-        $transactions = Transaction::where('status','dipinjam')->get();
+        $transactions = Transactions::where('status','dipinjam')->get();
         return view('pengembalian.create', compact('transactions'));
     }
 
     public function store(Request $request)
     {
-        $trx = Transaction::find($request->transaction_id);
+        $trx = Transactions::find($request->transaction_id);
 
     // hitung denda
     $today = Carbon::now();

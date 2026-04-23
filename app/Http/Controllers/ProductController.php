@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('product', compact('products'));
+        $products = Product::with('category')->get();
+        return view('pages.product', compact('products'));
     }
     public function create()
     {
-    return view('product.create');
+        $categories = Category::all();
+        return view('pages.product.create', compact('categories'));
     }
     public function store(Request $request)
 {
@@ -22,13 +24,17 @@ class ProductController extends Controller
     
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('products', 'public');
+        $category = Category::firstOrCreate([
+        'name' => $request->category_name
+    ]);
     }
     Product::create([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
         'image' => $imagePath,
-        'stock' => $request->stock
+        'stock' => $request->stock,
+        'category_id' => $request->category_id
     ]);
 
     return redirect('/product')->with('success', 'Produk berhasil ditambahkan');;
@@ -36,7 +42,7 @@ class ProductController extends Controller
 public function edit($id)
 {
     $product = Product::find($id);
-    return view('product.edit', compact('product'));
+    return view('pages.product.edit', compact('product'));
 }
 public function update(Request $request, $id)
 {
