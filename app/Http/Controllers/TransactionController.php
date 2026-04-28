@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     public function index()
     {
         $data = Transaction::with('product')->get();
-        return view('transaksi.index', compact('data'));
+        return view('admin.transaksi', compact('data'));
     }
 
     public function create()
@@ -40,19 +41,28 @@ class TransactionController extends Controller
         return back()->with('error', 'Stok tidak cukup');
     }
 
-    Transaction::create([
-        'customer_name' => $request->customer_name,
-        'product_id' => $request->product_id,
-        'qty' => $request->qty,
-        'rent_date' => $request->rent_date,
-        'return_date' => $request->return_date,
-        'status' => 'dipinjam'
-    ]);
+    $rent = Carbon::parse($request->rent_date);
+$return = Carbon::parse($request->return_date);
+
+$days = $rent->diffInDays($return) + 1;
+
+$totalPrice = $product->price_per_day * $days * $request->qty;
+
+Transaction::create([
+    'customer_name' => $request->customer_name,
+    'product_id' => $request->product_id,
+    'qty' => $request->qty,
+    'rent_date' => $request->rent_date,
+    'return_date' => $request->return_date,
+    'price' => $totalPrice,
+    'fine' => 0,
+    'status' => 'dipinjam'
+]);
 
     $product->stock -= $request->qty;
     $product->save();
 
-    return redirect('/transaksi')->with('success', 'Berhasil transaksi');
+    return redirect('/admin/transaksi')->with('success', 'Berhasil transaksi');
 }
 
     public function dashboard(Request $request)
@@ -90,4 +100,34 @@ public function adminDashboard()
             'chart'
         ));
     }
+    public function bayar($id)
+{
+    $transaksi = Transaction::findOrFail($id);
+
+    $fine = $this->hitungDenda($transaksi);
+
+    $transaksi->fine = $fine;
+    $transaksi->status = $fine > 0 ? 'terlambat' : 'dikembalikan';
+    $transaksi->is_paid = true;
+    $transaksi->paid_at = now();
+    $transaksi->save();
+
+    return back()->with('success', 'Pembayaran berhasil!');
+}
+
+private function hitungDenda($transaksi)
+{
+    $today = Carbon::now();
+    $returnDate = Carbon::parse($transaksi->return_date);
+
+    if ($today->gt($returnDate)) {
+        $lateDays = $returnDate->diffInDays($today);
+
+        $dendaPerHari = 10000; // bisa kamu ubah
+
+        return $lateDays * $dendaPerHari;
+    }
+
+    return 0;
+}
 }

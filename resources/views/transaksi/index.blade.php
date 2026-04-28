@@ -1,54 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
 <title>Transaksi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body { font-family: Poppins; background:#f4f6f9; padding:20px; }
-table {
-    width:100%;
-    border-collapse: collapse;
-    background:white;
-}
-th, td {
-    padding:10px;
-    border-bottom:1px solid #ddd;
-}
-th { background:#2c5364; color:white; }
-a.btn {
-    padding:8px 12px;
-    background:#2c5364;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
-}
+/* sama seperti punyamu */
 </style>
+
 </head>
 
 <body>
 
-<h2>📦 Data Transaksi</h2>
-<a href="/transaksi/create" class="btn">+ Tambah</a>
+<div class="wrapper">
 
-<br><br>
+    <div class="sidebar">
+        <h2>🏕 Admin</h2>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/product">Produk</a>
+        <a href="/admin/transaksi">Transaksi</a>
+    </div>
 
-<table>
-<tr>
-    <th>Nama</th>
-    <th>Produk</th>
-    <th>Jumlah</th>
-    <th>Status</th>
-</tr>
+    <div class="content">
 
-@foreach($data as $d)
-<tr>
-    <td>{{ $d->customer_name }}</td>
-    <td>{{ $d->product->name }}</td>
-    <td>{{ $d->qty }}</td>
-    <td>{{ $d->status }}</td>
-</tr>
-@endforeach
+        <h2>Data Transaksi</h2>
 
-</table>
+        <a href="/transaksi/create" style="margin-bottom:10px;display:inline-block;background:#2c5364;color:white;padding:8px 12px;border-radius:6px;text-decoration:none;">
+            + Tambah
+        </a>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Customer</th>
+                    <th>Produk</th>
+                    <th>Qty</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($data as $i => $item)
+                <tr>
+                    <td>{{ $i+1 }}</td>
+                    <td>{{ $item->customer_name }}</td>
+                    <td>{{ $item->product->name ?? '-' }}</td>
+                    <td>{{ $item->qty }}</td>
+                    <td>{{ $item->rent_date }}</td>
+                    <td>{{ $item->status }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
 
 </body>
 </html>

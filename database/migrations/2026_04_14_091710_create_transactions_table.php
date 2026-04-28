@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('qty');
             $table->date('rent_date');
             $table->date('return_date');
-            $table->enum('status', ['dipinjam', 'dikembalikan'])->default('dipinjam');
+            $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat']);
             $table->timestamps();
         });
     }

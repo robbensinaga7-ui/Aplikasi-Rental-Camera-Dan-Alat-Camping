@@ -96,6 +96,21 @@ border-bottom:1px solid #eee;
 font-size:14px;
 }
 
+/* BUTTON */
+.btn-bayar{
+background:#f39c12;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.lunas{
+color:green;
+font-weight:bold;
+}
+
 /* ANIMATION */
 @keyframes fade{
 from{opacity:0;transform:translateY(10px);}
@@ -139,15 +154,28 @@ to{transform:translateX(0);}
 <th>Sewa</th>
 <th>Kembali</th>
 <th>Status</th>
+<th>Aksi</th>
 </tr>
 
-@foreach($transactions as $t)
+@foreach($transaction as $t)
 <tr>
 <td>{{ $t->product->name ?? '-' }}</td>
 <td>{{ $t->qty }}</td>
 <td>{{ $t->rent_date }}</td>
 <td>{{ $t->return_date }}</td>
 <td>{{ $t->status }}</td>
+
+<td>
+    @if($t->status == 'dipinjam')
+        <form action="/transaksi/{{ $t->id }}/bayar" method="POST">
+            @csrf
+            <button class="btn-bayar">Bayar</button>
+        </form>
+    @else
+        <span class="lunas">✔ Lunas</span>
+    @endif
+</td>
+
 </tr>
 @endforeach
 

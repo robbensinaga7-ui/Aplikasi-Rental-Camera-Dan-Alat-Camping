@@ -11,9 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\SewaController;
 use App\Http\Controllers\PelangganProductController;
-Route::get('/home', function () {
-    return view('home');
-});
+
 
 Route::get('/app', function(){
     return view('app');
@@ -28,9 +26,6 @@ Route::prefix('pages')->group(function () {
 
 Route::get('/register', function(){
     return view('register');
-});
-Route::get('login', function(){
-    return view('login');
 });
 
 Route::get('/register', [AuthController::class, 'showRegister']);
@@ -51,113 +46,16 @@ Route::get('/about', function () {
 });
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/pages/product', [ProductController::class, 'index']);
-
-Route::get('/transaksi', [TransactionController::class, 'index']);
+Route::get('/admin/transaksi', [TransactionController::class, 'index']);
 Route::get('/transaksi/create', [TransactionController::class, 'create']);
 Route::post('/transaksi', [TransactionController::class, 'store']);
+Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
+    ->name('transaksi.bayar');
 Route::get('/pengembalian', [ReturnController::class, 'index']);
 Route::get('/pengembalian/create', [ReturnController::class, 'create']);
 Route::post('/pengembalian', [ReturnController::class, 'store']);
 
-Route::get('/transaksi', function () {
 
-    $transaksi = [
-        (object)[
-            'nama' => 'John',
-            'barang' => 'Kamera Canon',
-            'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-20',
-            'total' => 500000,
-            'metode' => 'Transfer',
-            'status' => 'belum_bayar'
-        ],
-        (object)[
-            'nama' => 'Budi',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-05',
-            'tgl_kembali' => '2026-04-07',
-            'total' => 200000,
-            'metode' => 'Cash',
-            'status' => 'lunas'
-        ]
-    ];
-
-    return view('transaksi', compact('transaksi'));
-});
-Route::get('/peminjaman', function () {
-
-    $peminjaman = [
-        (object)[
-            'nama' => 'John',
-            'barang' => 'Kamera Canon',
-            'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-20',
-            'durasi' => '10 hari',
-            'status' => 'dipinjam'
-        ],
-        (object)[
-            'nama' => 'Budi',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-01',
-            'tgl_kembali' => '2026-04-05',
-            'durasi' => '4 hari',
-            'status' => 'terlambat'
-        ]
-    ];
-
-    return view('peminjaman', compact('peminjaman'));
-});
-Route::get('/peminjaman/{id}', function ($id) {
-
-    $data = [
-        [
-            'nama' => 'John',
-            'barang' => 'Kamera Canon',
-            'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-20',
-            'durasi' => '10 hari',
-            'harga' => 50000,
-            'status' => 'dipinjam'
-        ],
-        [
-            'nama' => 'Budi',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-01',
-            'tgl_kembali' => '2026-04-05',
-            'durasi' => '4 hari',
-            'harga' => 30000,
-            'status' => 'terlambat'
-        ]
-    ];
-
-    $item = $data[$id];
-
-    return view('detail_peminjaman', compact('item'));
-});
-
-Route::get('/kembalikan/{id}', function ($id) {
-
-    $data = [
-        [
-            'nama' => 'John',
-            'barang' => 'Kamera Canon',
-            'tgl_pinjam' => '2026-04-10',
-            'tgl_kembali' => '2026-04-20',
-            'harga' => 50000
-        ],
-        [
-            'nama' => 'Roben',
-            'barang' => 'Tenda Camping',
-            'tgl_pinjam' => '2026-04-01',
-            'tgl_kembali' => '2026-04-05',
-            'harga' => 30000
-        ]
-    ];
-
-    $item = $data[$id];
-
-    return view('kembalikan', compact('item'));
-});
 Route::get('/admin/product', function () {
     $products = \App\Models\Product::all();
     return view('admin_product', compact('products'));

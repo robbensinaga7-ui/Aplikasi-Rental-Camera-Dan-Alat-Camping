@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            Schema::table('products', function (Blueprint $table) {
-        $table->integer('price')->default(0);
-    });
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->boolean('is_paid')->default(false);
+            $table->timestamp('paid_at')->nullable();
         });
     }
 
@@ -23,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropColumn(['is_paid', 'paid_at']);
         });
     }
 };

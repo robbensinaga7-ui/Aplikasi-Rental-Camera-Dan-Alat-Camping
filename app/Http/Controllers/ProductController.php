@@ -21,28 +21,36 @@ class ProductController extends Controller
     public function store(Request $request)
 {
     $imagePath = null;
-    
+
+    // upload gambar
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('products', 'public');
-        $category = Category::firstOrCreate([
-        'name' => $request->category_name
-    ]);
     }
+
+    // kategori (selalu jalan)
+    if ($request->category_name) {
+        $category = Category::firstOrCreate([
+            'name' => $request->category_name
+        ]);
+    } else {
+        $category = Category::find($request->category_id);
+    }
+
     Product::create([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
         'image' => $imagePath,
         'stock' => $request->stock,
-        'category_id' => $request->category_id
+        'category_id' => $category->id
     ]);
 
-    return redirect('/product')->with('success', 'Produk berhasil ditambahkan');;
+    return redirect('/product')->with('success', 'Produk berhasil ditambahkan');
 }
 public function edit($id)
 {
     $product = Product::find($id);
-    return view('pages.product.edit', compact('product'));
+    return view(' product.edit', compact('product'));
 }
 public function update(Request $request, $id)
 {
