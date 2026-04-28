@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
+              // relasi ke product
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+
+            // data peminjaman
+            $table->string('customer_name');
             $table->integer('qty');
-            $table->date('rent_date');
-            $table->date('return_date');
-            $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat']);
+
+            $table->date('tanggal_pinjam');
+            $table->date('tanggal_kembali')->nullable();
+
+            $table->string('status')->default('dipinjam');
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('peminjaman');
     }
 };

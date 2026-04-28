@@ -64,43 +64,44 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* CARD */
-.cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+/* STAT CARDS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
-.card {
+.card-stat {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    width: 250px;
+    text-align: center;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     transition: 0.3s;
 }
 
-.card:hover {
-    transform: translateY(-8px);
+.card-stat:hover {
+    transform: translateY(-5px);
 }
 
-.card h3 {
-    margin-bottom: 10px;
+.card-stat h3 {
+    font-size: 14px;
+    color: #555;
 }
 
-.btn {
-    display: inline-block;
+.card-stat p {
+    font-size: 22px;
+    font-weight: bold;
     margin-top: 10px;
-    padding: 8px 12px;
-    background: #2c5364;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
 }
 
-.btn:hover {
-    background: #0f2027;
+/* BOX */
+.box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-top: 20px;
 }
 </style>
 
@@ -115,10 +116,25 @@
         <h2>🏕 Admin</h2>
 
         <a href="/admin">Dashboard</a>
-        <a href="/product">Produk</a>
-        <a href="/transaksi">Transaksi</a>
+        <a href="/admin/product">Produk</a>
+        <a href="/admin/transaksi">Transaksi</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
+
+        <form action="/logout" method="POST" style="margin-top:20px;">
+            @csrf
+            <button style="
+                width:100%;
+                padding:12px;
+                border:none;
+                border-radius:10px;
+                background:#e74c3c;
+                color:white;
+                cursor:pointer;
+            ">
+                🚪 Keluar
+            </button>
+        </form>
     </div>
 
     <!-- CONTENT -->
@@ -128,26 +144,40 @@
             <h2>Dashboard Admin Camping Rental</h2>
         </div>
 
-        <div class="cards">
+        <!-- STATISTICS -->
+        <div class="stats">
 
-            <div class="card">
+            <div class="card-stat">
                 <h3>📦 Produk</h3>
-                <p>Kelola alat camping</p>
-                <a href="/product" class="btn">Buka</a>
+                <p>{{ $productCount }}</p>
             </div>
 
-            <div class="card">
+            <div class="card-stat">
                 <h3>💰 Transaksi</h3>
-                <p>Data penyewaan</p>
-                <a href="#" class="btn">Lihat</a>
+                <p>{{ $transaksiCount }}</p>
             </div>
 
-            <div class="card">
-                <h3>🔁 Pengembalian</h3>
-                <p>Barang kembali</p>
-                <a href="#" class="btn">Cek</a>
+            <div class="card-stat">
+                <h3>📥 Peminjaman</h3>
+                <p>{{ $peminjamanCount }}</p>
             </div>
 
+            <div class="card-stat">
+                <h3>📤 Pengembalian</h3>
+                <p>{{ $pengembalianCount }}</p>
+            </div>
+
+        </div>
+
+        <!-- AKTIVITAS -->
+        <div class="box">
+            <h3>🕒 Aktivitas Terbaru</h3>
+
+            <ul style="margin-top:10px; padding-left:20px;">
+                @foreach($latestTransaksi as $t)
+                    <li>Transaksi baru - {{ $t->created_at }}</li>
+                @endforeach
+            </ul>
         </div>
 
     </div>

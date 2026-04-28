@@ -43,15 +43,21 @@ public function showLogin()
 // PROSES LOGIN
 public function login(Request $request)
 {
-    // akun admin manual
+   $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    // ✅ LOGIN ADMIN (TANPA DATABASE)
     if ($request->email == 'admin@gmail.com' && $request->password == 'admin123') {
-
-        // set login manual
-        session([
-            'is_admin' => true
-        ]);
-
+        session(['is_admin' => true]);
         return redirect('/admin');
+    }
+
+    // ✅ LOGIN USER BIASA (DARI DATABASE)
+    if (Auth::attempt($request->only('email', 'password'))) {
+        $request->session()->regenerate();
+        return redirect()->route('pelanggan.dashboard');
     }
 
     return back()->with('error', 'Email atau password salah');
@@ -60,7 +66,9 @@ public function login(Request $request)
 // LOGOUT
 public function logout()
 {
-    session()->forget('is_admin');
+   Auth::logout(); // logout user
+    session()->forget('is_admin'); // hapus admin session
+
     return redirect('/login');
 }
 }

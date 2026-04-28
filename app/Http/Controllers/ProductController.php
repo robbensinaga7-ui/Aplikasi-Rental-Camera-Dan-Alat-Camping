@@ -4,39 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('product', compact('products'));
+        $products = Product::with('category')->get();
+        return view('pages.product', compact('products'));
     }
     public function create()
     {
-    return view('product.create');
+        $categories = Category::all();
+        return view('pages.product.create', compact('categories'));
     }
     public function store(Request $request)
 {
     $imagePath = null;
-    
+
+    // upload gambar
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('products', 'public');
     }
+
+    // kategori (selalu jalan)
+    if ($request->category_name) {
+        $category = Category::firstOrCreate([
+            'name' => $request->category_name
+        ]);
+    } else {
+        $category = Category::find($request->category_id);
+    }
+
     Product::create([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
         'image' => $imagePath,
-        'stock' => $request->stock
+        'stock' => $request->stock,
+        'category_id' => $category->id
     ]);
 
-    return redirect('/product')->with('success', 'Produk berhasil ditambahkan');;
+    return redirect('/product')->with('success', 'Produk berhasil ditambahkan');
 }
 public function edit($id)
 {
     $product = Product::find($id);
-    return view('product.edit', compact('product'));
+    return view(' product.edit', compact('product'));
 }
 public function update(Request $request, $id)
 {
@@ -54,7 +68,7 @@ public function update(Request $request, $id)
          'stock' => $request->stock
     ]);
 
-    return redirect('/product');
+    return redirect('/admin/product')->with('success', 'Product berhasil diupdate');
 }
 public function destroy($id)
 {
