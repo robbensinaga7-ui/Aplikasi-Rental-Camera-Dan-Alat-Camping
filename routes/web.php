@@ -18,7 +18,13 @@ Route::get('/home', function () {
 Route::get('/app', function(){
     return view('app');
 });
-
+Route::prefix('pages')->group(function () {
+    Route::view('/home', 'pages.home');
+    Route::view('/register', 'pages.register');
+    Route::view('/login', 'pages.login');
+    Route::view('/product', 'pages.product');
+    Route::view('/about', 'pages.about');
+});
 
 Route::get('/register', function(){
     return view('register');
@@ -44,7 +50,7 @@ Route::get('/about', function () {
     return view('about');
 });
 Route::get('/admin', [AdminController::class, 'index']);
-Route::get('/product', [ProductController::class, 'index']);
+Route::get('/pages/product', [ProductController::class, 'index']);
 
 Route::get('/transaksi', [TransactionController::class, 'index']);
 Route::get('/transaksi/create', [TransactionController::class, 'create']);
