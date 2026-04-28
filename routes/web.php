@@ -21,9 +21,7 @@ Route::get('/app', function(){
 Route::get('/register', function(){
     return view('register');
 });
-Route::get('login', function(){
-    return view('login');
-});
+
 
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
