@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transactions;
+use App\Models\Transaction;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class SewaController extends Controller
@@ -29,9 +30,9 @@ class SewaController extends Controller
         $product->save();
 
         // simpan transaksi
-        Transactions::create([
+        Transaction::create([
             'product_id' => $request->product_id,
-            'customer_name' => auth()->user()->name,
+            'customer_name' => Auth::user()->name,
             'qty' => $request->qty,
             'rent_date' => $request->rent_date,
             'return_date' => $request->return_date,
