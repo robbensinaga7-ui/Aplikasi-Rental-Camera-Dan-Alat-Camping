@@ -14,16 +14,23 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* WRAPPER */
 .wrapper {
     display: flex;
     height: 100vh;
 }
 
+/* SIDEBAR (SAMA PERSIS DASHBOARD) */
 .sidebar {
     width: 220px;
     background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
     color: white;
     padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .sidebar a {
@@ -33,18 +40,22 @@
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 10px;
+    transition: 0.3s;
 }
 
 .sidebar a:hover {
     background: rgba(255,255,255,0.2);
+    transform: translateX(5px);
 }
 
+/* CONTENT */
 .content {
     flex: 1;
     background: #f4f6f9;
     padding: 20px;
 }
 
+/* TABLE */
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -81,7 +92,7 @@
 
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (SUDAH SAMA DENGAN DASHBOARD) -->
     <div class="sidebar">
         <h2>🏕 Admin</h2>
 
@@ -90,6 +101,21 @@
         <a href="/admin/transaksi">Transaksi</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
+
+        <form action="/logout" method="POST" style="margin-top:20px;">
+            @csrf
+            <button style="
+                width:100%;
+                padding:12px;
+                border:none;
+                border-radius:10px;
+                background:#e74c3c;
+                color:white;
+                cursor:pointer;
+            ">
+                🚪 Keluar
+            </button>
+        </form>
     </div>
 
     <!-- CONTENT -->
