@@ -57,7 +57,7 @@ public function login(Request $request)
     // ✅ LOGIN USER BIASA (DARI DATABASE)
     if (Auth::attempt($request->only('email', 'password'))) {
         $request->session()->regenerate();
-        return redirect()->route('pelanggan.dashboard');
+        return redirect()('pelanggan.dashboard');
     }
 
     return back()->with('error', 'Email atau password salah');
