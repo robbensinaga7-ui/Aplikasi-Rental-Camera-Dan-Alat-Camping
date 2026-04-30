@@ -16,7 +16,7 @@ class PelangganController extends Controller
     return view('pelanggan.dashboard', [
         'name' => $name,
         'products' => Product::all(),
-        'transaction' => Transaction::where('customer_name', $name)->get(),
+        'transaction' => Transaction::where('user_id', Auth::id())->get(),
     ]);
     }
 }

@@ -31,8 +31,8 @@ class SewaController extends Controller
 
         // simpan transaksi
         Transaction::create([
+            'user_id' => Auth::id(),
             'product_id' => $request->product_id,
-            'customer_name' => Auth::user()->name,
             'qty' => $request->qty,
             'rent_date' => $request->rent_date,
             'return_date' => $request->return_date,

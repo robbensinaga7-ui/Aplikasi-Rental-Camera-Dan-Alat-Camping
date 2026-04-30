@@ -12,19 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+        $table->id();
 
-    $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 🔥 penting
-    $table->foreignId('product_id')->constrained()->onDelete('cascade');
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
-    $table->integer('qty');
-    $table->date('rent_date');
-    $table->date('return_date');
+        $table->integer('qty');
+        $table->date('rent_date');
+        $table->date('return_date');
 
-    $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat']);
+        $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat'])
+              ->default('dipinjam');
 
-    $table->timestamps();
-        });
+        $table->integer('price')->default(0);
+        $table->integer('fine')->default(0);
+        $table->boolean('is_paid')->default(false);
+        $table->timestamp('paid_at')->nullable();
+
+        $table->timestamps();
+    });
     }
 
     /**

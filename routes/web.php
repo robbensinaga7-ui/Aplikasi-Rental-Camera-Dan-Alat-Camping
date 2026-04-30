@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PelangganController;
@@ -52,6 +53,15 @@ Route::resource('transaksi', TransactionController::class);
 Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
     ->name('transaksi.bayar');
 
+    /*
+|--------------------------------------------------------------------------
+| PEMINJAMAN
+|--------------------------------------------------------------------------
+*/
+Route::get('/peminjaman', [PeminjamanController::class, 'index']);
+Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show']);
+Route::get('/kembalikan/{id}', [PeminjamanController::class, 'kembalikan']);
+
 /*
 |--------------------------------------------------------------------------
 | PENGEMBALIAN
@@ -81,6 +91,6 @@ Route::get('/admin/product', function () {
 */
 Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
     ->name('pelanggan.dashboard');
-Route::post('/sewa', [SewaController::class, 'store']);
+Route::post('/sewa', [SewaController::class, 'store'])->name('sewa.store');
 Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
     ->name('pelanggan.product');
