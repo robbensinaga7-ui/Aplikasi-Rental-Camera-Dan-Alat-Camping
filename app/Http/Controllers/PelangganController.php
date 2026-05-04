@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $name = $request->customer_name ?? Auth::user()->name;
+         $name = Auth::user()->name;
 
-        return view('pelanggan.dashboard', [
-            'name' => $name,
-            'products' => Product::all(),
-            'transaction' => Transaction::where('customer_name', $name)->get(),
-        ]);
+    return view('pelanggan.dashboard', [
+        'name' => $name,
+        'products' => Product::all(),
+        'transaction' => Transaction::where('user_id', Auth::id())->get(),
+    ]);
     }
 }
