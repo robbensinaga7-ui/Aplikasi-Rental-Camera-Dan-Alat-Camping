@@ -51,15 +51,25 @@ flex:1;
 padding:25px;
 }
 
+/* ✅ CONTAINER PRODUK (BARU) */
+.product-container{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+margin-top:20px;
+}
+
 /* PRODUCT CARD */
 .product{
 background:white;
 padding:18px;
 border-radius:12px;
-margin-bottom:15px;
 box-shadow:0 5px 15px rgba(0,0,0,0.06);
 transition:0.3s;
 animation:fade 0.5s ease;
+
+/* ✅ BIAR RESPONSIVE KE SAMPING */
+flex:1 1 300px;
 max-width:320px;
 }
 
@@ -125,6 +135,9 @@ to{opacity:1;transform:scale(1);}
 
 <h1>📦 Produk Camping</h1>
 
+<!-- ✅ CONTAINER TAMBAHAN -->
+<div class="product-container">
+
 @foreach($products as $product)
 <div class="product">
 
@@ -149,6 +162,8 @@ to{opacity:1;transform:scale(1);}
 
 </div>
 @endforeach
+
+</div>
 
 </div>
 
