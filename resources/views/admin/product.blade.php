@@ -124,6 +124,7 @@ img {
         <a href="/admin">Dashboard</a>
         <a href="/admin/product">Produk</a>
         <a href="/transaksi">Transaksi</a>
+        <a href="/admin/pembayaran">Pembayaran</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
         <a href="/logout">Logout</a>

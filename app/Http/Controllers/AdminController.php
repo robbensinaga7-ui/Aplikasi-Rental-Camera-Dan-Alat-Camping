@@ -9,14 +9,18 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index()
-    {
-        return view('admin.dashboard', [
-            'productCount' => Product::count(),
-            'transaksiCount' => Transaction::count(),
-            'peminjamanCount' => Peminjaman::count(),
-            'pengembalianCount' => ReturnItem::count(),
-            'latestTransaksi' => Transaction::latest()->take(5)->get(),
-        ]);
-    }
+   public function index()
+{
+    return view('admin.dashboard', [
+        'productCount' => Product::count(),
+        'transaksiCount' => Transaction::count(),
+        'peminjamanCount' => Peminjaman::count(),
+        'pengembalianCount' => ReturnItem::count(),
+
+    
+        'pendingPembayaran' => Transaction::where('payment_status', 'pending')->count(),
+
+        'latestTransaksi' => Transaction::latest()->take(5)->get(),
+    ]);
+}
 }

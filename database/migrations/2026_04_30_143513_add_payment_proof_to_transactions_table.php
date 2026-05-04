@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->integer('price')->default(0);      // harga total
-            $table->integer('fine')->default(0);       // denda
-        });
+
+        $table->string('payment_proof')->nullable();
+    });
+    
     }
 
     /**
@@ -23,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn(['price', 'fine']);
+            //
         });
     }
 };

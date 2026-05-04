@@ -20,7 +20,7 @@
     height: 100vh;
 }
 
-/* SIDEBAR (SAMA PERSIS DASHBOARD) */
+/* SIDEBAR */
 .sidebar {
     width: 220px;
     background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
@@ -92,13 +92,14 @@
 
 <div class="wrapper">
 
-    <!-- SIDEBAR (SUDAH SAMA DENGAN DASHBOARD) -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>🏕 Admin</h2>
 
         <a href="/admin">Dashboard</a>
         <a href="/admin/product">Produk</a>
         <a href="/admin/transaksi">Transaksi</a>
+        <a href="/admin/pembayaran">Pembayaran</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
 
@@ -132,7 +133,12 @@
                     <th>Qty</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Kembali</th>
+                    <th>Total</th>
                     <th>Status</th>
+                    <th>Denda</th>
+                    <th>Bukti</th>
+                    <th>Pembayaran</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
 
@@ -140,19 +146,116 @@
                 @foreach ($data as $i => $item)
                 <tr>
                     <td>{{ $i+1 }}</td>
-                    <td>{{ $item->customer_name }}</td>
+                    <td>{{ $item->user->name ?? '-' }}</td>
                     <td>{{ $item->product->name ?? '-' }}</td>
                     <td>{{ $item->qty }}</td>
                     <td>{{ $item->rent_date }}</td>
                     <td>{{ $item->return_date }}</td>
 
+                    <!-- TOTAL -->
+<td>
+    Rp {{ number_format($item->price + $item->fine, 0, ',', '.') }}
+</td>
+
+                    <!-- STATUS -->
+                    <td>
+    @if($item->status == 'dipinjam')
+        <span style="color:blue;">DiPinjam</span>
+
+    @elseif($item->status == 'menunggu_konfirmasi')
+        <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+            @csrf
+            <button style="
+                background:green;
+                color:white;
+                border:none;
+                padding:6px 10px;
+                border-radius:6px;
+                cursor:pointer;
+            ">
+                Konfirmasi
+            </button>
+        </form>
+
+    @elseif($item->status == 'dikembalikan')
+        ✔ Dikembalikan
+    @endif
+</td>
+
+                    <!-- DENDA -->
+                    <td>
+                        Rp {{ $item->denda ?? 0 }}
+                    </td>
+<td>
+@if($item->payment_proof)
+    <img src="{{ asset('storage/'.$item->payment_proof) }}" width="70">
+@else
+    -
+@endif
+</td>
+
+<td>
+@if($item->payment_status == 'pending')
+
+<form action="{{ url('/admin/acc/'.$item->id) }}" method="POST" style="display:inline;">
+    @csrf
+    <button type="submit" style="
+        background:#2ecc71;
+        color:white;
+        border:none;
+        padding:6px 12px;
+        border-radius:6px;
+        cursor:pointer;
+    ">
+        ✔ ACC
+    </button>
+</form>
+
+<form action="{{ url('/admin/tolak/'.$item->id) }}" method="POST" style="display:inline;">
+    @csrf
+    <button type="submit" style="
+        background:#e74c3c;
+        color:white;
+        border:none;
+        padding:6px 12px;
+        border-radius:6px;
+        cursor:pointer;
+    ">
+        ✖ Tolak
+    </button>
+</form>
+
+@elseif($item->payment_status == 'approved')
+    <span style="color:green;">Lunas</span>
+
+@elseif($item->payment_status == 'rejected')
+    <span style="color:red;">Ditolak</span>
+
+@else
+    <span style="color:gray;">Belum Upload</span>
+@endif
+</td>
+                    <!-- AKSI -->
                     <td>
                         @if($item->status == 'dipinjam')
-                            <span class="badge bg-danger">Dipinjam</span>
+                            <form action="/kembalikan/{{ $item->id }}" method="POST">
+                                @csrf
+                                <button style="
+                                    background:#3498db;
+                                    color:white;
+                                    border:none;
+                                    padding:6px 10px;
+                                    border-radius:6px;
+                                    cursor:pointer;
+                                ">
+                                    Kembalikan
+                                </button>
+                            </form>
                         @else
-                            <span class="badge bg-success">Dikembalikan</span>
+                            ✔ Selesai
                         @endif
                     </td>
+
                 </tr>
                 @endforeach
             </tbody>

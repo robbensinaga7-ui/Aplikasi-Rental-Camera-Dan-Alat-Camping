@@ -136,7 +136,7 @@ button:hover {
         <div class="error">{{ session('error') }}</div>
     @endif
 
-    <form method="POST" action="/login">
+    <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <input type="email" name="email" placeholder="Email">

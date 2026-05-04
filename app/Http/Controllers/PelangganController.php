@@ -11,12 +11,10 @@ class PelangganController extends Controller
 {
     public function index()
     {
-         $name = Auth::user()->name;
+          $name = Auth::user()->name;
+    $products = Product::all();
+    $transactions = Transaction::where('user_id', Auth::id())->get();
 
-    return view('pelanggan.dashboard', [
-        'name' => $name,
-        'products' => Product::all(),
-        'transaction' => Transaction::where('customer_name', $name)->get(),
-    ]);
+    return view('pelanggan.dashboard', compact('name', 'products', 'transactions'));
     }
 }

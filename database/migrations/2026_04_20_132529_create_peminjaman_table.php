@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
             // data peminjaman
-            $table->string('customer_name');
+            $table->string('user_id');
             $table->integer('qty');
 
             $table->date('tanggal_pinjam');

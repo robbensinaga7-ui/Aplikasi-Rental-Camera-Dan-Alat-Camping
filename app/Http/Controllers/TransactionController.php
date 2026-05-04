@@ -49,7 +49,7 @@ $product = Product::findOrFail($request->product_id);
 $totalPrice = $product->price_per_day * $days * $request->qty;
 
 Transaction::create([
-    'user_id' => Auth()->id(),
+    'user_id' => Auth::id(),
     'product_id' => $request->product_id,
     'qty' => $request->qty,
     'rent_date' => $request->rent_date,
@@ -100,7 +100,7 @@ public function adminDashboard()
             'chart'
         ));
     }
-    public function bayar(Request $request, $id)
+    public function bayar(Request $request, int $id)
 {
     $request->validate([
         'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048'
@@ -119,7 +119,7 @@ public function adminDashboard()
     return back()->with('success', 'Upload berhasil, menunggu admin');
 }
 
-private function hitungDenda($transaksi)
+private function hitungDenda(Transaction $transaksi)
 {
     $today = Carbon::now();
     $returnDate = Carbon::parse($transaksi->return_date);
@@ -134,7 +134,7 @@ private function hitungDenda($transaksi)
 
     return 0;
 }
-public function kembalikan($id)
+public function kembalikan(int $id)
 {
     $transaksi = Transaction::findOrFail($id);
 
@@ -169,7 +169,7 @@ public function adminPembayaran()
     return view('admin.pembayaran', compact('transactions'));
 }
 
-public function acc($id)
+public function acc(int $id)
 {
     $t = Transaction::findOrFail($id);
 
@@ -182,7 +182,7 @@ public function acc($id)
     return back()->with('success', 'Pembayaran disetujui');
 }
 
-public function tolak($id)
+public function tolak(int $id)
 {
     $t = Transaction::findOrFail($id);
 
@@ -199,7 +199,7 @@ public function tolak($id)
 
     return back()->with('success', 'Pembayaran ditolak');
 }
-public function ajukanKembali($id)
+public function ajukanKembali(int $id)
 {
     $t = Transaction::findOrFail($id);
 
@@ -209,7 +209,7 @@ public function ajukanKembali($id)
     return back()->with('success', 'Menunggu konfirmasi admin');
 }
 
-public function konfirmasiKembali($id)
+public function konfirmasiKembali(int $id)
 {
     $t = Transaction::findOrFail($id);
 

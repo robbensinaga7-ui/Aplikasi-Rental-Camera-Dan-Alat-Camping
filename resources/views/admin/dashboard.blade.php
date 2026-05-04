@@ -118,23 +118,22 @@
         <a href="/admin">Dashboard</a>
         <a href="/admin/product">Produk</a>
         <a href="/admin/transaksi">Transaksi</a>
+        <a href="/admin/pembayaran">Pembayaran</a>
         <a href="/peminjaman">Peminjaman</a>
         <a href="/pengembalian">Pengembalian</a>
 
-        <form action="/logout" method="POST" style="margin-top:20px;">
-            @csrf
-            <button style="
-                width:100%;
-                padding:12px;
-                border:none;
-                border-radius:10px;
-                background:#e74c3c;
-                color:white;
-                cursor:pointer;
-            ">
-                🚪 Keluar
-            </button>
-        </form>
+       <a href="/logout" style="
+    display:block;
+    margin-top:20px;
+    padding:12px;
+    border-radius:10px;
+    background:#e74c3c;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+">
+    🚪 Keluar
+</a>
     </div>
 
     <!-- CONTENT -->
@@ -147,25 +146,30 @@
         <!-- STATISTICS -->
         <div class="stats">
 
-            <div class="card-stat">
+            <div class="card-stat"style="border-left:5px solid black;" >
                 <h3>📦 Produk</h3>
                 <p>{{ $productCount }}</p>
             </div>
 
-            <div class="card-stat">
+            <div class="card-stat" style="border-left:5px solid green;">
                 <h3>💰 Transaksi</h3>
                 <p>{{ $transaksiCount }}</p>
             </div>
 
-            <div class="card-stat">
+            <div class="card-stat"style="border-left:5px solid yellow;" >
                 <h3>📥 Peminjaman</h3>
                 <p>{{ $peminjamanCount }}</p>
             </div>
 
-            <div class="card-stat">
+            <div class="card-stat" style="border-left:5px solid blue;">
                 <h3>📤 Pengembalian</h3>
                 <p>{{ $pengembalianCount }}</p>
             </div>
+
+            <div class="card-stat" style="border-left:5px solid red;">
+        <h3>💳 Pending Bayar</h3>
+        <p>{{ $pendingPembayaran }}</p>
+    </div>
 
         </div>
 

@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('pages.product.create', compact('categories'));
+        return view('admin.product.create', compact('categories'));
     }
     public function store(Request $request)
 {
@@ -45,14 +45,14 @@ class ProductController extends Controller
         'category_id' => $category->id
     ]);
 
-    return redirect('/product')->with('success', 'Produk berhasil ditambahkan');
+    return redirect('/admin/product')->with('success', 'Produk berhasil ditambahkan');
 }
-public function edit($id)
+public function edit(int $id)
 {
     $product = Product::find($id);
     return view(' product.edit', compact('product'));
 }
-public function update(Request $request, $id)
+public function update(Request $request, int $id)
 {
     $product = Product::find($id);
     if ($request->hasFile('image')) {
@@ -73,6 +73,6 @@ public function update(Request $request, $id)
 public function destroy($id)
 {
     Product::destroy($id);
-    return redirect('/product');
+    return redirect('/admin/product');
 }
 }
