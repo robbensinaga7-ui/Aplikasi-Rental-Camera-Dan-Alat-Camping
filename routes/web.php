@@ -59,20 +59,7 @@ Route::post('/ajukan-kembali/{id}', [TransactionController::class, 'ajukanKembal
 Route::post('/admin/konfirmasi-kembali/{id}', [TransactionController::class, 'konfirmasiKembali']);
 Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
     ->name('transaksi.bayar');
-<<<<<<< HEAD
 Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
-=======
-
-    /*
-|--------------------------------------------------------------------------
-| PEMINJAMAN
-|--------------------------------------------------------------------------
-*/
-Route::get('/peminjaman', [PeminjamanController::class, 'index']);
-Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show']);
-Route::get('/kembalikan/{id}', [PeminjamanController::class, 'kembalikan']);
-
->>>>>>> 3ef2c48a3c7dee45f4cf946aa1c7f4fc46658d98
 /*
 |--------------------------------------------------------------------------
 | PENGEMBALIAN
