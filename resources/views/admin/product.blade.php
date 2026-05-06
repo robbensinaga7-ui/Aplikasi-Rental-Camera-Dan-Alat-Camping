@@ -1,188 +1,263 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Admin - Data Produk</title>
+@extends('layouts.admin')
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+@section('title','Data Produk')
 
+@section('style')
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* WRAPPER */
-.wrapper {
-    display: flex;
-    height: 100vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 220px;
-    background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
-    color: white;
-    padding: 20px;
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.sidebar a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
-}
-
-/* CONTENT */
-.content {
-    flex: 1;
-    background: #f4f6f9;
-    padding: 20px;
-    overflow-y: auto;
-}
 
 /* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    gap:15px;
 }
 
-/* BUTTON */
-.btn {
-    padding: 8px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* TITLE */
+.page-title{
+    margin:0;
 }
 
-.btn-add {
-    background: #27ae60;
+/* BUTTON TAMBAH */
+.btn-add{
+    background:linear-gradient(135deg,#43e97b,#38f9d7);
+    box-shadow:0 6px 15px rgba(67,233,123,0.3);
 }
 
-.btn-edit {
-    background: #2980b9;
+.btn-add:hover{
+    transform:translateY(-3px);
 }
 
-.btn-delete {
-    background: #c0392b;
+/* TABLE CARD */
+.product-card{
+    background:linear-gradient(135deg,#ffffff,#f9fbfd);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.06);
 }
 
 /* TABLE */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
+.table-box{
+    overflow-x:auto;
 }
 
-table th, table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-table th {
-    background: #2c5364;
-    color: white;
+/* HEADER TABLE */
+table th{
+    background:linear-gradient(135deg,#1e293b,#334155);
+    color:white;
+    padding:14px;
+    font-size:14px;
 }
 
-img {
-    width: 80px;
-    border-radius: 8px;
+/* TABLE BODY */
+table td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+    vertical-align:middle;
 }
+
+/* HOVER */
+table tr:hover{
+    background:#f8fbff;
+    transition:0.3s;
+}
+
+/* IMAGE */
+.product-img{
+    width:75px;
+    height:75px;
+    object-fit:cover;
+    border-radius:12px;
+    transition:0.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.product-img:hover{
+    transform:scale(1.08);
+}
+
+/* BUTTON */
+.btn{
+    padding:8px 14px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:14px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    opacity:0.95;
+}
+
+/* EDIT */
+.btn-edit{
+    background:linear-gradient(135deg,#4facfe,#00c6fb);
+}
+
+/* DELETE */
+.btn-delete{
+    background:linear-gradient(135deg,#ff6b6b,#ff758c);
+}
+
+/* ALERT */
+.alert-success{
+    background:#d4edda;
+    color:#155724;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:20px;
+    font-weight:500;
+}
+
+/* STOCK BADGE */
+.stock{
+    padding:6px 12px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+    font-weight:500;
+}
+
+.stock-ready{
+    background:#2ecc71;
+}
+
+.stock-empty{
+    background:#e74c3c;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+.page-header{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+}
+
 </style>
-</head>
+@endsection
 
-<body>
+@section('content')
 
-<div class="wrapper">
+<div class="page-header">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h2>🏕 Admin</h2>
+    <h1 class="page-title">
+        📦 Data Produk
+    </h1>
 
-        <a href="/admin">Dashboard</a>
-        <a href="/admin/product">Produk</a>
-        <a href="/transaksi">Transaksi</a>
-        <a href="/admin/pembayaran">Pembayaran</a>
-        <a href="/peminjaman">Peminjaman</a>
-        <a href="/pengembalian">Pengembalian</a>
-        <a href="/logout">Logout</a>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
-
-        <div class="header">
-            <h2>📦 Data Produk</h2>
-            <a href="/product/create" class="btn btn-add">+ Tambah Produk</a>
-        </div>
-
-        @if(session('success'))
-            <p style="color:green; margin-bottom:10px;">
-                {{ session('success') }}
-            </p>
-        @endif
-
-        <table>
-            <tr>
-                <th>No</th>
-                <th>Gambar</th>
-                <th>Nama</th>
-                <th>Harga</th>
-                <th>Stok</th>
-                <th>Aksi</th>
-            </tr>
-
-        @foreach($products as $index => $product)
-        <tr>
-            <td>{{ $index + 1 }}</td>
-
-            <td>
-                <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://via.placeholder.com/80' }}">
-            </td>
-
-            <td>{{ $product->name }}</td>
-            <td>Rp {{ number_format($product->price,0,',','.') }}</td>
-            <td>{{ $product->stock }}</td>
-
-            <td>
-                <a href="/product/{{ $product->id }}/edit" class="btn btn-edit">Edit</a>
-
-                <form action="/product/{{ $product->id }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-delete">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-
-        </table>
-
-    </div>
+    <a href="/product/create" class="btn btn-add">
+        + Tambah Produk
+    </a>
 
 </div>
 
-</body>
-</html>
+@if(session('success'))
+
+<div class="alert-success">
+    {{ session('success') }}
+</div>
+
+@endif
+
+<div class="product-card">
+
+<div class="table-box">
+
+<table>
+
+    <tr>
+        <th>No</th>
+        <th>Gambar</th>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Stok</th>
+        <th>Aksi</th>
+    </tr>
+
+    @foreach($products as $index => $product)
+
+    <tr>
+
+        <td>{{ $index + 1 }}</td>
+
+        <td>
+
+            <img
+            class="product-img"
+            src="{{ $product->image ? asset('storage/'.$product->image) : 'https://via.placeholder.com/80' }}">
+
+        </td>
+
+        <td>
+            <b>{{ $product->name }}</b>
+        </td>
+
+        <td>
+            Rp {{ number_format($product->price,0,',','.') }}
+        </td>
+
+        <td>
+
+            @if($product->stock > 0)
+
+                <span class="stock stock-ready">
+                    {{ $product->stock }} Tersedia
+                </span>
+
+            @else
+
+                <span class="stock stock-empty">
+                    Habis
+                </span>
+
+            @endif
+
+        </td>
+
+        <td>
+
+            <a href="/product/{{ $product->id }}/edit"
+            class="btn btn-edit">
+                Edit
+            </a>
+
+            <form
+            action="/product/{{ $product->id }}"
+            method="POST"
+            style="display:inline;">
+
+                @csrf
+                @method('DELETE')
+
+                <button class="btn btn-delete">
+                    Hapus
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    @endforeach
+
+</table>
+
+</div>
+
+</div>
+
+@endsection

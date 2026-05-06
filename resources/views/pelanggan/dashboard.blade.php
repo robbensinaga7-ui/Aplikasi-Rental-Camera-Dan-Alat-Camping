@@ -16,16 +16,17 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
+/* BACKGROUND */
 body{
 display:flex;
 min-height:100vh;
-background:#f5f7fb;
+background: linear-gradient(135deg,#f6f9fc,#eef3f8);
 }
 
 /* SIDEBAR */
 .sidebar{
 width:260px;
-background:linear-gradient(180deg,#2c3e50,#34495e);
+background: linear-gradient(180deg,#1e2a38,#2c3e50);
 color:white;
 padding:20px;
 }
@@ -36,18 +37,19 @@ margin-bottom:25px;
 }
 
 .sidebar a{
-display:block;
+display:flex;
+align-items:center;
+gap:10px;
 color:white;
 text-decoration:none;
 padding:12px;
 margin:6px 0;
-border-radius:8px;
+border-radius:10px;
 transition:0.3s;
-font-size:14px;
 }
 
 .sidebar a:hover{
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.15);
 transform:translateX(5px);
 }
 
@@ -62,41 +64,58 @@ color:#2c3e50;
 margin-bottom:10px;
 }
 
+/* CARD */
 .card{
-background:white;
-padding:18px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
+background: linear-gradient(135deg,#ffffff,#f9fbfd);
+padding:20px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.06);
 margin-bottom:20px;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-3px);
+}
+
+/* TABLE BOX */
+.table-box{
+background:white;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.06);
+overflow:hidden;
 }
 
 /* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
 }
 
+/* HEADER */
 th{
-background:#34495e;
+background: linear-gradient(135deg,#34495e,#2c3e50);
 color:white;
 padding:12px;
 font-size:14px;
 }
 
+/* CELL */
 td{
 padding:12px;
 text-align:center;
 border-bottom:1px solid #eee;
-font-size:14px;
+transition:0.3s;
 }
 
-/* STATUS BADGE */
+/* HOVER */
+tr:hover{
+background:#f4f9ff;
+}
+
+/* BADGE */
 .badge{
-padding:5px 10px;
+padding:6px 12px;
 border-radius:20px;
 font-size:12px;
 font-weight:500;
@@ -106,38 +125,47 @@ font-weight:500;
 .badge-pending{ background:#fff4e5; color:#f39c12; }
 .badge-lunas{ background:#e8f8f0; color:#27ae60; }
 
-/* UPLOAD BOX */
-.upload-box{
-display:flex;
-flex-direction:column;
-gap:6px;
-align-items:center;
-}
-
-input[type="file"]{
-font-size:12px;
-}
-
 /* BUTTON */
 .btn-bayar{
-background:#f39c12;
+background:linear-gradient(135deg,#f39c12,#f7b731);
 color:white;
 border:none;
 padding:6px 12px;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 font-size:12px;
 transition:0.3s;
 }
 
 .btn-bayar:hover{
-background:#e67e22;
+transform:scale(1.05);
+}
+
+/* BUTTON AJUKAN */
+.btn-ajukan{
+background:linear-gradient(135deg,#3498db,#6c9cff);
+color:white;
+border:none;
+padding:5px 10px;
+border-radius:8px;
+cursor:pointer;
+margin-top:5px;
+transition:0.3s;
+}
+
+.btn-ajukan:hover{
+transform:scale(1.05);
 }
 
 /* IMAGE */
 .bukti-img{
 width:70px;
-border-radius:6px;
+border-radius:8px;
+transition:0.3s;
+}
+
+.bukti-img:hover{
+transform:scale(1.1);
 }
 
 </style>
@@ -150,8 +178,7 @@ border-radius:6px;
 
 <a href="/pelanggan/dashboard">🏠 Dashboard</a>
 <a href="/pelanggan/product">📦 Produk</a>
-<a href="/riwayat">📜 Riwayat</a>
-<a href="/logout">🚪 Logout</a>
+<a href="/logout">🚪 Keluar</a>
 </div>
 
 <div class="content">
@@ -165,6 +192,7 @@ border-radius:6px;
 
 <h2>📜 Riwayat Peminjaman</h2>
 
+<div class="table-box">
 <table>
 <tr>
 <th>Produk</th>
@@ -191,18 +219,9 @@ border-radius:6px;
     @if($t->status == 'dipinjam')
         <span class="badge badge-pending">Dipinjam</span>
 
-        <!-- 🔥 TOMBOL AJUKAN -->
         <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
             @csrf
-            <button style="
-                margin-top:5px;
-                background:#3498db;
-                color:white;
-                border:none;
-                padding:5px 10px;
-                border-radius:6px;
-                cursor:pointer;
-            ">
+            <button class="btn-ajukan">
                 Ajukan Pengembalian
             </button>
         </form>
@@ -212,10 +231,10 @@ border-radius:6px;
 
     @elseif($t->status == 'dikembalikan')
         <span class="badge badge-lunas">Dikembalikan</span>
+
     @elseif($t->status == 'ditolak')
-    <span style="color:red;">Transaksi Ditolak</span>
+        <span style="color:red;">Transaksi Ditolak</span>
     @endif
-    
 </td>
 
 <!-- STATUS BAYAR -->
@@ -252,7 +271,6 @@ border-radius:6px;
     <input type="file" name="bukti" required>
     <button type="submit" class="btn-bayar">Upload Ulang</button>
 </form>
-
 @endif
 
 </div>
@@ -262,6 +280,7 @@ border-radius:6px;
 @endforeach
 
 </table>
+</div>
 
 </div>
 

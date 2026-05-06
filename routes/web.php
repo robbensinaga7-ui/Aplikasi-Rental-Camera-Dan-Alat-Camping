@@ -19,6 +19,10 @@ use App\Http\Controllers\PelangganProductController;
 Route::prefix('pages')->group(function () {
     Route::view('/home', 'pages.home');
     Route::view('/about', 'pages.about');
+    Route::get('/product', function () {
+    $products = \App\Models\Product::with('category')->get();
+    return view('pages.product', compact('products'));
+    });
 });
 
 /*
@@ -76,7 +80,8 @@ Route::get('/admin/product', function () {
     return view('admin.product', compact('products'));
 });
 Route::get('/admin/pembayaran', [TransactionController::class, 'adminPembayaran']);
-
+Route::get('/admin/peminjaman', [TransactionController::class, 'peminjaman']);
+Route::get('/admin/pengembalian', [TransactionController::class, 'pengembalian']);
 /*
 |--------------------------------------------------------------------------
 | PELANGGAN

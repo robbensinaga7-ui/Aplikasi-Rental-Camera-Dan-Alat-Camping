@@ -1,192 +1,197 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Admin Dashboard</title>
+<!-- dashboard.blade.php -->
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+@extends('layouts.admin')
 
+@section('title','Dashboard')
+
+@section('style')
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
 }
 
-/* WRAPPER */
-.wrapper {
-    display: flex;
-    height: 100vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 220px;
-    background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
-    color: white;
-    padding: 20px;
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.sidebar a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
-}
-
-/* CONTENT */
-.content {
-    flex: 1;
-    background: #f4f6f9;
-    padding: 20px;
-}
-
-/* HEADER */
-.header {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* STAT CARDS */
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
-
-.card-stat {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.card-stat:hover {
-    transform: translateY(-5px);
-}
-
-.card-stat h3 {
-    font-size: 14px;
-    color: #555;
-}
-
-.card-stat p {
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* BOX */
-.box {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="wrapper">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h2>🏕 Admin</h2>
-
-        <a href="/admin">Dashboard</a>
-        <a href="/admin/product">Produk</a>
-        <a href="/admin/transaksi">Transaksi</a>
-        <a href="/admin/pembayaran">Pembayaran</a>
-        <a href="/peminjaman">Peminjaman</a>
-        <a href="/pengembalian">Pengembalian</a>
-
-       <a href="/logout" style="
-    display:block;
-    margin-top:20px;
-    padding:12px;
-    border-radius:10px;
-    background:#e74c3c;
+.card-stat{
+    border-radius:20px;
+    padding:25px;
     color:white;
-    text-align:center;
-    text-decoration:none;
-">
-    🚪 Keluar
-</a>
+    transition:.4s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card-stat:hover{
+    transform:translateY(-8px);
+}
+
+.card-blue{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+}
+
+.card-green{
+    background:linear-gradient(135deg,#43e97b,#38f9d7);
+}
+
+.card-orange{
+    background:linear-gradient(135deg,#f6d365,#fda085);
+}
+
+.card-purple{
+    background:linear-gradient(135deg,#a18cd1,#fbc2eb);
+}
+
+.card-red{
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+}
+
+.card-stat h3{
+    margin-top:10px;
+    font-size:16px;
+}
+
+.card-stat p{
+    font-size:30px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.chart-box{
+    width:350px;
+    height:350px;
+    margin:auto;
+}
+
+.activity-item{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+</style>
+@endsection
+
+@section('content')
+
+<h1 class="page-title">Dashboard Admin</h1>
+
+<!-- CARD STAT -->
+<div class="stats">
+
+    <div class="card-stat card-blue">
+        📦
+        <h3>Produk</h3>
+        <p>{{ $productCount }}</p>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
+    <div class="card-stat card-green">
+        💰
+        <h3>Transaksi</h3>
+        <p>{{ $transaksiCount }}</p>
+    </div>
 
-        <div class="header">
-            <h2>Dashboard Admin Camping Rental</h2>
-        </div>
+    <div class="card-stat card-orange">
+        📋
+        <h3>Booking</h3>
+        <p>{{ $totalBooking }}</p>
+    </div>
 
-        <!-- STATISTICS -->
-        <div class="stats">
+    <div class="card-stat card-purple">
+        💵
+        <h3>Pendapatan</h3>
+        <p>Rp {{ number_format($totalPendapatan,0,',','.') }}</p>
+    </div>
 
-            <div class="card-stat"style="border-left:5px solid black;" >
-                <h3>📦 Produk</h3>
-                <p>{{ $productCount }}</p>
-            </div>
-
-            <div class="card-stat" style="border-left:5px solid green;">
-                <h3>💰 Transaksi</h3>
-                <p>{{ $transaksiCount }}</p>
-            </div>
-
-            <div class="card-stat"style="border-left:5px solid yellow;" >
-                <h3>📥 Peminjaman</h3>
-                <p>{{ $peminjamanCount }}</p>
-            </div>
-
-            <div class="card-stat" style="border-left:5px solid blue;">
-                <h3>📤 Pengembalian</h3>
-                <p>{{ $pengembalianCount }}</p>
-            </div>
-
-            <div class="card-stat" style="border-left:5px solid red;">
-        <h3>💳 Pending Bayar</h3>
+    <div class="card-stat card-red">
+        💳
+        <h3>Pending</h3>
         <p>{{ $pendingPembayaran }}</p>
-    </div>
-
-        </div>
-
-        <!-- AKTIVITAS -->
-        <div class="box">
-            <h3>🕒 Aktivitas Terbaru</h3>
-
-            <ul style="margin-top:10px; padding-left:20px;">
-                @foreach($latestTransaksi as $t)
-                    <li>Transaksi baru - {{ $t->created_at }}</li>
-                @endforeach
-            </ul>
-        </div>
-
     </div>
 
 </div>
 
-</body>
-</html>
+<!-- CHART -->
+<div class="card">
+
+    <h3 style="text-align:center;margin-bottom:20px;">
+        📊 Status Transaksi
+    </h3>
+
+    <div class="chart-box">
+        <canvas id="chartTransaksi"></canvas>
+    </div>
+
+</div>
+
+<!-- AKTIVITAS -->
+<div class="card">
+
+    <h3 style="margin-bottom:15px;">
+        🕒 Aktivitas Terbaru
+    </h3>
+
+    @foreach($latestTransaksi as $t)
+
+    <div class="activity-item">
+        Transaksi baru oleh
+        <b>{{ $t->user->name ?? '-' }}</b>
+        pada {{ $t->created_at }}
+    </div>
+
+    @endforeach
+
+</div>
+
+@endsection
+
+@section('script')
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = @json($labels ?? []);
+const data = @json($data ?? []);
+
+if(data.length !== 0){
+
+new Chart(document.getElementById('chartTransaksi'), {
+
+    type:'pie',
+
+    data:{
+        labels:labels,
+
+        datasets:[{
+            data:data,
+
+            backgroundColor:[
+                '#f39c12',
+                '#2ecc71',
+                '#3498db',
+                '#e74c3c'
+            ],
+
+            borderWidth:2,
+            borderColor:'#fff'
+        }]
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                position:'bottom'
+            }
+        }
+    }
+
+});
+
+}
+
+</script>
+
+@endsection

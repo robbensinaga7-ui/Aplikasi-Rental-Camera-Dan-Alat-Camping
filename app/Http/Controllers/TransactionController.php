@@ -127,7 +127,7 @@ private function hitungDenda(Transaction $transaksi)
     if ($today->gt($returnDate)) {
         $lateDays = $returnDate->diffInDays($today);
 
-        $dendaPerHari = 10000; // bisa kamu ubah
+        $dendaPerHari = 10000; 
 
         return $lateDays * $dendaPerHari;
     }
@@ -136,32 +136,12 @@ private function hitungDenda(Transaction $transaksi)
 }
 public function kembalikan(int $id)
 {
-    $transaksi = Transaction::findOrFail($id);
+    $t = Transaction::findOrFail($id);
 
-    // tanggal hari ini
-    $today = Carbon::now();
-    $tgl_kembali = Carbon::parse($transaksi->return_date);
+    $t->status = 'menunggu_konfirmasi';
+    $t->save();
 
-    $denda = 0;
-
-    // cek telat
-    if ($today->gt($tgl_kembali)) {
-        $telat = $tgl_kembali->diffInDays($today);
-        $denda = $telat * 10000; // 10rb per hari
-    }
-
-    // update transaksi
-    $transaksi->status = 'dikembalikan';
-    $transaksi->fine = $denda;
-    $transaksi->save();
-
-    // balikin stok
-    $produk = $transaksi->product;
-    $produk->stock += $transaksi->qty;
-    $produk->save();
-
-    return back()->with('success', 'Barang berhasil dikembalikan!');
-
+    return back()->with('success', 'Pengembalian diajukan, menunggu admin');
 }
 public function adminPembayaran()
 {
@@ -232,5 +212,22 @@ public function konfirmasiKembali(int $id)
     $product->save();
 
     return back()->with('success', 'Pengembalian dikonfirmasi');
+}
+public function peminjaman()
+{
+    $data = Transaction::with(['product','user'])
+        ->where('status', 'dipinjam')
+        ->get();
+
+    return view('admin.peminjaman', compact('data'));
+}
+
+public function pengembalian()
+{
+    $data = Transaction::with(['product','user'])
+        ->whereIn('status', ['menunggu_konfirmasi','dikembalikan'])
+        ->get();
+
+    return view('admin.pengembalian', compact('data'));
 }
 }
