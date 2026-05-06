@@ -1,166 +1,203 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Transaksi</title>
+@extends('layouts.admin')
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+@section('title','Data Transaksi')
 
+@section('style')
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+
+/* TITLE */
+h2{
+    margin-bottom: 15px;
 }
 
-/* WRAPPER */
-.wrapper {
-    display: flex;
-    height: 100vh;
-}
-
-/* SIDEBAR (SAMA PERSIS DASHBOARD) */
-.sidebar {
-    width: 220px;
-    background: linear-gradient(180deg,#0f2027,#203a43,#2c5364);
-    color: white;
-    padding: 20px;
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.sidebar a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
-}
-
-/* CONTENT */
-.content {
-    flex: 1;
-    background: #f4f6f9;
-    padding: 20px;
+/* TABLE BOX */
+.table-box{
+    background: linear-gradient(135deg,#ffffff,#f9fbfd);
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
 /* TABLE */
 .table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
 }
 
-.table th, .table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
+/* HEADER */
 .table th {
-    background: #a8c3b8;
+    background: linear-gradient(135deg,#2c3e50,#34495e);
+    color: white;
+    padding: 12px;
 }
 
+/* CELL */
+.table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.table tr:hover {
+    background: #f1f6fb;
+}
+
+/* BUTTON */
+.btn {
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.btn-blue { background:#3498db; }
+.btn-green { background:#2ecc71; }
+.btn-red { background:#e74c3c; }
+
+/* BADGE */
 .badge {
     padding: 5px 10px;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
+    font-size: 12px;
 }
 
-.bg-danger {
-    background: red;
+.badge-blue { background:#3498db; }
+.badge-green { background:#2ecc71; }
+.badge-red { background:#e74c3c; }
+.badge-orange { background:#f39c12; }
+
+/* IMAGE */
+img {
+    border-radius: 8px;
+    transition: 0.3s;
 }
 
-.bg-success {
-    background: green;
+img:hover {
+    transform: scale(1.1);
 }
+
 </style>
+@endsection
 
-</head>
+@section('content')
 
-<body>
+<h2>📄 Data Transaksi</h2>
 
-<div class="wrapper">
+<div class="table-box">
+<table class="table">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Customer</th>
+            <th>Produk</th>
+            <th>Qty</th>
+            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Denda</th>
+            <th>Bukti</th>
+            <th>Pembayaran</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
 
-    <!-- SIDEBAR (SUDAH SAMA DENGAN DASHBOARD) -->
-    <div class="sidebar">
-        <h2>🏕 Admin</h2>
+    <tbody>
+        @foreach ($data as $i => $item)
+        <tr>
+            <td>{{ $i+1 }}</td>
+            <td>{{ $item->user->name ?? '-' }}</td>
+            <td>{{ $item->product->name ?? '-' }}</td>
+            <td>{{ $item->qty }}</td>
+            <td>{{ $item->rent_date }}</td>
+            <td>{{ $item->return_date }}</td>
 
-        <a href="/admin">Dashboard</a>
-        <a href="/admin/product">Produk</a>
-        <a href="/admin/transaksi">Transaksi</a>
-        <a href="/peminjaman">Peminjaman</a>
-        <a href="/pengembalian">Pengembalian</a>
+            <td>
+                Rp {{ number_format($item->price + $item->fine, 0, ',', '.') }}
+            </td>
 
-        <form action="/logout" method="POST" style="margin-top:20px;">
-            @csrf
-            <button style="
-                width:100%;
-                padding:12px;
-                border:none;
-                border-radius:10px;
-                background:#e74c3c;
-                color:white;
-                cursor:pointer;
-            ">
-                🚪 Keluar
-            </button>
-        </form>
-    </div>
+            <!-- STATUS -->
+            <td>
+                @if($item->status == 'dipinjam')
+                    <span class="badge badge-blue">Dipinjam</span>
 
-    <!-- CONTENT -->
-    <div class="content">
+                @elseif($item->status == 'menunggu_konfirmasi')
+                    <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+                        @csrf
+                        <button class="btn btn-green">Konfirmasi</button>
+                    </form>
 
-        <h2>Data Transaksi</h2>
+                @elseif($item->status == 'dikembalikan')
+                    <span class="badge badge-green">Selesai</span>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Customer</th>
-                    <th>Produk</th>
-                    <th>Qty</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Tanggal Kembali</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+                @elseif($item->status == 'ditolak')
+                    <span class="badge badge-red">Ditolak</span>
+                @endif
+            </td>
 
-            <tbody>
-                @foreach ($data as $i => $item)
-                <tr>
-                    <td>{{ $i+1 }}</td>
-                    <td>{{ $item->customer_name }}</td>
-                    <td>{{ $item->product->name ?? '-' }}</td>
-                    <td>{{ $item->qty }}</td>
-                    <td>{{ $item->rent_date }}</td>
-                    <td>{{ $item->return_date }}</td>
+            <!-- DENDA -->
+            <td>Rp {{ $item->fine ?? 0 }}</td>
 
-                    <td>
-                        @if($item->status == 'dipinjam')
-                            <span class="badge bg-danger">Dipinjam</span>
-                        @else
-                            <span class="badge bg-success">Dikembalikan</span>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+            <!-- BUKTI -->
+            <td>
+                @if($item->payment_proof)
+                    <img src="{{ asset('storage/'.$item->payment_proof) }}" width="70">
+                @else
+                    -
+                @endif
+            </td>
 
-    </div>
+            <!-- PEMBAYARAN -->
+            <td>
+                @if($item->payment_status == 'pending')
 
+                    <form action="{{ url('/admin/acc/'.$item->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button class="btn btn-green">✔</button>
+                    </form>
+
+                    <form action="{{ url('/admin/tolak/'.$item->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button class="btn btn-red">✖</button>
+                    </form>
+
+                @elseif($item->payment_status == 'approved')
+                    <span class="badge badge-green">Lunas</span>
+
+                @elseif($item->payment_status == 'rejected')
+                    <span class="badge badge-red">Ditolak</span>
+
+                @else
+                    <span class="badge badge-orange">Belum</span>
+                @endif
+            </td>
+
+            <!-- AKSI -->
+            <td>
+                @if($item->status == 'dipinjam')
+                    <form action="/kembalikan/{{ $item->id }}" method="POST">
+                        @csrf
+                        <button class="btn btn-blue">Kembalikan</button>
+                    </form>
+                @else
+                    ✔
+                @endif
+            </td>
+
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 </div>
 
-</body>
-</html>
+@endsection

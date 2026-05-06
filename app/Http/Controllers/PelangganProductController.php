@@ -10,7 +10,7 @@ class PelangganProductController extends Controller
     {
         return view('pelanggan.product', [
             'products' => Product::all(),
-            'name' => $request->customer_name ?? null
+            'name' => $request->user_id ?? null
         ]);
     }
 }

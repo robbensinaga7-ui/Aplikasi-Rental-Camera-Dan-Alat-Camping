@@ -20,6 +20,10 @@ use App\Http\Controllers\PelangganProductController;
 Route::prefix('pages')->group(function () {
     Route::view('/home', 'pages.home');
     Route::view('/about', 'pages.about');
+    Route::get('/product', function () {
+    $products = \App\Models\Product::with('category')->get();
+    return view('pages.product', compact('products'));
+    });
 });
 
 /*
@@ -31,7 +35,7 @@ Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/login', [AuthController::class, 'showLogin']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -48,20 +52,14 @@ Route::resource('category', CategoryController::class);
 | TRANSAKSI (FIX ERROR DI SINI)
 |--------------------------------------------------------------------------
 */
+Route::post('/admin/acc/{id}',  [TransactionController::class, 'acc']);
+Route::post('/admin/tolak/{id}', [TransactionController::class, 'tolak']);
 Route::resource('transaksi', TransactionController::class);
-
+Route::post('/ajukan-kembali/{id}', [TransactionController::class, 'ajukanKembali']);
+Route::post('/admin/konfirmasi-kembali/{id}', [TransactionController::class, 'konfirmasiKembali']);
 Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
     ->name('transaksi.bayar');
-
-    /*
-|--------------------------------------------------------------------------
-| PEMINJAMAN
-|--------------------------------------------------------------------------
-*/
-Route::get('/peminjaman', [PeminjamanController::class, 'index']);
-Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show']);
-Route::get('/kembalikan/{id}', [PeminjamanController::class, 'kembalikan']);
-
+Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
 /*
 |--------------------------------------------------------------------------
 | PENGEMBALIAN
@@ -78,19 +76,28 @@ Route::post('/pengembalian', [ReturnController::class, 'store']);
 */
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/transaksi', [TransactionController::class, 'index']);
-
 Route::get('/admin/product', function () {
     $products = \App\Models\Product::all();
-    return view('admin_product', compact('products'));
+    return view('admin.product', compact('products'));
 });
-
+Route::get('/admin/pembayaran', [TransactionController::class, 'adminPembayaran']);
+Route::get('/admin/peminjaman', [TransactionController::class, 'peminjaman']);
+Route::get('/admin/pengembalian', [TransactionController::class, 'pengembalian']);
 /*
 |--------------------------------------------------------------------------
 | PELANGGAN
 |--------------------------------------------------------------------------
 */
-Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
-    ->name('pelanggan.dashboard');
-Route::post('/sewa', [SewaController::class, 'store'])->name('sewa.store');
-Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
-    ->name('pelanggan.product');
+Route::middleware('auth')->group(function () {
+
+    Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
+        ->name('pelanggan.dashboard');
+
+    Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
+        ->name('pelanggan.product');
+
+    Route::post('/sewa', [SewaController::class, 'store'])
+        ->name('sewa.store');
+    Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
+        ->name('transaksi.bayar');
+});

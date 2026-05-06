@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
         $table->id();
 
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('product_id')->constrained()->onDelete('cascade');
-
-        $table->integer('qty');
-        $table->date('rent_date');
-        $table->date('return_date');
-
-        $table->enum('status', ['dipinjam', 'dikembalikan', 'terlambat'])
-              ->default('dipinjam');
-
+    $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
+    $table->foreignId('product_id')->constrained()->onDelete('cascade');
+    $table->integer('qty');
+    $table->date('rent_date');
+    $table->date('return_date');
+    $table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'terlambat','ditolak' ]);
+    $table->integer('price')->default(0);
+$table->integer('fine')->default(0);
+$table->enum('payment_status', ['pending','approved','rejected'])->default('pending');
         $table->integer('price')->default(0);
         $table->integer('fine')->default(0);
         $table->boolean('is_paid')->default(false);
