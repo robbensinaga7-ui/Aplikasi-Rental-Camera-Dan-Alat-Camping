@@ -7,13 +7,14 @@ use App\Models\Transaction;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 class TransactionController extends Controller
 {
     public function index()
-    {
-        $data = Transaction::with('product')->get();
-        return view('admin.transaksi', compact('data'));
-    }
+{
+    $data = Transaction::with(['product', 'user'])->get();
+    return view('admin.transaksi', compact('data'));
+}
 
     public function create()
     {
@@ -25,7 +26,6 @@ class TransactionController extends Controller
     {
         $request->validate([
         'product_id' => 'required|exists:products,id',
-        'customer_name' => 'required',
         'qty' => 'required|integer|min:1',
         'rent_date' => 'required|date',
         'return_date' => 'required|date|after_or_equal:rent_date',
@@ -45,11 +45,11 @@ class TransactionController extends Controller
 $return = Carbon::parse($request->return_date);
 
 $days = $rent->diffInDays($return) + 1;
-
+$product = Product::findOrFail($request->product_id);
 $totalPrice = $product->price_per_day * $days * $request->qty;
 
 Transaction::create([
-    'customer_name' => $request->customer_name,
+    'user_id' => Auth::id(),
     'product_id' => $request->product_id,
     'qty' => $request->qty,
     'rent_date' => $request->rent_date,
@@ -67,11 +67,11 @@ Transaction::create([
 
     public function dashboard(Request $request)
 {
-    $name = $request->customer_name;
+    $name = $request->user_id;
 
     $transactions = Transaction::with('product')
         ->when($name, function ($query) use ($name) {
-            $query->where('customer_name', $name);
+            $query->where('user_id', $name);
         })
         ->get();
 
@@ -100,22 +100,26 @@ public function adminDashboard()
             'chart'
         ));
     }
-    public function bayar($id)
+    public function bayar(Request $request, int $id)
 {
-    $transaksi = Transaction::findOrFail($id);
+    $request->validate([
+        'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
-    $fine = $this->hitungDenda($transaksi);
+    $t = Transaction::findOrFail($id);
 
-    $transaksi->fine = $fine;
-    $transaksi->status = $fine > 0 ? 'terlambat' : 'dikembalikan';
-    $transaksi->is_paid = true;
-    $transaksi->paid_at = now();
-    $transaksi->save();
+    $file = $request->file('bukti');
+    $path = $file->store('bukti_pembayaran', 'public');
 
-    return back()->with('success', 'Pembayaran berhasil!');
+    $t->payment_proof = $path;
+    $t->payment_status = 'pending';
+    $t->is_paid = false;
+    $t->save();
+
+    return back()->with('success', 'Upload berhasil, menunggu admin');
 }
 
-private function hitungDenda($transaksi)
+private function hitungDenda(Transaction $transaksi)
 {
     $today = Carbon::now();
     $returnDate = Carbon::parse($transaksi->return_date);
@@ -123,11 +127,107 @@ private function hitungDenda($transaksi)
     if ($today->gt($returnDate)) {
         $lateDays = $returnDate->diffInDays($today);
 
-        $dendaPerHari = 10000; // bisa kamu ubah
+        $dendaPerHari = 10000; 
 
         return $lateDays * $dendaPerHari;
     }
 
     return 0;
+}
+public function kembalikan(int $id)
+{
+    $t = Transaction::findOrFail($id);
+
+    $t->status = 'menunggu_konfirmasi';
+    $t->save();
+
+    return back()->with('success', 'Pengembalian diajukan, menunggu admin');
+}
+public function adminPembayaran()
+{
+    $transactions = Transaction::with('product')->get();
+    return view('admin.pembayaran', compact('transactions'));
+}
+
+public function acc(int $id)
+{
+    $t = Transaction::findOrFail($id);
+
+    $t->update([
+        'payment_status' => 'approved',
+        'is_paid' => true,
+        'paid_at' => now()
+    ]);
+
+    return back()->with('success', 'Pembayaran disetujui');
+}
+
+public function tolak(int $id)
+{
+    $t = Transaction::findOrFail($id);
+
+    $t->update([
+        'payment_status' => 'rejected',
+        'status' => 'ditolak',
+        'is_paid' => false
+    ]);
+
+    
+    $product = Product::find($t->product_id);
+    $product->stock += $t->qty;
+    $product->save();
+
+    return back()->with('success', 'Pembayaran ditolak');
+}
+public function ajukanKembali(int $id)
+{
+    $t = Transaction::findOrFail($id);
+
+    $t->status = 'menunggu_konfirmasi';
+    $t->save();
+
+    return back()->with('success', 'Menunggu konfirmasi admin');
+}
+
+public function konfirmasiKembali(int $id)
+{
+    $t = Transaction::findOrFail($id);
+
+    $today = now();
+    $returnDate = \Carbon\Carbon::parse($t->return_date);
+
+    $fine = 0;
+
+    if ($today->gt($returnDate)) {
+        $late = $returnDate->diffInDays($today);
+        $fine = $late * 10000;
+    }
+
+    $t->status = 'dikembalikan';
+    $t->fine = $fine;
+    $t->save();
+
+    $product = $t->product;
+    $product->stock += $t->qty;
+    $product->save();
+
+    return back()->with('success', 'Pengembalian dikonfirmasi');
+}
+public function peminjaman()
+{
+    $data = Transaction::with(['product','user'])
+        ->where('status', 'dipinjam')
+        ->get();
+
+    return view('admin.peminjaman', compact('data'));
+}
+
+public function pengembalian()
+{
+    $data = Transaction::with(['product','user'])
+        ->whereIn('status', ['menunggu_konfirmasi','dikembalikan'])
+        ->get();
+
+    return view('admin.pengembalian', compact('data'));
 }
 }

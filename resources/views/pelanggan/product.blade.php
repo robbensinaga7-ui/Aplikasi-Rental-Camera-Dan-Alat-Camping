@@ -16,32 +16,40 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
+/* BACKGROUND */
 body{
 display:flex;
 min-height:100vh;
-background:#f5f7fb;
+background: linear-gradient(135deg,#f6f9fc,#eef3f8);
 }
 
-/* SIDEBAR */
+/* SIDEBAR (SAMA DASHBOARD) */
 .sidebar{
 width:260px;
-background:linear-gradient(180deg,#2c3e50,#34495e);
+background: linear-gradient(180deg,#1e2a38,#2c3e50);
 color:white;
 padding:20px;
 }
 
+.sidebar h2{
+text-align:center;
+margin-bottom:25px;
+}
+
 .sidebar a{
-display:block;
+display:flex;
+align-items:center;
+gap:10px;
 color:white;
 text-decoration:none;
 padding:12px;
 margin:6px 0;
-border-radius:8px;
+border-radius:10px;
 transition:0.3s;
 }
 
 .sidebar a:hover{
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.15);
 transform:translateX(5px);
 }
 
@@ -51,7 +59,13 @@ flex:1;
 padding:25px;
 }
 
-/* ✅ CONTAINER PRODUK (BARU) */
+/* TITLE */
+h1{
+color:#2c3e50;
+margin-bottom:10px;
+}
+
+/* CONTAINER */
 .product-container{
 display:flex;
 flex-wrap:wrap;
@@ -59,57 +73,99 @@ gap:20px;
 margin-top:20px;
 }
 
-/* PRODUCT CARD */
+/* CARD PRODUK (UPGRADE) */
 .product{
-background:white;
+background: linear-gradient(135deg,#ffffff,#f9fbfd);
 padding:18px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
-transition:0.3s;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.06);
+transition:all 0.3s ease;
 animation:fade 0.5s ease;
 
-/* ✅ BIAR RESPONSIVE KE SAMPING */
-flex:1 1 300px;
-max-width:320px;
+flex:1 1 280px;
+max-width:300px;
+position:relative;
+overflow:hidden;
 }
 
+/* EFFECT KILAP */
+.product::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
+transition:0.5s;
+}
+
+.product:hover::before{
+left:100%;
+}
+
+/* HOVER */
 .product:hover{
-transform:translateY(-5px);
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 15px 35px rgba(0,0,0,0.12);
 }
 
 /* GAMBAR */
 .product img{
 width:100%;
-height:150px;
+height:160px;
 object-fit:cover;
-border-radius:10px;
+border-radius:12px;
 margin-bottom:10px;
-display:block;
-}
-
-/* BUTTON */
-button{
-background:#34495e;
-color:white;
-border:none;
-padding:10px;
-border-radius:8px;
-width:100%;
-cursor:pointer;
 transition:0.3s;
 }
 
-button:hover{
-background:#2c3e50;
+.product img:hover{
+transform:scale(1.05);
+}
+
+/* TEXT */
+.product h3{
+margin-bottom:5px;
+color:#2c3e50;
+}
+
+.product p{
+font-size:14px;
+color:#666;
 }
 
 /* INPUT */
 input{
 width:100%;
 padding:8px;
-margin:5px 0;
+margin:6px 0;
 border-radius:8px;
 border:1px solid #ddd;
+transition:0.3s;
+}
+
+input:focus{
+outline:none;
+border-color:#3498db;
+}
+
+/* BUTTON */
+button{
+background:linear-gradient(135deg,#3498db,#6c9cff);
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+width:100%;
+cursor:pointer;
+transition:0.3s;
+font-weight:500;
+}
+
+button:hover{
+transform:scale(1.05);
+opacity:0.9;
 }
 
 /* ANIMATION */
@@ -124,18 +180,21 @@ to{opacity:1;transform:scale(1);}
 <body>
 
 <div class="sidebar">
-<h2>🏕 Rental</h2>
+    <h2>🏕 Rental</h2>
 
-<a href="/pelanggan/dashboard">Dashboard</a>
-<a href="/pelanggan/product">Produk</a>
-<a href="/logout">Logout</a>
+    <a href="/pelanggan/dashboard">🏠 Dashboard</a>
+    <a href="/pelanggan/product">📦 Produk</a>
+    <a href="/logout">🚪 Keluar</a>
 </div>
 
 <div class="content">
 
 <h1>📦 Produk Camping</h1>
 
+<<<<<<< HEAD
+=======
 <!-- ✅ CONTAINER TAMBAHAN -->
+>>>>>>> 3ef2c48a3c7dee45f4cf946aa1c7f4fc46658d98
 <div class="product-container">
 
 @foreach($products as $product)
@@ -151,7 +210,6 @@ to{opacity:1;transform:scale(1);}
         @csrf
 
         <input type="hidden" name="product_id" value="{{ $product->id }}">
-        <input type="hidden" name="customer_name" value="{{ $name }}">
 
         <input type="date" name="rent_date" required>
         <input type="date" name="return_date" required>
