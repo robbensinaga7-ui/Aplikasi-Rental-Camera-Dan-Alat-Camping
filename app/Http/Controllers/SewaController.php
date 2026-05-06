@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +23,27 @@ public function store(Request $request)
 
     $product = Product::findOrFail($request->product_id);
 
+<<<<<<< HEAD
     //  cek stok
     if ($product->stock < $request->qty) {
         return back()->with('error', 'Stok tidak cukup!');
+=======
+        // kurangi stock
+        $product->stock -= $request->qty;
+        $product->save();
+
+        // simpan transaksi
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+            'qty' => $request->qty,
+            'rent_date' => $request->rent_date,
+            'return_date' => $request->return_date,
+            'status' => 'dipinjam'
+        ]);
+
+        return back()->with('success', 'Berhasil sewa produk!');
+>>>>>>> 3ef2c48a3c7dee45f4cf946aa1c7f4fc46658d98
     }
 
     //  HITUNG HARI

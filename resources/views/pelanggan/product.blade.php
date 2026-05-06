@@ -191,6 +191,10 @@ to{opacity:1;transform:scale(1);}
 
 <h1>📦 Produk Camping</h1>
 
+<<<<<<< HEAD
+=======
+<!-- ✅ CONTAINER TAMBAHAN -->
+>>>>>>> 3ef2c48a3c7dee45f4cf946aa1c7f4fc46658d98
 <div class="product-container">
 
 @foreach($products as $product)

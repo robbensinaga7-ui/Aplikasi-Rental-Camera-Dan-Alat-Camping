@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+         if (!Schema::hasTable('peminjaman')) {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
-              // relasi ke product
+
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
             // data peminjaman
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string('status')->default('dipinjam');
             $table->timestamps();
         });
+    }
     }
 
     /**

@@ -20,6 +20,7 @@ class Transaction extends Model
     'is_paid',
     'paid_at'
 ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

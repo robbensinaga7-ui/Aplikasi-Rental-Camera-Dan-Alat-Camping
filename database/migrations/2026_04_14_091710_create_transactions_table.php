@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+        $table->id();
 
     $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
     $table->foreignId('product_id')->constrained()->onDelete('cascade');
@@ -23,9 +23,13 @@ return new class extends Migration
     $table->integer('price')->default(0);
 $table->integer('fine')->default(0);
 $table->enum('payment_status', ['pending','approved','rejected'])->default('pending');
+        $table->integer('price')->default(0);
+        $table->integer('fine')->default(0);
+        $table->boolean('is_paid')->default(false);
+        $table->timestamp('paid_at')->nullable();
 
-    $table->timestamps();
-        });
+        $table->timestamps();
+    });
     }
 
     /**
