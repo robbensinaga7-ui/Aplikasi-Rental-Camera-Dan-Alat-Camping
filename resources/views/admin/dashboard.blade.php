@@ -1,4 +1,4 @@
-<!-- dashboard.blade.php -->
+
 
 @extends('layouts.admin')
 
