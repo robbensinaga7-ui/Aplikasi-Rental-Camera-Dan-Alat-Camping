@@ -280,21 +280,21 @@ Desain modern, mudah digunakan, dan cocok untuk bisnis rental kecil maupun besar
 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
 
 <h4>Robben Lamtipando Sinaga</h4>
-<p>Fullstack Developer</p>
+<p></p>
 </div>
 
 <div class="member" data-aos="zoom-in" data-aos-delay="100">
 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
 
 <h4>Claudia M</h4>
-<p>UI/UX Designer</p>
+<p></p>
 </div>
 
 <div class="member" data-aos="zoom-in" data-aos-delay="200">
 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
 
 <h4>John Feddly Nababan</h4>
-<p>Backend Developer</p>
+<p></p>
 </div>
 
 </div>

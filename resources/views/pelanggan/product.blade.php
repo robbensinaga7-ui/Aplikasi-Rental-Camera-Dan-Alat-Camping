@@ -1,229 +1,269 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produk Camping</title>
+@extends('layouts.pelanggan')
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+@section('title','Produk Camping')
 
+@section('style')
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+/* PAGE TITLE */
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:10px;
 }
 
-/* BACKGROUND */
-body{
-display:flex;
-min-height:100vh;
-background: linear-gradient(135deg,#f6f9fc,#eef3f8);
+/* SUBTITLE */
+.page-subtitle{
+    color:#64748b;
+    margin-bottom:25px;
 }
 
-/* SIDEBAR (SAMA DASHBOARD) */
-.sidebar{
-width:260px;
-background: linear-gradient(180deg,#1e2a38,#2c3e50);
-color:white;
-padding:20px;
-}
-
-.sidebar h2{
-text-align:center;
-margin-bottom:25px;
-}
-
-.sidebar a{
-display:flex;
-align-items:center;
-gap:10px;
-color:white;
-text-decoration:none;
-padding:12px;
-margin:6px 0;
-border-radius:10px;
-transition:0.3s;
-}
-
-.sidebar a:hover{
-background:rgba(255,255,255,0.15);
-transform:translateX(5px);
-}
-
-/* CONTENT */
-.content{
-flex:1;
-padding:25px;
-}
-
-/* TITLE */
-h1{
-color:#2c3e50;
-margin-bottom:10px;
-}
-
-/* CONTAINER */
+/* PRODUCT CONTAINER */
 .product-container{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
 }
 
-/* CARD PRODUK (UPGRADE) */
-.product{
-background: linear-gradient(135deg,#ffffff,#f9fbfd);
-padding:18px;
-border-radius:16px;
-box-shadow:0 10px 25px rgba(0,0,0,0.06);
-transition:all 0.3s ease;
-animation:fade 0.5s ease;
-
-flex:1 1 280px;
-max-width:300px;
-position:relative;
-overflow:hidden;
+/* PRODUCT CARD */
+.product-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ffffff,#f9fbfd);
+    border-radius:22px;
+    padding:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+    transition:0.4s;
+    animation:fadeUp 0.6s ease;
 }
 
-/* EFFECT KILAP */
-.product::before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
-transition:0.5s;
+/* SHINE EFFECT */
+.product-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+    transition:0.7s;
 }
 
-.product:hover::before{
-left:100%;
+.product-card:hover::before{
+    left:120%;
 }
 
 /* HOVER */
-.product:hover{
-transform:translateY(-8px) scale(1.03);
-box-shadow:0 15px 35px rgba(0,0,0,0.12);
+.product-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 18px 35px rgba(0,0,0,0.12);
 }
 
-/* GAMBAR */
-.product img{
-width:100%;
-height:160px;
-object-fit:cover;
-border-radius:12px;
-margin-bottom:10px;
-transition:0.3s;
+/* IMAGE */
+.product-img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+    border-radius:16px;
+    margin-bottom:15px;
+    transition:0.4s;
 }
 
-.product img:hover{
-transform:scale(1.05);
+.product-img:hover{
+    transform:scale(1.04);
 }
 
-/* TEXT */
-.product h3{
-margin-bottom:5px;
-color:#2c3e50;
+/* PRODUCT TITLE */
+.product-title{
+    font-size:20px;
+    font-weight:700;
+    color:#1e293b;
+    margin-bottom:8px;
 }
 
-.product p{
-font-size:14px;
-color:#666;
+/* PRODUCT INFO */
+.product-info{
+    font-size:14px;
+    color:#64748b;
+    margin-bottom:8px;
+}
+
+/* PRICE */
+.product-price{
+    margin:12px 0;
+    font-size:18px;
+    font-weight:700;
+    color:#3498db;
 }
 
 /* INPUT */
-input{
-width:100%;
-padding:8px;
-margin:6px 0;
-border-radius:8px;
-border:1px solid #ddd;
-transition:0.3s;
+.form-input{
+    width:100%;
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid #dbe2ea;
+    margin-bottom:12px;
+    transition:0.3s;
+    background:white;
 }
 
-input:focus{
-outline:none;
-border-color:#3498db;
+.form-input:focus{
+    outline:none;
+    border-color:#3498db;
+    box-shadow:0 0 0 4px rgba(52,152,219,0.1);
 }
 
 /* BUTTON */
-button{
-background:linear-gradient(135deg,#3498db,#6c9cff);
-color:white;
-border:none;
-padding:10px;
-border-radius:10px;
-width:100%;
-cursor:pointer;
-transition:0.3s;
-font-weight:500;
+.btn-sewa{
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#3498db,#6c9cff);
+    color:white;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.05);
-opacity:0.9;
+.btn-sewa:hover{
+    transform:translateY(-2px);
+    opacity:0.95;
+}
+
+/* EMPTY */
+.empty-product{
+    text-align:center;
+    padding:50px;
+    background:white;
+    border-radius:20px;
+    color:#94a3b8;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
 }
 
 /* ANIMATION */
-@keyframes fade{
-from{opacity:0;transform:scale(0.95);}
-to{opacity:1;transform:scale(1);}
+@keyframes fadeUp{
+
+from{
+    opacity:0;
+    transform:translateY(20px);
+}
+
+to{
+    opacity:1;
+    transform:translateY(0);
+}
+
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+.page-title{
+    font-size:24px;
+}
+
+.product-card{
+    padding:15px;
+}
+
+.product-img{
+    height:170px;
+}
+
 }
 
 </style>
-</head>
+@endsection
 
-<body>
+@section('content')
 
-<div class="sidebar">
-    <h2>🏕 Rental</h2>
+<h1 class="page-title">
+    📦 Produk Camping
+</h1>
 
-    <a href="/pelanggan/dashboard">🏠 Dashboard</a>
-    <a href="/pelanggan/product">📦 Produk</a>
-    <a href="/logout">🚪 Keluar</a>
-</div>
+<p class="page-subtitle">
+    Pilih perlengkapan camping terbaik untuk petualanganmu
+</p>
 
-<div class="content">
-
-<h1>📦 Produk Camping</h1>
-
-<<<<<<< HEAD
-=======
-<!-- ✅ CONTAINER TAMBAHAN -->
->>>>>>> 3ef2c48a3c7dee45f4cf946aa1c7f4fc46658d98
 <div class="product-container">
 
-@foreach($products as $product)
-<div class="product">
+@forelse($products as $product)
 
-    <img src="{{ asset('storage/' . $product->image) }}" 
-         alt="{{ $product->name }}">
+<div class="product-card">
 
-    <h3>{{ $product->name }}</h3>
-    <p>Stok: {{ $product->stock }}</p>
+    <!-- IMAGE -->
+    <img
+    class="product-img"
+    src="{{ asset('storage/' . $product->image) }}"
+    alt="{{ $product->name }}">
 
+    <!-- TITLE -->
+    <h3 class="product-title">
+        {{ $product->name }}
+    </h3>
+
+    <!-- INFO -->
+    <p class="product-info">
+        📦 Stok : {{ $product->stock }}
+    </p>
+
+    <p class="product-price">
+        Rp {{ number_format($product->price,0,',','.') }}
+    </p>
+
+    <!-- FORM -->
     <form action="{{ route('sewa.store') }}" method="POST">
+
         @csrf
 
-        <input type="hidden" name="product_id" value="{{ $product->id }}">
+        <input
+        type="hidden"
+        name="product_id"
+        value="{{ $product->id }}">
 
-        <input type="date" name="rent_date" required>
-        <input type="date" name="return_date" required>
-        <input type="number" name="qty" value="1" min="1">
+        <input
+        type="date"
+        name="rent_date"
+        class="form-input"
+        required>
 
-        <button type="submit">Sewa Sekarang</button>
+        <input
+        type="date"
+        name="return_date"
+        class="form-input"
+        required>
+
+        <input
+        type="number"
+        name="qty"
+        value="1"
+        min="1"
+        class="form-input">
+
+        <button type="submit" class="btn-sewa">
+            Sewa Sekarang
+        </button>
+
     </form>
 
 </div>
-@endforeach
+
+@empty
+
+<div class="empty-product">
+    Tidak ada produk tersedia
+</div>
+
+@endforelse
 
 </div>
 
-</div>
-
-</body>
-</html>
+@endsection
