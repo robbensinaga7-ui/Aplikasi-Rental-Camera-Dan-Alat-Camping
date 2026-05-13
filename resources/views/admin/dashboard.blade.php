@@ -42,7 +42,13 @@
 .card-red{
     background:linear-gradient(135deg,#ff758c,#ff7eb3);
 }
+.card-cyan{
+    background:linear-gradient(135deg,#36d1dc,#5b86e5);
+}
 
+.card-pink{
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+}
 .card-stat h3{
     margin-top:10px;
     font-size:16px;
@@ -94,6 +100,22 @@
         icon="📋"
         title="Booking"
         :value="$totalBooking"
+    />
+
+    <!-- PEMINJAMAN -->
+    <x-admin-stat
+        color="card-cyan"
+        icon="📥"
+        title="Peminjaman"
+        :value="$peminjamanCount"
+    />
+
+    <!-- PENGEMBALIAN -->
+    <x-admin-stat
+        color="card-pink"
+        icon="📤"
+        title="Pengembalian"
+        :value="$pengembalianCount"
     />
 
     <x-admin-stat
