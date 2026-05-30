@@ -27,6 +27,10 @@
     background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
+.card-teal{
+    background:linear-gradient(135deg,#11998e,#38ef7d);
+}
+
 .card-green{
     background:linear-gradient(135deg,#43e97b,#38f9d7);
 }
@@ -87,6 +91,13 @@
         title="Produk"
         :value="$productCount"
     />
+
+    <x-admin-stat
+    color="card-blue"
+    icon="👥"
+    title="Pelanggan"
+    :value="$pelangganCount"
+/>
 
     <x-admin-stat
         color="card-green"

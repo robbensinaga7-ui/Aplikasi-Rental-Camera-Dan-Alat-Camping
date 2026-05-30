@@ -209,6 +209,11 @@ tr:hover{
             📦 Produk
         </a>
 
+        <a href="/admin/pelanggan"
+   class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
+    👥 Pelanggan
+</a>
+
         <a href="/admin/transaksi" class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
             💰 Transaksi
         </a>

@@ -79,6 +79,17 @@ Route::get('/admin/product', function () {
     $products = \App\Models\Product::all();
     return view('admin.product', compact('products'));
 });
+Route::get('/admin/pelanggan', [AdminController::class,'pelanggan']);
+
+Route::get('/admin/pelanggan/create', [AdminController::class,'createPelanggan']);
+
+Route::post('/admin/pelanggan/store', [AdminController::class,'storePelanggan']);
+
+Route::get('/admin/pelanggan/edit/{id}', [AdminController::class,'editPelanggan']);
+
+Route::post('/admin/pelanggan/update/{id}', [AdminController::class,'updatePelanggan']);
+
+Route::get('/admin/pelanggan/delete/{id}', [AdminController::class,'deletePelanggan']);
 Route::get('/admin/pembayaran', [TransactionController::class, 'adminPembayaran']);
 Route::get('/admin/peminjaman', [TransactionController::class, 'peminjaman']);
 Route::get('/admin/pengembalian', [TransactionController::class, 'pengembalian']);
@@ -91,7 +102,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/pelanggan/dashboard', [PelangganController::class, 'index'])
         ->name('pelanggan.dashboard');
-
+Route::post('/batalkan/{id}', [TransactionController::class, 'batalkan']);
     Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
         ->name('pelanggan.product');
 Route::get('/pelanggan/profile', function () {

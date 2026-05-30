@@ -235,4 +235,21 @@ public function pengembalian()
 
     return view('admin.pengembalian', compact('data'));
 }
+public function batalkan(int $id)
+{
+    $transaksi = Transaction::findOrFail($id);
+
+    // kembalikan stok
+    $product = Product::find($transaksi->product_id);
+
+    if($product){
+        $product->stock += $transaksi->qty;
+        $product->save();
+    }
+
+    $transaksi->status = 'dibatalkan';
+    $transaksi->save();
+
+    return back()->with('success','Pesanan berhasil dibatalkan');
+}
 }
