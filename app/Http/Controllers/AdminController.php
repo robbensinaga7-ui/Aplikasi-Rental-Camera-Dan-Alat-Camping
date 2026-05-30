@@ -74,12 +74,12 @@ public function storePelanggan(Request $request)
 
     return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil ditambahkan.');
 }
-public function editPelanggan($id)
+public function editPelanggan(int $id)
 {
     $pelanggan = User::findOrFail($id);
     return view('admin.edit-pelanggan', compact('pelanggan'));
 }
-public function updatePelanggan(Request $request, $id)
+public function updatePelanggan(Request $request, int $id)
 {
     $pelanggan = User::findOrFail($id);
 
@@ -97,7 +97,7 @@ public function updatePelanggan(Request $request, $id)
 
     return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil diperbarui.');
 }
-public function destroyPelanggan($id)
+public function destroyPelanggan(int $id)
 {
     $pelanggan = User::findOrFail($id);
     $pelanggan->delete();

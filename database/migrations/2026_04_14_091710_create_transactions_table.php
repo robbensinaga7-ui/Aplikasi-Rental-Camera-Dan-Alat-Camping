@@ -19,7 +19,7 @@ return new class extends Migration
     $table->integer('qty');
     $table->date('rent_date');
     $table->date('return_date');
-    $table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'terlambat','ditolak' ]);
+    $table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'terlambat','ditolak', 'dibatalkan']);
     $table->integer('price')->default(0);
 $table->integer('fine')->default(0);
 $table->enum('payment_status', ['pending','approved','rejected'])->default('pending');
