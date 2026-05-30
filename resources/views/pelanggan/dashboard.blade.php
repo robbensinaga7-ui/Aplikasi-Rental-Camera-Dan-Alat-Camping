@@ -128,7 +128,22 @@ tr:hover{
     transition:0.3s;
     font-size:12px;
 }
+.btn-batal{
+    margin-top:8px;
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#e74c3c,#ff6b6b);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:12px;
+}
 
+.btn-batal:hover{
+    transform:translateY(-2px);
+    opacity:0.95;
+}
 .btn-ajukan:hover,
 .btn-bayar:hover{
     transform:translateY(-2px);
@@ -246,45 +261,64 @@ td{
     </td>
 
     <!-- STATUS -->
-    <td>
+<td>
 
-        @if($t->status == 'dipinjam')
+    @if($t->status == 'dipinjam')
 
-            <span class="badge badge-pending">
-                Dipinjam
-            </span>
+        <span class="badge badge-pending">
+            Dipinjam
+        </span>
 
-            <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
+        <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
 
-                @csrf
+            @csrf
 
-                <button class="btn-ajukan">
-                    Ajukan Pengembalian
-                </button>
+            <button class="btn-ajukan">
+                Ajukan Pengembalian
+            </button>
 
-            </form>
+        </form>
 
-        @elseif($t->status == 'menunggu_konfirmasi')
+        <form action="/batalkan/{{ $t->id }}" method="POST">
 
-            <span class="badge badge-pending">
-                Menunggu
-            </span>
+            @csrf
 
-        @elseif($t->status == 'dikembalikan')
+            <button
+                type="submit"
+                class="btn-batal"
+                onclick="return confirm('Yakin ingin membatalkan pesanan?')">
+                ❌ Batalkan Pesanan
+            </button>
 
-            <span class="badge badge-lunas">
-                Dikembalikan
-            </span>
+        </form>
 
-        @elseif($t->status == 'ditolak')
+    @elseif($t->status == 'menunggu_konfirmasi')
 
-            <span class="badge badge-belum">
-                Ditolak
-            </span>
+        <span class="badge badge-pending">
+            Menunggu
+        </span>
 
-        @endif
+    @elseif($t->status == 'dikembalikan')
 
-    </td>
+        <span class="badge badge-lunas">
+            Dikembalikan
+        </span>
+
+    @elseif($t->status == 'ditolak')
+
+        <span class="badge badge-belum">
+            Ditolak
+        </span>
+
+    @elseif($t->status == 'dibatalkan')
+
+        <span class="badge badge-belum">
+            Dibatalkan
+        </span>
+
+    @endif
+
+</td>
 
     <!-- PAYMENT -->
     <td>
