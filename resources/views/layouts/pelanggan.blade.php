@@ -47,6 +47,45 @@ body{
     font-weight:700;
 }
 
+/* PROFILE */
+.profile-box{
+    margin-top:20px;
+    text-align:left;
+}
+
+.profile-btn{
+    background:rgba(255,255,255,0.12);
+    padding:12px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:500;
+}
+
+.profile-menu{
+    display:none;
+    margin-top:8px;
+    background:rgba(255,255,255,0.08);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.profile-box:hover .profile-menu{
+    display:block;
+}
+
+.profile-menu a{
+    display:block;
+    text-decoration:none;
+    color:white;
+    padding:12px;
+    transition:0.3s;
+}
+
+.profile-menu a:hover{
+    background:rgba(255,255,255,0.12);
+}
+
 /* MENU */
 .sidebar a{
     display:flex;
@@ -67,13 +106,6 @@ body{
 .sidebar a.active{
     background:rgba(255,255,255,0.12);
     transform:translateX(5px);
-}
-
-/* LOGOUT */
-.logout{
-    margin-top:30px;
-    background:linear-gradient(135deg,#ff6b6b,#ff758c);
-    justify-content:center;
 }
 
 /* CONTENT */
@@ -169,7 +201,30 @@ body{
 <div class="sidebar">
 
     <div class="logo">
+
         <h2>🏕 Rental</h2>
+
+        <!-- PROFILE DROPDOWN -->
+        <div class="profile-box">
+
+            <div class="profile-btn">
+                👤 {{ Auth::user()->name }}
+            </div>
+
+            <div class="profile-menu">
+
+                <a href="/pelanggan/profile">
+                    👤 Profile Saya
+                </a>
+
+                <a href="/logout">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
 
     <a href="/pelanggan/dashboard"
@@ -180,10 +235,6 @@ body{
     <a href="/pelanggan/product"
        class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
         📦 Produk
-    </a>
-
-    <a href="/logout" class="logout">
-        🚪 Keluar
     </a>
 
 </div>

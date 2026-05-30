@@ -193,15 +193,8 @@ public function konfirmasiKembali(int $id)
 {
     $t = Transaction::findOrFail($id);
 
-    $today = now();
-    $returnDate = \Carbon\Carbon::parse($t->return_date);
-
-    $fine = 0;
-
-    if ($today->gt($returnDate)) {
-        $late = $returnDate->diffInDays($today);
-        $fine = $late * 10000;
-    }
+    // PANGGIL FUNCTION HITUNG DENDA
+    $fine = $this->hitungDenda($t);
 
     $t->status = 'dikembalikan';
     $t->fine = $fine;
