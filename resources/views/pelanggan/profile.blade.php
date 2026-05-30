@@ -236,7 +236,6 @@ function hideEditForm(){
 
 </script>
 
-ress }}</p>
 
 </div>
 
