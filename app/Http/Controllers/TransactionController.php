@@ -191,20 +191,32 @@ public function ajukanKembali(int $id)
 
 public function konfirmasiKembali(int $id)
 {
-    $t = Transaction::findOrFail($id);
+    $transaksi = Transaction::find($id);
 
-    // PANGGIL FUNCTION HITUNG DENDA
-    $fine = $this->hitungDenda($t);
+    // HITUNG DENDA
+    $today = Carbon::now();
 
-    $t->status = 'dikembalikan';
-    $t->fine = $fine;
-    $t->save();
+    $returnDate = Carbon::parse($transaksi->return_date);
 
-    $product = $t->product;
-    $product->stock += $t->qty;
-    $product->save();
+    if ($today->gt($returnDate)) {
 
-    return back()->with('success', 'Pengembalian dikonfirmasi');
+        $lateDays = $returnDate->diffInDays($today);
+
+        $dendaPerHari = 10000;
+
+        $transaksi->fine = $lateDays * $dendaPerHari;
+
+    } else {
+
+        $transaksi->fine = 0;
+    }
+
+    // UPDATE STATUS
+    $transaksi->status = 'dikembalikan';
+
+    $transaksi->save();
+
+    return back()->with('success', 'Pengembalian berhasil dikonfirmasi');
 }
 public function peminjaman()
 {
