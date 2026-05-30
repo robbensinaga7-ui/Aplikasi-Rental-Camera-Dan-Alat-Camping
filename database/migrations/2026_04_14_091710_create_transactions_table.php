@@ -23,8 +23,6 @@ return new class extends Migration
     $table->integer('price')->default(0);
 $table->integer('fine')->default(0);
 $table->enum('payment_status', ['pending','approved','rejected'])->default('pending');
-        $table->integer('price')->default(0);
-        $table->integer('fine')->default(0);
         $table->boolean('is_paid')->default(false);
         $table->timestamp('paid_at')->nullable();
 
