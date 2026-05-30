@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -50,7 +49,7 @@ public function login(Request $request)
 
     // ✅ LOGIN ADMIN (TANPA DATABASE)
     if ($request->email == 'admin@gmail.com' && $request->password == 'admin123') {
-        session(['is_admin' => true]);
+        Session::put('is_admin', true);
         return redirect('/admin');
     }
 
@@ -67,7 +66,7 @@ public function login(Request $request)
 public function logout()
 {
    Auth::logout(); // logout user
-    session()->forget('is_admin'); // hapus admin session
+    Session::forget('is_admin'); // hapus admin session
 
     return redirect('/login');
 }

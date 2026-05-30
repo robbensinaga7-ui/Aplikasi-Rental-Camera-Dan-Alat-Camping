@@ -189,7 +189,7 @@ public function ajukanKembali(int $id)
     return back()->with('success', 'Menunggu konfirmasi admin');
 }
 
-public function konfirmasiKembali($id)
+public function konfirmasiKembali(int $id)
 {
     $transaksi = Transaction::find($id);
 

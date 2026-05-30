@@ -46,7 +46,6 @@ Route::get('/logout', [AuthController::class, 'logout']);
 */
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
-
 /*
 |--------------------------------------------------------------------------
 | TRANSAKSI (FIX ERROR DI SINI)
