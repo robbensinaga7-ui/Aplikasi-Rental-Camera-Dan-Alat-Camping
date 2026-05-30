@@ -197,6 +197,12 @@ to{
     Pilih perlengkapan camping terbaik untuk petualanganmu
 </p>
 
+<div class="content">
+
+<h1>📦 Produk Camping</h1>
+
+<!-- ✅ CONTAINER TAMBAHAN -->
+
 <div class="product-container">
 
 @forelse($products as $product)

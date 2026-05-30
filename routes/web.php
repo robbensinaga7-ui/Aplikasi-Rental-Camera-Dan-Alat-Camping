@@ -115,3 +115,7 @@ Route::post('/pelanggan/profile/update', [PelangganController::class, 'updatePro
     Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
         ->name('transaksi.bayar');
 });
+
+Route::get('/pelanggan/profile', function () {
+    return view('pelanggan.profile');
+});
