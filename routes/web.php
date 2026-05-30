@@ -94,7 +94,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
         ->name('pelanggan.product');
-
+Route::get('/pelanggan/profile', function () {
+    return view('pelanggan.profile');
+});
+Route::get('/pelanggan/profile', [PelangganController::class, 'profile']);
+Route::post('/pelanggan/profile/update', [PelangganController::class, 'updateProfile']);
     Route::post('/sewa', [SewaController::class, 'store'])
         ->name('sewa.store');
     Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
