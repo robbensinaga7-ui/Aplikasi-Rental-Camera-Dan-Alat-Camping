@@ -182,7 +182,6 @@ img:hover {
                 @endif
             </td>
 
-            <!-- AKSI -->
             <td>
                 @if($item->status == 'dipinjam')
                     <form action="/kembalikan/{{ $item->id }}" method="POST">
