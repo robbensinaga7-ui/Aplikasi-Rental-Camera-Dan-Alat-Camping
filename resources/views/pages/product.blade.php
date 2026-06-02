@@ -84,6 +84,83 @@ width:420px;
 box-shadow:0 15px 35px rgba(0,0,0,0.12);
 }
 
+/* STATS */
+.product-stats{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    padding:20px 20px 50px;
+    background:#f8fbff;
+}
+
+.stat-box{
+    width:220px;
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+
+    background:linear-gradient(
+        135deg,
+        #56ccf2,
+        #2f80ed
+    );
+
+    color:white;
+
+    box-shadow:0 15px 35px rgba(47,128,237,.25);
+
+    transition:.4s;
+}
+
+.stat-box:hover{
+    transform:translateY(-10px);
+}
+
+.stat-box h2{
+    font-size:42px;
+    margin-bottom:8px;
+    color:white;
+    font-weight:700;
+}
+
+.stat-box p{
+    font-size:16px;
+    color:white;
+    opacity:.95;
+    font-weight:500;
+}
+/* CATEGORY BADGE */
+.badge-category{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:20px;
+    background:#e8f2ff;
+    color:#2f80ed;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+/* STOCK BADGE */
+.badge-stock{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.stock-ready{
+    background:#d4edda;
+    color:#155724;
+}
+
+.stock-empty{
+    background:#f8d7da;
+    color:#721c24;
+}
 /* PRODUCT CONTAINER */
 .product-container{
 display:flex;
@@ -96,12 +173,12 @@ background:#f8fbff;
 
 /* PRODUCT CARD */
 .product-card{
-width:280px;
+width:340px;
 background:white;
-border-radius:24px;
+border-radius:25px;
 overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-transition:0.4s;
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+transition:.4s;
 position:relative;
 }
 
@@ -135,9 +212,9 @@ box-shadow:0 20px 40px rgba(0,0,0,0.15);
 /* IMAGE */
 .product-card img{
 width:100%;
-height:220px;
+height:260px;
 object-fit:cover;
-transition:0.4s;
+transition:.4s;
 }
 
 .product-card:hover img{
@@ -240,14 +317,38 @@ Temukan peralatan camping terbaik untuk petualanganmu
 <input type="text" id="searchInput" placeholder="🔍 Cari produk...">
 </div>
 
+<!-- STATS -->
+<div class="product-stats">
+
+<div class="stat-box" data-aos="zoom-in">
+<h2>{{ count($products) }}</h2>
+<p>Total Produk</p>
+</div>
+
+<div class="stat-box" data-aos="zoom-in" data-aos-delay="100">
+<h2>{{ $products->where('stock','>',0)->count() }}</h2>
+<p>Produk Tersedia</p>
+</div>
+
+<div class="stat-box" data-aos="zoom-in" data-aos-delay="200">
+<h2>{{ $products->where('stock','<=',0)->count() }}</h2>
+<p>Stok Habis</p>
+</div>
+
+</div>
+
+
 <!-- PRODUCT LIST -->
 <div class="product-container">
 
 @forelse($products as $product)
 
+
 <div class="product-card product-item"
-     data-name="{{ $product->name }}"
-     data-aos="zoom-in">
+data-name="{{ $product->name }}"
+data-aos="zoom-in">
+
+
 
 <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/250' }}"
 alt="product">
@@ -256,25 +357,66 @@ alt="product">
 
 <h3>{{ $product->name }}</h3>
 
-<p>{{ $product->description }}</p>
+<span class="badge-category">
+    📁 Kategori: {{ $product->category->name ?? '-' }}
+</span>
 
-<p>📦 Stok: {{ $product->stock }}</p>
+<br>
 
-<p>📁 Kategori: {{ $product->category->name ?? '-' }}</p>
+@if($product->stock > 0)
+
+<span class="badge-stock stock-ready">
+    ✅ Stok: {{ $product->stock }}
+</span>
+
+@else
+
+<span class="badge-stock stock-empty">
+    ❌ Stok Habis
+</span>
+
+@endif
+
+<p style="min-height:50px;">
+    {{ $product->description }}
+</p>
 
 <div class="price">
 Rp {{ number_format($product->price,0,',','.') }} / hari
 </div>
 
 @if($product->stock > 0)
-<a href="#" class="btn">Sewa Sekarang</a>
+
+    @auth
+
+    <a href="/booking/{{ $product->id }}" class="btn">
+        🚀 Sewa Sekarang
+    </a>
+
+    @endauth
+
+    @guest
+
+    <a href="/register"
+       class="btn"
+       onclick="return confirm('Silakan daftar atau login terlebih dahulu untuk menyewa produk.')">
+        🔐 Daftar Untuk Menyewa
+    </a>
+
+    @endguest
+
 @else
-<button class="btn" disabled>Stok Habis</button>
+
+    <button class="btn" disabled>
+        ❌ Stok Habis
+    </button>
+
 @endif
 
 </div>
-
 </div>
+
+
 
 @empty
 

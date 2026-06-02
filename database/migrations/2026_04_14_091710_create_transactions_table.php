@@ -22,7 +22,7 @@ return new class extends Migration
     $table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'terlambat','ditolak', 'dibatalkan']);
     $table->integer('price')->default(0);
 $table->integer('fine')->default(0);
-$table->enum('payment_status', ['pending','approved','rejected'])->default('pending');
+$table->enum('payment_status', ['pending','approved','rejected','dibatalkan'])->default('pending');
         $table->boolean('is_paid')->default(false);
         $table->timestamp('paid_at')->nullable();
 

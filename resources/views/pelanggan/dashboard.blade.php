@@ -63,7 +63,127 @@ th{
     font-size:14px;
     white-space:nowrap;
 }
+/* DECORATION */
+.dashboard-wrapper{
+    position:relative;
+}
 
+.dashboard-wrapper::before{
+    content:'';
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    background:rgba(52,152,219,.08);
+    top:-100px;
+    right:-100px;
+    z-index:-1;
+}
+
+.dashboard-wrapper::after{
+    content:'';
+    position:fixed;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:rgba(108,92,231,.08);
+    bottom:-80px;
+    left:-80px;
+    z-index:-1;
+}
+
+/* HERO */
+.hero-dashboard{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-dashboard::before{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-70px;
+    right:-70px;
+}
+
+.hero-dashboard h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+/* STATS */
+.stats{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+}
+
+.stat-card h3{
+    font-size:40px;
+    margin-bottom:8px;
+    color:#2563eb;
+}
+
+.stat-card p{
+    color:#64748b;
+    font-weight:600;
+}
+
+/* TABLE HEADER */
+th{
+    background:linear-gradient(135deg,#3498db,#6c5ce7);
+}
+
+/* TABLE CARD */
+.table-card{
+    border-radius:25px;
+}
+
+/* TABLE ROW */
+tbody tr:hover{
+    background:#eef6ff;
+}
+
+/* TOTAL */
+.total-price{
+    color:#3498db;
+    font-weight:700;
+}
+
+/* STATUS */
+.badge{
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
 /* BODY */
 td{
     padding:14px;
@@ -190,26 +310,152 @@ td{
 }
 
 }
+/* ANIMATION */
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 
+@keyframes fadeLeft{
+    from{
+        opacity:0;
+        transform:translateX(-40px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-10px);
+    }
+    100%{
+        transform:translateY(0);
+    }
+}
+
+/* HERO */
+.hero-dashboard{
+    animation:fadeLeft .8s ease;
+}
+
+/* STATS */
+.stat-card{
+    animation:fadeUp .8s ease;
+}
+
+.stat-card:nth-child(1){
+    animation-delay:.1s;
+}
+
+.stat-card:nth-child(2){
+    animation-delay:.2s;
+}
+
+.stat-card:nth-child(3){
+    animation-delay:.3s;
+}
+
+/* ANGKA STATISTIK */
+.stat-card h3{
+    animation:pulse 2s infinite;
+}
+
+/* TITLE */
+.section-title{
+    animation:fadeLeft 1s ease;
+}
+
+/* TABLE */
+.table-card{
+    animation:fadeUp 1s ease;
+}
+
+/* BUTTON */
+.btn-ajukan,
+.btn-bayar,
+.btn-batal{
+    transition:.3s;
+}
+
+.btn-ajukan:hover,
+.btn-bayar:hover,
+.btn-batal:hover{
+    transform:translateY(-3px) scale(1.05);
+}
+
+/* BADGE */
+.badge{
+    animation:float 3s infinite ease-in-out;
+}
+
+/* IMAGE */
+.bukti-img{
+    transition:.4s;
+}
+
+.bukti-img:hover{
+    transform:scale(1.15) rotate(2deg);
+}
+
+/* HERO CIRCLE */
+.hero-dashboard::before{
+    animation:float 5s infinite ease-in-out;
+}
 </style>
 @endsection
 
 @section('content')
 
-<h1 class="page-title">
-    Dashboard Pelanggan
-</h1>
+<div class="dashboard-wrapper">
 
-<!-- WELCOME -->
-<div class="welcome-card">
-
-    <h3>
-        👋 Halo, {{ $name }}
-    </h3>
-
+<div class="hero-dashboard">
+    <h2>👋 Halo, {{ $name }}</h2>
     <p>
-        Silakan pilih menu Produk untuk mulai menyewa alat camping.
+        Selamat datang di sistem rental camping.
+        Kelola peminjaman dan pantau status transaksi Anda dengan mudah.
     </p>
+</div>
+
+<div class="stats">
+
+    <div class="stat-card">
+        <h3>{{ $transactions->count() }}</h3>
+        <p>Total Transaksi</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ $transactions->where('status','dipinjam')->count() }}</h3>
+        <p>Sedang Dipinjam</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ $transactions->where('status','dikembalikan')->count() }}</h3>
+        <p>Selesai</p>
+    </div>
 
 </div>
 
@@ -320,36 +566,48 @@ td{
 
 </td>
 
-    <!-- PAYMENT -->
-    <td>
+   <!-- PAYMENT -->
+<td>
 
-        @if(!$t->payment_status)
+    @if($t->payment_status == 'dibatalkan')
 
-            <span class="badge badge-belum">
-                Belum
-            </span>
+        <span class="badge badge-belum">
+            Dibatalkan
+        </span>
 
-        @elseif($t->payment_status == 'pending')
+    @elseif(!$t->payment_status)
 
-            <span class="badge badge-pending">
-                Menunggu
-            </span>
+        <span class="badge badge-belum">
+            Belum
+        </span>
 
-        @elseif($t->payment_status == 'approved')
+    @elseif($t->payment_status == 'pending')
 
-            <span class="badge badge-lunas">
-                Lunas
-            </span>
+        <span class="badge badge-pending">
+            Menunggu
+        </span>
 
-        @elseif($t->payment_status == 'rejected')
+    @elseif($t->payment_status == 'approved')
 
-            <span class="badge badge-belum">
-                Ditolak
-            </span>
+        <span class="badge badge-lunas">
+            Lunas
+        </span>
 
-        @endif
+    @elseif($t->payment_status == 'rejected')
 
-    </td>
+        <span class="badge badge-belum">
+            Ditolak
+        </span>
+
+    @elseif($t->payment_status == 'dibatalkan')
+
+    <span class="badge badge-belum">
+        Dibatalkan
+    </span>
+
+    @endif
+
+</td>
 
     <!-- BUKTI -->
     <td>

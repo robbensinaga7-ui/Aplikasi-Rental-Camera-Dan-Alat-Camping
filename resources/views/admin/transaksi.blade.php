@@ -5,96 +5,198 @@
 @section('style')
 <style>
 
-/* TITLE */
-h2{
-    margin-bottom: 15px;
+/* HERO */
+.hero-transaksi{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:25px 30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+    position:relative;
+    overflow:hidden;
 }
 
-/* TABLE BOX */
+.hero-transaksi::before{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    right:-50px;
+    top:-50px;
+}
+
+.hero-transaksi h1{
+    margin:0;
+    font-size:32px;
+}
+
+.hero-transaksi p{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.hero-count{
+    background:rgba(255,255,255,.2);
+    padding:15px 25px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* TABLE CARD */
 .table-box{
-    background: linear-gradient(135deg,#ffffff,#f9fbfd);
-    padding: 15px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
 /* TABLE */
-.table {
-    width: 100%;
-    border-collapse: collapse;
+.table{
+    width:100%;
+    border-collapse:collapse;
 }
 
-/* HEADER */
-.table th {
-    background: linear-gradient(135deg,#2c3e50,#34495e);
-    color: white;
-    padding: 12px;
+.table th{
+    background:linear-gradient(135deg,#0f172a,#334155);
+    color:white;
+    padding:14px;
+    font-size:14px;
 }
 
-/* CELL */
-.table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-    transition: 0.3s;
+.table td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+    transition:.3s;
 }
 
-/* HOVER */
-.table tr:hover {
-    background: #f1f6fb;
+.table tr{
+    transition:.3s;
+}
+
+.table tr:hover{
+    background:#f5faff;
 }
 
 /* BUTTON */
-.btn {
+.btn{
     border:none;
-    padding:6px 12px;
-    border-radius:6px;
+    padding:8px 14px;
+    border-radius:10px;
     color:white;
     cursor:pointer;
-    transition:0.3s;
+    transition:.3s;
+    font-weight:500;
 }
 
-.btn:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+.btn:hover{
+    transform:translateY(-2px);
 }
 
-.btn-blue { background:#3498db; }
-.btn-green { background:#2ecc71; }
-.btn-red { background:#e74c3c; }
+.btn-blue{
+    background:linear-gradient(135deg,#4facfe,#00c6fb);
+}
+
+.btn-green{
+    background:linear-gradient(135deg,#00c853,#69f0ae);
+}
+
+.btn-red{
+    background:linear-gradient(135deg,#ff5252,#ff1744);
+}
 
 /* BADGE */
-.badge {
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: 12px;
+.badge{
+    padding:7px 14px;
+    border-radius:20px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
 }
 
-.badge-blue { background:#3498db; }
-.badge-green { background:#2ecc71; }
-.badge-red { background:#e74c3c; }
-.badge-orange { background:#f39c12; }
+.badge-blue{
+    background:linear-gradient(135deg,#4facfe,#00c6fb);
+}
+
+.badge-green{
+    background:linear-gradient(135deg,#00c853,#69f0ae);
+}
+
+.badge-red{
+    background:linear-gradient(135deg,#ff5252,#ff1744);
+}
+
+.badge-orange{
+    background:linear-gradient(135deg,#ff9800,#ffc107);
+}
 
 /* IMAGE */
-img {
-    border-radius: 8px;
-    transition: 0.3s;
+img{
+    border-radius:12px;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-img:hover {
-    transform: scale(1.1);
+img:hover{
+    transform:scale(1.08);
 }
 
+/* TOTAL */
+.total-price{
+    font-weight:bold;
+    color:#0f172a;
+}
+
+/* DENDA */
+.fine{
+    color:#e74c3c;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+.hero-transaksi{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.table-box{
+    overflow-x:auto;
+}
+
+}
 </style>
 @endsection
 
 @section('content')
 
-<h2>📄 Data Transaksi</h2>
+<div class="hero-transaksi">
+
+    <div>
+        <h1>📄 Data Transaksi</h1>
+        <p>Kelola transaksi penyewaan kamera dan alat camping</p>
+    </div>
+
+    <div class="hero-count">
+        {{ count($data) }} Transaksi
+    </div>
+
+</div>
 
 <div class="table-box">
+
 <table class="table">
+
     <thead>
         <tr>
             <th>No</th>
@@ -113,90 +215,169 @@ img:hover {
     </thead>
 
     <tbody>
+
         @foreach ($data as $i => $item)
+
         <tr>
+
             <td>{{ $i+1 }}</td>
+
             <td>{{ $item->user->name ?? '-' }}</td>
+
             <td>{{ $item->product->name ?? '-' }}</td>
+
             <td>{{ $item->qty }}</td>
+
             <td>{{ $item->rent_date }}</td>
+
             <td>{{ $item->return_date }}</td>
 
-            <td>
-                Rp {{ number_format($item->price + $item->fine, 0, ',', '.') }}
+            <td class="total-price">
+                Rp {{ number_format($item->price + $item->fine,0,',','.') }}
             </td>
 
-            <!-- STATUS -->
             <td>
+
                 @if($item->status == 'dipinjam')
-                    <span class="badge badge-blue">Dipinjam</span>
+
+                    <span class="badge badge-blue">
+                        Dipinjam
+                    </span>
 
                 @elseif($item->status == 'menunggu_konfirmasi')
+
                     <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
                         @csrf
-                        <button class="btn btn-green">Konfirmasi</button>
+                        <button class="btn btn-green">
+                            Konfirmasi
+                        </button>
                     </form>
 
                 @elseif($item->status == 'dikembalikan')
-                    <span class="badge badge-green">Selesai</span>
+
+                    <span class="badge badge-green">
+                        Selesai
+                    </span>
 
                 @elseif($item->status == 'ditolak')
-                    <span class="badge badge-red">Ditolak</span>
+
+                    <span class="badge badge-red">
+                        Ditolak
+                    </span>
+
+                    @elseif($item->status == 'dibatalkan')
+
+    <span class="badge badge-red">
+        Dibatalkan
+    </span>
+
                 @endif
+
             </td>
 
-            <!-- DENDA -->
-            <td>Rp {{ $item->fine ?? 0 }}</td>
+            <td class="fine">
+                Rp {{ number_format($item->fine ?? 0,0,',','.') }}
+            </td>
 
             <!-- BUKTI -->
             <td>
+
                 @if($item->payment_proof)
-                    <img src="{{ asset('storage/'.$item->payment_proof) }}" width="70">
+
+                    <img
+                    src="{{ asset('storage/'.$item->payment_proof) }}"
+                    width="70">
+
                 @else
+
                     -
+
                 @endif
+
             </td>
 
             <!-- PEMBAYARAN -->
             <td>
-                @if($item->payment_status == 'pending')
 
-                    <form action="{{ url('/admin/acc/'.$item->id) }}" method="POST" style="display:inline;">
+               @if($item->payment_status == 'pending' && $item->status != 'dibatalkan')
+
+                    <form action="{{ url('/admin/acc/'.$item->id) }}"
+                    method="POST"
+                    style="display:inline;">
+
                         @csrf
-                        <button class="btn btn-green">✔</button>
+
+                        <button class="btn btn-green">
+                            ✔
+                        </button>
+
                     </form>
 
-                    <form action="{{ url('/admin/tolak/'.$item->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ url('/admin/tolak/'.$item->id) }}"
+                    method="POST"
+                    style="display:inline;">
+
                         @csrf
-                        <button class="btn btn-red">✖</button>
+
+                        <button class="btn btn-red">
+                            ✖
+                        </button>
+
                     </form>
 
                 @elseif($item->payment_status == 'approved')
-                    <span class="badge badge-green">Lunas</span>
+
+                    <span class="badge badge-green">
+                        Lunas
+                    </span>
 
                 @elseif($item->payment_status == 'rejected')
-                    <span class="badge badge-red">Ditolak</span>
+
+                    <span class="badge badge-red">
+                        Ditolak
+                    </span>
 
                 @else
-                    <span class="badge badge-orange">Belum</span>
+
+                    <span class="badge badge-orange">
+                        Belum
+                    </span>
+
                 @endif
+
             </td>
 
             <td>
+
                 @if($item->status == 'dipinjam')
-                    <form action="/kembalikan/{{ $item->id }}" method="POST">
+
+                    <form action="/kembalikan/{{ $item->id }}"
+                    method="POST">
+
                         @csrf
-                        <button class="btn btn-blue">Kembalikan</button>
+
+                        <button class="btn btn-blue">
+                            Kembalikan
+                        </button>
+
                     </form>
+
                 @else
+
                     ✔
+
                 @endif
+
             </td>
 
         </tr>
+
         @endforeach
+
     </tbody>
+
 </table>
+
 </div>
 
 @endsection

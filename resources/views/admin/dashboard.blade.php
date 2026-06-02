@@ -5,22 +5,66 @@
 @section('style')
 <style>
 
+.hero-dashboard{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
+
+.hero-dashboard h1{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.hero-dashboard p{
+    opacity:.9;
+    font-size:15px;
+}
+
 .stats{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
 }
 
 .card-stat{
-    border-radius:20px;
+    border-radius:25px;
     padding:25px;
     color:white;
     transition:.4s;
     box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.card-stat::before{
+    content:'';
+    position:absolute;
+    width:120px;
+    height:120px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+    top:-30px;
+    right:-30px;
+}
+
+.card-stat::after{
+    content:'';
+    position:absolute;
+    width:70px;
+    height:70px;
+    background:rgba(255,255,255,.1);
+    border-radius:50%;
+    bottom:-20px;
+    left:-20px;
 }
 
 .card-stat:hover{
-    transform:translateY(-8px);
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
 
 .card-blue{
@@ -46,6 +90,7 @@
 .card-red{
     background:linear-gradient(135deg,#ff758c,#ff7eb3);
 }
+
 .card-cyan{
     background:linear-gradient(135deg,#36d1dc,#5b86e5);
 }
@@ -53,36 +98,72 @@
 .card-pink{
     background:linear-gradient(135deg,#ff9a9e,#fad0c4);
 }
+
 .card-stat h3{
     margin-top:10px;
-    font-size:16px;
+    font-size:18px;
+    font-weight:600;
 }
 
 .card-stat p{
-    font-size:30px;
+    font-size:36px;
     font-weight:bold;
     margin-top:10px;
 }
 
+.card{
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+    margin-top:25px;
+}
+
 .chart-box{
-    width:350px;
-    height:350px;
+    width:450px;
+    height:450px;
     margin:auto;
 }
 
 .activity-item{
-    padding:10px 0;
-    border-bottom:1px solid #eee;
+    background:#f8fafc;
+    border-left:5px solid #4facfe;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:12px;
+    transition:.3s;
 }
 
+.activity-item:hover{
+    transform:translateX(5px);
+    background:#eef7ff;
+}
+
+@media(max-width:768px){
+
+    .chart-box{
+        width:100%;
+        height:320px;
+    }
+
+    .hero-dashboard h1{
+        font-size:28px;
+    }
+
+}
 </style>
 @endsection
 
 @section('content')
 
-<h1 class="page-title">Dashboard Admin</h1>
+<div class="hero-dashboard">
+    <h1>🏕 Dashboard Admin</h1>
+    <p>
+        Selamat datang di Sistem Rental Kamera & Alat Camping
+    </p>
+</div>
 
-<!-- CARD STAT -->
 <div class="stats">
 
     <x-admin-stat
@@ -93,11 +174,11 @@
     />
 
     <x-admin-stat
-    color="card-blue"
-    icon="👥"
-    title="Pelanggan"
-    :value="$pelangganCount"
-/>
+        color="card-blue"
+        icon="👥"
+        title="Pelanggan"
+        :value="$pelangganCount"
+    />
 
     <x-admin-stat
         color="card-green"
@@ -113,7 +194,6 @@
         :value="$totalBooking"
     />
 
-    <!-- PEMINJAMAN -->
     <x-admin-stat
         color="card-cyan"
         icon="📥"
@@ -121,7 +201,6 @@
         :value="$peminjamanCount"
     />
 
-    <!-- PENGEMBALIAN -->
     <x-admin-stat
         color="card-pink"
         icon="📤"
@@ -145,7 +224,6 @@
 
 </div>
 
-<!-- CHART -->
 <div class="card">
 
     <h3 style="text-align:center;margin-bottom:20px;">
@@ -158,7 +236,6 @@
 
 </div>
 
-<!-- AKTIVITAS -->
 <div class="card">
 
     <h3 style="margin-bottom:15px;">
@@ -181,7 +258,6 @@
 
 @section('script')
 
-<!-- CHART JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -193,22 +269,20 @@ if(data.length !== 0){
 
 new Chart(document.getElementById('chartTransaksi'), {
 
-    type:'pie',
+    type:'doughnut',
 
     data:{
         labels:labels,
 
         datasets:[{
             data:data,
-
             backgroundColor:[
                 '#f39c12',
                 '#2ecc71',
                 '#3498db',
                 '#e74c3c'
             ],
-
-            borderWidth:2,
+            borderWidth:3,
             borderColor:'#fff'
         }]
     },

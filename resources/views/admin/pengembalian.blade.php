@@ -5,20 +5,58 @@
 @section('style')
 <style>
 
-/* PAGE TITLE */
-.page-title{
-    margin-bottom:20px;
-    font-size:28px;
-    font-weight:700;
-    color:#1e293b;
+/* HERO */
+.hero-return{
+    background:linear-gradient(135deg,#ff9966,#ff5e62);
+    color:white;
+    padding:25px 30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-return::before{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-50px;
+    right:-50px;
+}
+
+.hero-return h1{
+    margin:0;
+    font-size:32px;
+}
+
+.hero-return p{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.hero-count{
+    background:rgba(255,255,255,.2);
+    padding:15px 25px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    font-size:22px;
+    font-weight:bold;
 }
 
 /* CARD */
 .return-card{
-    background:linear-gradient(135deg,#ffffff,#f9fbfd);
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
 /* TABLE */
@@ -31,16 +69,14 @@ table{
     border-collapse:collapse;
 }
 
-/* HEADER */
 th{
-    background:linear-gradient(135deg,#1e293b,#334155);
+    background:linear-gradient(135deg,#0f172a,#334155);
     color:white;
     padding:14px;
     font-size:14px;
     white-space:nowrap;
 }
 
-/* BODY */
 td{
     padding:14px;
     text-align:center;
@@ -50,11 +86,11 @@ td{
 }
 
 tr{
-    transition:0.3s;
+    transition:.3s;
 }
 
 tr:hover{
-    background:#f8fbff;
+    background:#f5faff;
 }
 
 /* BADGE */
@@ -68,44 +104,54 @@ tr:hover{
 }
 
 .badge-orange{
-    background:linear-gradient(135deg,#f6b93b,#fa983a);
+    background:linear-gradient(135deg,#ff9800,#ffc107);
 }
 
 /* BUTTON */
 .btn{
     border:none;
-    padding:9px 14px;
+    padding:10px 16px;
     border-radius:10px;
     cursor:pointer;
     color:white;
     font-size:13px;
-    font-weight:500;
-    transition:0.3s;
+    font-weight:600;
+    transition:.3s;
 }
 
 .btn:hover{
     transform:translateY(-2px);
-    opacity:0.95;
 }
 
 .btn-green{
-    background:linear-gradient(135deg,#43e97b,#38f9d7);
-    box-shadow:0 5px 15px rgba(67,233,123,0.3);
+    background:linear-gradient(135deg,#00c853,#69f0ae);
+    box-shadow:0 5px 15px rgba(0,200,83,.3);
 }
 
 /* EMPTY */
 .empty-data{
     text-align:center;
-    padding:30px;
+    padding:35px;
     color:#94a3b8;
     font-size:15px;
 }
 
-/* RESPONSIVE */
+/* NUMBER */
+.number{
+    font-weight:bold;
+    color:#0f172a;
+}
+
 @media(max-width:768px){
 
-.page-title{
-    font-size:22px;
+.hero-return{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.hero-return h1{
+    font-size:28px;
 }
 
 th,
@@ -115,20 +161,28 @@ td{
 }
 
 .btn{
-    padding:7px 10px;
+    padding:8px 12px;
     font-size:12px;
 }
 
 }
-
 </style>
 @endsection
 
 @section('content')
 
-<h1 class="page-title">
-    📤 Data Pengembalian
-</h1>
+<div class="hero-return">
+
+    <div>
+        <h1>📤 Data Pengembalian</h1>
+        <p>Kelola pengembalian alat camping dan kamera dari pelanggan</p>
+    </div>
+
+    <div class="hero-count">
+        {{ count($data) }} Data
+    </div>
+
+</div>
 
 <div class="return-card">
 
@@ -157,7 +211,9 @@ td{
 
         <tr>
 
-            <td>{{ $i+1 }}</td>
+            <td class="number">
+                {{ $i+1 }}
+            </td>
 
             <td>
                 {{ $item->user->name ?? '-' }}
@@ -192,7 +248,7 @@ td{
                     @csrf
 
                     <button class="btn btn-green">
-                        Konfirmasi
+                        ✔ Konfirmasi
                     </button>
 
                 </form>
@@ -209,7 +265,7 @@ td{
 
     <tr>
         <td colspan="8" class="empty-data">
-            Tidak ada data pengembalian
+            📭 Tidak ada data pengembalian
         </td>
     </tr>
 

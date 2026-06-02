@@ -152,6 +152,140 @@ position:relative;
 overflow:hidden;
 }
 
+/* STATS */
+.stats{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+padding:50px 20px;
+background:#ffffff;
+}
+
+.stat-card{
+background:white;
+padding:25px;
+width:220px;
+text-align:center;
+border-radius:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.4s;
+}
+
+.stat-card:hover{
+transform:translateY(-10px);
+}
+
+.stat-card h2{
+font-size:36px;
+color:#2f80ed;
+margin-bottom:10px;
+}
+
+.stat-card p{
+color:#666;
+}
+
+/* VISION */
+.vision{
+padding:80px 20px;
+background:linear-gradient(135deg,#ffffff,#eef6ff);
+text-align:center;
+}
+
+.vision h2{
+font-size:40px;
+margin-bottom:40px;
+color:#2c3e50;
+}
+
+.vision-box{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.vision-card{
+background:white;
+padding:30px;
+width:320px;
+border-radius:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.4s;
+}
+
+.vision-card:hover{
+transform:translateY(-10px);
+}
+
+.vision-card h3{
+margin-bottom:15px;
+color:#2f80ed;
+}
+
+/* WHY US */
+.why-us{
+padding:80px 20px;
+background:#f8fbff;
+text-align:center;
+}
+
+.why-us h2{
+font-size:40px;
+margin-bottom:40px;
+color:#2c3e50;
+}
+
+.why-grid{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.why-item{
+background:white;
+padding:25px;
+width:260px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.4s;
+}
+
+.why-item:hover{
+transform:translateY(-10px);
+}
+
+.why-item .icon{
+font-size:45px;
+margin-bottom:15px;
+}
+.vision-card p{
+    color:#555;
+    line-height:1.7;
+    font-size:15px;
+    margin-top:10px;
+}
+
+.why-item h3{
+    color:#2c3e50;
+    margin:15px 0 10px;
+    font-size:20px;
+}
+
+.why-item p{
+    color:#666;
+    line-height:1.6;
+}
+
+.vision-card{
+    min-height:220px;
+}
+
+.why-item{
+    min-height:220px;
+}
 /* glow */
 .member::before{
 content:"";
@@ -263,6 +397,83 @@ Manajemen barang, transaksi, dan perhitungan otomatis dalam satu sistem.
 <p>
 Desain modern, mudah digunakan, dan cocok untuk bisnis rental kecil maupun besar.
 </p>
+</div>
+
+</section>
+<!-- STATS -->
+<section class="stats">
+
+<div class="stat-card" data-aos="zoom-in">
+<h2>100+</h2>
+<p>Pelanggan</p>
+</div>
+
+<div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+<h2>50+</h2>
+<p>Produk Rental</p>
+</div>
+
+<div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+<h2>24/7</h2>
+<p>Layanan</p>
+</div>
+
+</section>
+
+<!-- VISI MISI -->
+<section class="vision">
+
+<h2 data-aos="fade-up">
+🎯 Visi & Misi
+</h2>
+
+<div class="vision-box">
+
+<div class="vision-card" data-aos="fade-right">
+<h3>🌟 Visi</h3>
+<p>
+Menjadi platform rental alat camping dan petualangan terbaik yang mudah diakses oleh semua orang.
+</p>
+</div>
+
+<div class="vision-card" data-aos="fade-left">
+<h3>🚀 Misi</h3>
+<p>
+Memberikan layanan rental yang cepat, aman, modern, dan terpercaya bagi seluruh pelanggan.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- WHY US -->
+<section class="why-us">
+
+<h2 data-aos="fade-up">
+🏕️ Mengapa Memilih Kami?
+</h2>
+
+<div class="why-grid">
+
+<div class="why-item" data-aos="zoom-in">
+<div class="icon">⚡</div>
+<h3>Cepat</h3>
+<p>Proses peminjaman lebih cepat dan mudah.</p>
+</div>
+
+<div class="why-item" data-aos="zoom-in" data-aos-delay="100">
+<div class="icon">🔒</div>
+<h3>Aman</h3>
+<p>Data dan transaksi pelanggan terjamin aman.</p>
+</div>
+
+<div class="why-item" data-aos="zoom-in" data-aos-delay="200">
+<div class="icon">🎒</div>
+<h3>Lengkap</h3>
+<p>Banyak pilihan alat camping dan petualangan.</p>
+</div>
+
 </div>
 
 </section>
