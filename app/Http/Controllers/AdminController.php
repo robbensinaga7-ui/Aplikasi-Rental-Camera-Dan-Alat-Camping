@@ -97,11 +97,13 @@ public function updatePelanggan(Request $request, int $id)
 
     return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil diperbarui.');
 }
-public function destroyPelanggan(int $id)
+public function deletePelanggan($id)
 {
     $pelanggan = User::findOrFail($id);
+
     $pelanggan->delete();
 
-    return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil dihapus.');
+    return redirect('/admin/pelanggan')
+            ->with('success', 'Pelanggan berhasil dihapus');
 }
 }
