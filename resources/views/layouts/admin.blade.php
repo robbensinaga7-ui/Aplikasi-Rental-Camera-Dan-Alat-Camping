@@ -17,9 +17,32 @@
 }
 
 body{
-    background:linear-gradient(135deg,#eef2f7,#f8fbff);
+    background:#f1f5f9;
+    min-height:100vh;
 }
 
+/* DEKORASI */
+.bg-decoration{
+    position:fixed;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    background:rgba(79,172,254,.08);
+    top:-150px;
+    right:-100px;
+    z-index:-1;
+}
+
+.bg-decoration2{
+    position:fixed;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(168,85,247,.06);
+    bottom:-100px;
+    left:-100px;
+    z-index:-1;
+}
 /* WRAPPER */
 .wrapper{
     display:flex;
@@ -28,20 +51,34 @@ body{
 
 /* SIDEBAR */
 .sidebar{
-    width:240px;
-    background:linear-gradient(180deg,#1e293b,#334155);
+    width:260px;
+    background:linear-gradient(
+        180deg,
+        #0f172a,
+        #1e293b,
+        #334155
+    );
     padding:20px;
     position:fixed;
     top:0;
-    left:0;
+    left:-260px;
     bottom:0;
     overflow-y:auto;
+    box-shadow:5px 0 25px rgba(0,0,0,.25);
+    transition:.4s ease;
+    z-index:1000;
+}
+
+.sidebar.show{
+    left:0;
 }
 
 .sidebar h2{
     color:white;
     text-align:center;
     margin-bottom:35px;
+    font-size:28px;
+    font-weight:700;
 }
 
 .sidebar a{
@@ -50,43 +87,39 @@ body{
     gap:10px;
     text-decoration:none;
     color:white;
-    padding:13px 15px;
-    border-radius:12px;
+    padding:14px 16px;
+    border-radius:14px;
     margin-bottom:10px;
     transition:.3s;
 }
 
 .sidebar a:hover,
 .sidebar a.active{
-    background:rgba(255,255,255,0.15);
-    transform:translateX(5px);
+    background:rgba(255,255,255,.15);
+    transform:translateX(6px);
 }
 
-/* CONTENT */
 .content{
-    margin-left:240px;
     width:100%;
-    padding:25px;
+    padding:30px;
 }
 
-/* TITLE */
 .page-title{
-    font-size:28px;
+    font-size:30px;
     font-weight:700;
-    color:#1e293b;
+    color:white;
     margin-bottom:20px;
 }
 
-/* CARD */
 .card{
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
     margin-bottom:20px;
 }
 
-/* TABLE */
 .table-box{
     overflow-x:auto;
 }
@@ -94,10 +127,12 @@ body{
 table{
     width:100%;
     border-collapse:collapse;
+    border-radius:15px;
+    overflow:hidden;
 }
 
 th{
-    background:linear-gradient(135deg,#1e293b,#334155);
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
     color:white;
     padding:14px;
     font-size:14px;
@@ -110,14 +145,13 @@ td{
 }
 
 tr:hover{
-    background:#f8fbff;
+    background:#f5faff;
 }
 
-/* BUTTON */
 .btn{
     border:none;
-    padding:8px 14px;
-    border-radius:8px;
+    padding:10px 16px;
+    border-radius:10px;
     color:white;
     cursor:pointer;
     transition:.3s;
@@ -145,7 +179,6 @@ tr:hover{
     background:#f39c12;
 }
 
-/* BADGE */
 .badge{
     padding:6px 12px;
     border-radius:20px;
@@ -158,10 +191,9 @@ tr:hover{
 .badge-danger{background:#e74c3c;}
 .badge-warning{background:#f39c12;}
 
-/* IMAGE */
 .table-img{
     width:75px;
-    border-radius:10px;
+    border-radius:12px;
     transition:.3s;
 }
 
@@ -169,20 +201,39 @@ tr:hover{
     transform:scale(1.1);
 }
 
+/* SCROLLBAR */
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#4facfe;
+    border-radius:20px;
+}
+.menu-toggle{
+    position:fixed;
+    top:15px;
+    left:15px;
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#0f172a;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+    z-index:1100;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
 /* RESPONSIVE */
 @media(max-width:900px){
 
 .sidebar{
-    width:100%;
-    position:relative;
+    width:260px;
 }
 
 .content{
     margin-left:0;
-}
-
-.wrapper{
-    flex-direction:column;
 }
 
 }
@@ -194,9 +245,15 @@ tr:hover{
 </head>
 <body>
 
+<button class="menu-toggle" onclick="toggleSidebar()">
+☰
+</button>
+
+<div class="bg-decoration"></div>
+<div class="bg-decoration2"></div>
+
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
 
         <h2>🏕 Admin</h2>
@@ -210,31 +267,38 @@ tr:hover{
         </a>
 
         <a href="/admin/pelanggan"
-   class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
-    👥 Pelanggan
-</a>
+           class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
+            👥 Pelanggan
+        </a>
 
-        <a href="/admin/transaksi" class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
+        <a href="/admin/transaksi"
+           class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
             💰 Transaksi
         </a>
 
-       
+        <a href="/admin/pembayaran"
+   class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
+    💳 Pembayaran
+</a>
 
-        <a href="/admin/peminjaman" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
+        <a href="/admin/peminjaman"
+           class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
             📥 Peminjaman
         </a>
 
-        <a href="/admin/pengembalian" class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}">
+        <a href="/admin/pengembalian"
+           class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}">
             📤 Pengembalian
         </a>
 
-        <a href="/logout" class="btn btn-danger" style="margin-top:20px;text-align:center;width:100%;">
+        <a href="/logout"
+           class="btn btn-danger"
+           style="margin-top:20px;text-align:center;width:100%;">
             🚪 Keluar
         </a>
 
     </div>
 
-    <!-- CONTENT -->
     <div class="content">
         @yield('content')
     </div>
@@ -242,6 +306,29 @@ tr:hover{
 </div>
 
 @yield('script')
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+<script>
+Swal.fire({
+    toast:true,
+    position:'top-end',
+    icon:'success',
+    title:'{{ session("success") }}',
+    showConfirmButton:false,
+    timer:3000,
+    timerProgressBar:true
+});
+</script>
+@endif
+
+<script>
+function toggleSidebar(){
+    document.querySelector('.sidebar')
+    .classList.toggle('show');
+}
+</script>
 
 </body>
 </html>

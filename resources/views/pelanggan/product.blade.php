@@ -18,7 +18,118 @@
     color:#64748b;
     margin-bottom:25px;
 }
+/* HERO */
+.hero-product{
+    background:linear-gradient(135deg,#3498db,#6c5ce7);
+    color:white;
+    padding:35px;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 15px 35px rgba(52,152,219,.25);
+}
 
+.hero-product h1{
+    font-size:34px;
+    margin-bottom:10px;
+    color:white;
+}
+
+.hero-product p{
+    opacity:.95;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.4s;
+    overflow:hidden;
+    position:relative;
+}
+
+.stat-card::before{
+    content:'';
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-30px;
+    right:-30px;
+}
+
+.stat-card h2,
+.stat-card p{
+    color:white;
+}
+
+/* DECORATION */
+.content{
+    position:relative;
+}
+
+.content::before{
+    content:'';
+    position:fixed;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(52,152,219,.08);
+    top:-100px;
+    right:-100px;
+    z-index:-1;
+}
+
+.content::after{
+    content:'';
+    position:fixed;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:rgba(108,92,231,.08);
+    bottom:-100px;
+    left:-100px;
+    z-index:-1;
+}
+
+/* STOCK BADGE */
+.stock-badge{
+    position:absolute;
+    top:15px;
+    right:15px;
+    padding:8px 12px;
+    border-radius:20px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+.stock-ready{
+    background:#2ecc71;
+}
+
+.stock-empty{
+    background:#e74c3c;
+}
+
+/* FORM BOX */
+.form-box{
+    margin-top:15px;
+    padding:15px;
+    background:#f8fbff;
+    border-radius:18px;
+}
 /* PRODUCT CONTAINER */
 .product-container{
     display:grid;
@@ -166,7 +277,148 @@ to{
 }
 
 }
+/* ANIMASI TAMBAHAN */
 
+@keyframes fadeLeft{
+    from{
+        opacity:0;
+        transform:translateX(-40px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+    100%{
+        transform:translateY(0);
+    }
+}
+
+@keyframes zoomSlow{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.04);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* HERO */
+.hero-product{
+    animation:fadeLeft .8s ease;
+}
+
+/* STATISTIK */
+.stat-card{
+    animation:fadeUp .8s ease;
+}
+
+.stat-card:nth-child(1){
+    animation-delay:.1s;
+}
+
+.stat-card:nth-child(2){
+    animation-delay:.2s;
+}
+
+.stat-card:nth-child(3){
+    animation-delay:.3s;
+}
+
+.stat-card h2{
+    animation:pulse 2s infinite;
+}
+
+/* CARD PRODUK */
+.product-card{
+    animation:fadeUp .8s ease;
+}
+
+.product-card:nth-child(1){
+    animation-delay:.1s;
+}
+
+.product-card:nth-child(2){
+    animation-delay:.2s;
+}
+
+.product-card:nth-child(3){
+    animation-delay:.3s;
+}
+
+.product-card:nth-child(4){
+    animation-delay:.4s;
+}
+
+/* BADGE STOK */
+.stock-badge{
+    animation:float 3s infinite ease-in-out;
+}
+
+/* GAMBAR */
+.product-img{
+    animation:zoomSlow 5s infinite ease-in-out;
+}
+
+/* BUTTON */
+.btn-sewa{
+    animation:pulse 2.5s infinite;
+}
+
+.btn-sewa:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 10px 20px rgba(52,152,219,.3);
+}
+
+/* FORM */
+.form-box{
+    transition:.3s;
+}
+
+.product-card:hover .form-box{
+    background:#eef7ff;
+}
+
+/* HERO BULATAN */
+.hero-product::before{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+    top:-70px;
+    right:-70px;
+    animation:float 5s infinite;
+}
+
+.hero-product{
+    position:relative;
+    overflow:hidden;
+}
 /* RESPONSIVE */
 @media(max-width:768px){
 
@@ -199,9 +451,35 @@ to{
 
 <div class="content">
 
-<h1>📦 Produk Camping</h1>
+<div class="hero-product">
 
-<!-- ✅ CONTAINER TAMBAHAN -->
+    <h1>🏕 Produk Camping</h1>
+
+    <p>
+        Pilih perlengkapan camping terbaik untuk petualanganmu
+    </p>
+
+</div>
+
+<div class="stats">
+
+    <div class="stat-card">
+        <h2>{{ $products->count() }}</h2>
+        <p>Total Produk</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ $products->where('stock','>',0)->count() }}</h2>
+        <p>Produk Tersedia</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ $products->where('stock','<=',0)->count() }}</h2>
+        <p>Stok Habis</p>
+    </div>
+
+</div>
+
 
 <div class="product-container">
 
@@ -209,27 +487,35 @@ to{
 
 <div class="product-card">
 
-    <!-- IMAGE -->
+    @if($product->stock > 0)
+        <span class="stock-badge stock-ready">
+            ✅ Tersedia
+        </span>
+    @else
+        <span class="stock-badge stock-empty">
+            ❌ Habis
+        </span>
+    @endif
+
     <img
     class="product-img"
     src="{{ asset('storage/' . $product->image) }}"
     alt="{{ $product->name }}">
 
-    <!-- TITLE -->
     <h3 class="product-title">
         {{ $product->name }}
     </h3>
 
-    <!-- INFO -->
     <p class="product-info">
         📦 Stok : {{ $product->stock }}
     </p>
 
     <p class="product-price">
-        Rp {{ number_format($product->price,0,',','.') }}
+        Rp {{ number_format($product->price,0,',','.') }}/hari
     </p>
 
-    <!-- FORM -->
+    <div class="form-box">
+
     <form action="{{ route('sewa.store') }}" method="POST">
 
         @csrf
@@ -259,10 +545,12 @@ to{
         class="form-input">
 
         <button type="submit" class="btn-sewa">
-            Sewa Sekarang
+            🚀 Sewa Sekarang
         </button>
 
     </form>
+
+    </div>
 
 </div>
 

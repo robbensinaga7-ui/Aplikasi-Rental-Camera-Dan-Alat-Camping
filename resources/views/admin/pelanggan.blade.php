@@ -2,17 +2,267 @@
 
 @section('title','Data Pelanggan')
 
+@section('style')
+<style>
+
+/* HERO */
+.hero-customer{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    padding:25px 30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-customer::before{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-50px;
+    right:-50px;
+}
+
+.hero-customer h1{
+    margin:0;
+    font-size:32px;
+}
+
+.hero-customer p{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.hero-count{
+    background:rgba(255,255,255,.2);
+    padding:15px 25px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* CARD */
+.customer-card{
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+/* BUTTON */
+.btn-add{
+    background:linear-gradient(135deg,#00c853,#69f0ae);
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:14px;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+tr{
+    transition:.3s;
+}
+
+tr:hover{
+    background:#f5faff;
+}
+
+.btn-warning{
+    background:linear-gradient(135deg,#ff9800,#ffc107);
+}
+
+.btn-danger{
+    background:linear-gradient(135deg,#ff5252,#ff1744);
+}
+
+.number{
+    font-weight:bold;
+    color:#0f172a;
+}
+
+@media(max-width:768px){
+
+.hero-customer{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+}
+/* ==========================
+   ANIMASI DATA PELANGGAN
+========================== */
+
+/* Hero */
+.hero-customer{
+    opacity:0;
+    transform:translateY(-30px);
+    animation:fadeDown .8s ease forwards;
+}
+
+.hero-customer::before{
+    animation:float 6s ease-in-out infinite;
+}
+
+/* Counter */
+.hero-count{
+    animation:pulse 2s infinite;
+}
+
+/* Card */
+.customer-card{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s ease forwards;
+    animation-delay:.3s;
+}
+
+/* Tombol */
+.btn-add,
+.btn-warning,
+.btn-danger{
+    transition:.3s;
+}
+
+.btn-add:hover,
+.btn-warning:hover,
+.btn-danger:hover{
+    transform:translateY(-3px) scale(1.05);
+}
+
+/* Header tabel */
+th{
+    position:sticky;
+    top:0;
+    z-index:1;
+}
+
+/* Animasi baris tabel */
+table tr{
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp .5s ease forwards;
+}
+
+table tr:nth-child(1){animation-delay:.1s;}
+table tr:nth-child(2){animation-delay:.2s;}
+table tr:nth-child(3){animation-delay:.3s;}
+table tr:nth-child(4){animation-delay:.4s;}
+table tr:nth-child(5){animation-delay:.5s;}
+table tr:nth-child(6){animation-delay:.6s;}
+table tr:nth-child(7){animation-delay:.7s;}
+table tr:nth-child(8){animation-delay:.8s;}
+table tr:nth-child(9){animation-delay:.9s;}
+table tr:nth-child(10){animation-delay:1s;}
+
+/* Hover tabel */
+tr:hover{
+    background:#eef8ff;
+    transform:scale(1.01);
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+/* Nomor ID */
+.number{
+    transition:.3s;
+}
+
+tr:hover .number{
+    color:#2563eb;
+    transform:scale(1.1);
+}
+
+/* Keyframes */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+</style>
+@endsection
+
 @section('content')
 
-<h1 class="page-title">
-    👥 Data Pelanggan
-</h1>
+<div class="hero-customer">
 
-<div class="card">
+    <div>
+        <h1>👥 Data Pelanggan</h1>
+        <p>Kelola seluruh data pelanggan rental kamera dan alat camping</p>
+    </div>
+
+    <div class="hero-count">
+        {{ count($data) }} Pelanggan
+    </div>
+
+</div>
+
+<div class="customer-card">
 
     <div style="margin-bottom:20px;">
 
-        <a href="/admin/pelanggan/create" class="btn btn-success">
+        <a href="/admin/pelanggan/create"
+           class="btn btn-add">
             ➕ Tambah Pelanggan
         </a>
 
@@ -35,7 +285,9 @@
 
             <tr>
 
-                <td>{{ $p->id }}</td>
+                <td class="number">
+                    {{ $p->id }}
+                </td>
 
                 <td>{{ $p->name }}</td>
 

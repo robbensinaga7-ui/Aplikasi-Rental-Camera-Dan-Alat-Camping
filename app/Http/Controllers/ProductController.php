@@ -70,9 +70,11 @@ public function update(Request $request, int $id)
 
     return redirect('/admin/product')->with('success', 'Product berhasil diupdate');
 }
-public function destroy($id)
+public function destroy(int $id)
 {
     Product::destroy($id);
-    return redirect('/admin/product');
+
+    return redirect('/admin/product')
+        ->with('success', 'Produk berhasil dihapus');
 }
 }

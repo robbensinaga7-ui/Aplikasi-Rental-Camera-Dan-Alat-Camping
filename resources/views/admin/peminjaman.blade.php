@@ -5,20 +5,58 @@
 @section('style')
 <style>
 
-/* PAGE TITLE */
-.page-title{
-    margin-bottom:20px;
-    font-size:28px;
-    font-weight:700;
-    color:#1e293b;
+/* HERO */
+.hero-loan{
+    background:linear-gradient(135deg,#36d1dc,#5b86e5);
+    color:white;
+    padding:25px 30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-loan::before{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-50px;
+    right:-50px;
+}
+
+.hero-loan h1{
+    margin:0;
+    font-size:32px;
+}
+
+.hero-loan p{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.hero-count{
+    background:rgba(255,255,255,.2);
+    padding:15px 25px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    font-size:22px;
+    font-weight:bold;
 }
 
 /* CARD */
 .loan-card{
-    background:linear-gradient(135deg,#ffffff,#f9fbfd);
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
 /* TABLE */
@@ -31,16 +69,14 @@ table{
     border-collapse:collapse;
 }
 
-/* HEADER */
 th{
-    background:linear-gradient(135deg,#1e293b,#334155);
+    background:linear-gradient(135deg,#0f172a,#334155);
     color:white;
     padding:14px;
     font-size:14px;
     white-space:nowrap;
 }
 
-/* BODY */
 td{
     padding:14px;
     text-align:center;
@@ -50,11 +86,11 @@ td{
 }
 
 tr{
-    transition:0.3s;
+    transition:.3s;
 }
 
 tr:hover{
-    background:#f8fbff;
+    background:#f5faff;
 }
 
 /* BADGE */
@@ -72,22 +108,34 @@ tr:hover{
 }
 
 .badge-green{
-    background:linear-gradient(135deg,#43e97b,#38f9d7);
+    background:linear-gradient(135deg,#00c853,#69f0ae);
 }
 
 /* EMPTY */
 .empty-data{
     text-align:center;
-    padding:30px;
+    padding:35px;
     color:#94a3b8;
     font-size:15px;
+}
+
+/* ROW NUMBER */
+.number{
+    font-weight:bold;
+    color:#0f172a;
 }
 
 /* RESPONSIVE */
 @media(max-width:768px){
 
-.page-title{
-    font-size:22px;
+.hero-loan{
+    flex-direction:column;
+    gap:15px;
+    text-align:center;
+}
+
+.hero-loan h1{
+    font-size:28px;
 }
 
 th,
@@ -97,15 +145,148 @@ td{
 }
 
 }
+/* ==========================
+   ANIMASI DATA PEMINJAMAN
+========================== */
 
+/* Hero */
+.hero-loan{
+    opacity:0;
+    transform:translateY(-30px);
+    animation:fadeDown .8s ease forwards;
+}
+
+.hero-loan::before{
+    animation:float 6s ease-in-out infinite;
+}
+
+/* Counter */
+.hero-count{
+    animation:pulse 2s infinite;
+}
+
+/* Card */
+.loan-card{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s ease forwards;
+    animation-delay:.3s;
+}
+
+/* Header tabel */
+th{
+    position:sticky;
+    top:0;
+    z-index:1;
+}
+
+/* Baris tabel muncul satu-satu */
+table tr{
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp .5s ease forwards;
+}
+
+table tr:nth-child(1){animation-delay:.1s;}
+table tr:nth-child(2){animation-delay:.2s;}
+table tr:nth-child(3){animation-delay:.3s;}
+table tr:nth-child(4){animation-delay:.4s;}
+table tr:nth-child(5){animation-delay:.5s;}
+table tr:nth-child(6){animation-delay:.6s;}
+table tr:nth-child(7){animation-delay:.7s;}
+table tr:nth-child(8){animation-delay:.8s;}
+table tr:nth-child(9){animation-delay:.9s;}
+table tr:nth-child(10){animation-delay:1s;}
+
+/* Hover tabel */
+tr:hover{
+    background:#eef8ff;
+    transform:scale(1.01);
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+/* Badge */
+.badge{
+    transition:.3s;
+}
+
+.badge:hover{
+    transform:scale(1.08);
+}
+
+/* Nomor */
+.number{
+    transition:.3s;
+}
+
+tr:hover .number{
+    color:#2563eb;
+    transform:scale(1.1);
+}
+
+/* Data kosong */
+.empty-data{
+    animation:pulse 2s infinite;
+}
+
+/* KEYFRAMES */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
 </style>
 @endsection
 
 @section('content')
 
-<h1 class="page-title">
-    📦 Data Peminjaman
-</h1>
+<div class="hero-loan">
+
+    <div>
+        <h1>📦 Data Peminjaman</h1>
+        <p>Kelola seluruh data peminjaman alat camping dan kamera</p>
+    </div>
+
+    <div class="hero-count">
+        {{ count($data) }} Data
+    </div>
+
+</div>
 
 <div class="loan-card">
 
@@ -134,7 +315,9 @@ td{
 
         <tr>
 
-            <td>{{ $i+1 }}</td>
+            <td class="number">
+                {{ $i+1 }}
+            </td>
 
             <td>
                 {{ $item->user->name ?? '-' }}
@@ -178,7 +361,7 @@ td{
 
     <tr>
         <td colspan="8" class="empty-data">
-            Tidak ada data peminjaman
+            📭 Tidak ada data peminjaman
         </td>
     </tr>
 

@@ -248,6 +248,9 @@ public function batalkan(int $id)
     }
 
     $transaksi->status = 'dibatalkan';
+    $transaksi->payment_status = 'dibatalkan';
+    $transaksi->is_paid = false;
+
     $transaksi->save();
 
     return back()->with('success','Pesanan berhasil dibatalkan');
