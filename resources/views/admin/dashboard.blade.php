@@ -1,5 +1,3 @@
-
-
 @extends('layouts.admin')
 
 @section('title','Dashboard')
@@ -44,7 +42,13 @@
 .card-red{
     background:linear-gradient(135deg,#ff758c,#ff7eb3);
 }
+.card-cyan{
+    background:linear-gradient(135deg,#36d1dc,#5b86e5);
+}
 
+.card-pink{
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+}
 .card-stat h3{
     margin-top:10px;
     font-size:16px;
@@ -77,35 +81,56 @@
 <!-- CARD STAT -->
 <div class="stats">
 
-    <div class="card-stat card-blue">
-        📦
-        <h3>Produk</h3>
-        <p>{{ $productCount }}</p>
-    </div>
+    <x-admin-stat
+        color="card-blue"
+        icon="📦"
+        title="Produk"
+        :value="$productCount"
+    />
 
-    <div class="card-stat card-green">
-        💰
-        <h3>Transaksi</h3>
-        <p>{{ $transaksiCount }}</p>
-    </div>
+    <x-admin-stat
+        color="card-green"
+        icon="💰"
+        title="Transaksi"
+        :value="$transaksiCount"
+    />
 
-    <div class="card-stat card-orange">
-        📋
-        <h3>Booking</h3>
-        <p>{{ $totalBooking }}</p>
-    </div>
+    <x-admin-stat
+        color="card-orange"
+        icon="📋"
+        title="Booking"
+        :value="$totalBooking"
+    />
 
-    <div class="card-stat card-purple">
-        💵
-        <h3>Pendapatan</h3>
-        <p>Rp {{ number_format($totalPendapatan,0,',','.') }}</p>
-    </div>
+    <!-- PEMINJAMAN -->
+    <x-admin-stat
+        color="card-cyan"
+        icon="📥"
+        title="Peminjaman"
+        :value="$peminjamanCount"
+    />
 
-    <div class="card-stat card-red">
-        💳
-        <h3>Pending</h3>
-        <p>{{ $pendingPembayaran }}</p>
-    </div>
+    <!-- PENGEMBALIAN -->
+    <x-admin-stat
+        color="card-pink"
+        icon="📤"
+        title="Pengembalian"
+        :value="$pengembalianCount"
+    />
+
+    <x-admin-stat
+        color="card-purple"
+        icon="💵"
+        :title="'Pendapatan'"
+        :value="'Rp '.number_format($totalPendapatan,0,',','.')"
+    />
+
+    <x-admin-stat
+        color="card-red"
+        icon="💳"
+        title="Pending"
+        :value="$pendingPembayaran"
+    />
 
 </div>
 
@@ -150,8 +175,8 @@
 
 <script>
 
-const labels = @json($labels ?? []);
-const data = @json($data ?? []);
+const labels = {!! json_encode($labels ?? []) !!};
+const data = {!! json_encode($data ?? []) !!};
 
 if(data.length !== 0){
 

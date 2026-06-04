@@ -16,6 +16,9 @@ class AdminController extends Controller
         $totalPendapatan = Transaction::where('payment_status', 'approved')->sum('price');
 
         $pendingPembayaran = Transaction::where('payment_status', 'pending')->count();
+        $peminjamanCount = Transaction::where('status','dipinjam')->count();
+
+        $pengembalianCount = Transaction::where('status','menunggu_konfirmasi')->count();
 
         $latestTransaksi = Transaction::latest()->take(5)->get();
 
@@ -37,7 +40,9 @@ class AdminController extends Controller
             'pendingPembayaran',
             'latestTransaksi',
             'labels',
-            'data'
+            'data',
+            'peminjamanCount',
+            'pengembalianCount'
         ));
     }
 }

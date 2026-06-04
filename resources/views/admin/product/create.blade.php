@@ -179,7 +179,7 @@ button:active::after {
 </form>
 
 <div class="back">
-    <a href="/pages/product">← Kembali ke Product</a>
+    <a href="/admin/product">← Kembali ke Product</a>
 </div>
 
 </div>

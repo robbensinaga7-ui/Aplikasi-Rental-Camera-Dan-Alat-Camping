@@ -71,26 +71,8 @@ tr:hover{
     background:linear-gradient(135deg,#4facfe,#00c6fb);
 }
 
-/* BUTTON */
-.btn{
-    border:none;
-    padding:9px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    color:white;
-    font-size:13px;
-    font-weight:500;
-    transition:0.3s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
-    opacity:0.95;
-}
-
-.btn-blue{
-    background:linear-gradient(135deg,#3498db,#6dd5fa);
-    box-shadow:0 5px 15px rgba(52,152,219,0.3);
+.badge-green{
+    background:linear-gradient(135deg,#43e97b,#38f9d7);
 }
 
 /* EMPTY */
@@ -111,11 +93,6 @@ tr:hover{
 th,
 td{
     padding:10px;
-    font-size:12px;
-}
-
-.btn{
-    padding:7px 10px;
     font-size:12px;
 }
 
@@ -144,7 +121,7 @@ td{
         <th>Tanggal Pinjam</th>
         <th>Tanggal Kembali</th>
         <th>Status</th>
-        <th>Aksi</th>
+        <th>Keterangan</th>
     </tr>
 
     @php $found = false; @endphp
@@ -186,17 +163,9 @@ td{
             </td>
 
             <td>
-
-                <form action="/kembalikan/{{ $item->id }}" method="POST">
-
-                    @csrf
-
-                    <button class="btn btn-blue">
-                        Ajukan Kembali
-                    </button>
-
-                </form>
-
+                <span class="badge badge-green">
+                    Aktif
+                </span>
             </td>
 
         </tr>

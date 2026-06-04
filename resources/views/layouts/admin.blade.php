@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -214,9 +213,7 @@ tr:hover{
             💰 Transaksi
         </a>
 
-        <a href="/admin/pembayaran" class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
-            💳 Pembayaran
-        </a>
+       
 
         <a href="/admin/peminjaman" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
             📥 Peminjaman
