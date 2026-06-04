@@ -56,8 +56,6 @@ Route::post('/admin/tolak/{id}', [TransactionController::class, 'tolak']);
 Route::resource('transaksi', TransactionController::class);
 Route::post('/ajukan-kembali/{id}', [TransactionController::class, 'ajukanKembali']);
 Route::post('/admin/konfirmasi-kembali/{id}', [TransactionController::class, 'konfirmasiKembali']);
-Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
-    ->name('transaksi.bayar');
 Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
 /*
 |--------------------------------------------------------------------------
@@ -105,17 +103,12 @@ Route::middleware('auth')->group(function () {
 Route::post('/batalkan/{id}', [TransactionController::class, 'batalkan']);
     Route::get('/pelanggan/product', [PelangganProductController::class, 'index'])
         ->name('pelanggan.product');
-Route::get('/pelanggan/profile', function () {
+        Route::get('/pelanggan/profile', function () {
     return view('pelanggan.profile');
 });
-Route::get('/pelanggan/profile', [PelangganController::class, 'profile']);
 Route::post('/pelanggan/profile/update', [PelangganController::class, 'updateProfile']);
     Route::post('/sewa', [SewaController::class, 'store'])
         ->name('sewa.store');
     Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
         ->name('transaksi.bayar');
-});
-
-Route::get('/pelanggan/profile', function () {
-    return view('pelanggan.profile');
 });

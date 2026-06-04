@@ -63,16 +63,21 @@ public function storePelanggan(Request $request)
     $request->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users',
+        'phone' => 'required',
+        'address' => 'required',
         'password' => 'required|min:6',
     ]);
 
     User::create([
         'name' => $request->name,
         'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
         'password' => bcrypt($request->password),
     ]);
 
-    return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil ditambahkan.');
+    return redirect('/admin/pelanggan')
+        ->with('success', 'Pelanggan berhasil ditambahkan.');
 }
 public function editPelanggan(int $id)
 {
@@ -86,16 +91,23 @@ public function updatePelanggan(Request $request, int $id)
     $request->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users,email,' . $pelanggan->id,
+        'phone' => 'required',
+        'address' => 'required',
         'password' => 'nullable|min:6',
     ]);
 
     $pelanggan->update([
         'name' => $request->name,
         'email' => $request->email,
-        'password' => $request->password ? bcrypt($request->password) : $pelanggan->password,
+        'phone' => $request->phone,
+        'address' => $request->address,
+        'password' => $request->password
+            ? bcrypt($request->password)
+            : $pelanggan->password,
     ]);
 
-    return redirect()->route('pelanggan.index')->with('success', 'Pelanggan berhasil diperbarui.');
+    return redirect('/admin/pelanggan')
+        ->with('success', 'Pelanggan berhasil diperbarui.');
 }
 public function deletePelanggan(int $id)
 {

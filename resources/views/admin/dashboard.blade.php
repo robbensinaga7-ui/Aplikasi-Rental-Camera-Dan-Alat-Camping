@@ -23,7 +23,73 @@
     opacity:.9;
     font-size:15px;
 }
+.hero-dashboard,
+.card,
+.card-stat{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s ease forwards;
+}
 
+.card-stat:nth-child(1){animation-delay:.1s;}
+.card-stat:nth-child(2){animation-delay:.2s;}
+.card-stat:nth-child(3){animation-delay:.3s;}
+.card-stat:nth-child(4){animation-delay:.4s;}
+.card-stat:nth-child(5){animation-delay:.5s;}
+.card-stat:nth-child(6){animation-delay:.6s;}
+.card-stat:nth-child(7){animation-delay:.7s;}
+.card-stat:nth-child(8){animation-delay:.8s;}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.hero-dashboard{
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-dashboard::before{
+    content:'';
+    position:absolute;
+    width:250px;
+    height:250px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
+    top:-80px;
+    right:-80px;
+    animation:float 6s ease-in-out infinite;
+}
+
+.hero-dashboard::after{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    background:rgba(255,255,255,.1);
+    border-radius:50%;
+    bottom:-50px;
+    left:-50px;
+    animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-20px);
+    }
+    100%{
+        transform:translateY(0);
+    }
+}
 .stats{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -63,8 +129,10 @@
 }
 
 .card-stat:hover{
-    transform:translateY(-10px);
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.2),
+        0 0 25px rgba(255,255,255,.4);
 }
 
 .card-blue{
@@ -150,7 +218,28 @@
     .hero-dashboard h1{
         font-size:28px;
     }
+.activity-item{
+    opacity:0;
+    transform:translateX(-20px);
+    animation:slideIn .6s ease forwards;
+}
 
+.activity-item:nth-child(1){animation-delay:.1s;}
+.activity-item:nth-child(2){animation-delay:.2s;}
+.activity-item:nth-child(3){animation-delay:.3s;}
+.activity-item:nth-child(4){animation-delay:.4s;}
+.activity-item:nth-child(5){animation-delay:.5s;}
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateX(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 }
 </style>
 @endsection
@@ -288,19 +377,48 @@ new Chart(document.getElementById('chartTransaksi'), {
     },
 
     options:{
-        responsive:true,
-        maintainAspectRatio:false,
-
-        plugins:{
-            legend:{
-                position:'bottom'
-            }
+    responsive:true,
+    maintainAspectRatio:false,
+    animation:{
+        animateRotate:true,
+        animateScale:true,
+        duration:2000
+    },
+    plugins:{
+        legend:{
+            position:'bottom'
         }
     }
+}
 
 });
 
 }
+document.querySelectorAll('.counter').forEach(counter => {
+
+    let target = parseInt(counter.innerText.replace(/\D/g,''));
+
+    if(isNaN(target)) return;
+
+    let count = 0;
+    let speed = target / 80;
+
+    const update = () => {
+
+        count += speed;
+
+        if(count < target){
+            counter.innerText = Math.floor(count);
+            requestAnimationFrame(update);
+        }else{
+            counter.innerText = target.toLocaleString('id-ID');
+        }
+
+    }
+
+    update();
+
+});
 
 </script>
 

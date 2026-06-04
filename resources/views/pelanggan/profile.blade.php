@@ -1,6 +1,6 @@
 @extends('layouts.pelanggan')
 
-@section('title','Profile Saya')<
+@section('title','Profile Saya')
 @section('style')
 <style>
 

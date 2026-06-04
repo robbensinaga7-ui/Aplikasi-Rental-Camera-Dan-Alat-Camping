@@ -166,6 +166,138 @@ td{
 }
 
 }
+/* ==========================
+   ANIMASI DATA PENGEMBALIAN
+========================== */
+
+/* Hero */
+.hero-return{
+    opacity:0;
+    transform:translateY(-30px);
+    animation:fadeDown .8s ease forwards;
+}
+
+.hero-return::before{
+    animation:float 6s ease-in-out infinite;
+}
+
+/* Counter */
+.hero-count{
+    animation:pulse 2s infinite;
+}
+
+/* Card */
+.return-card{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s ease forwards;
+    animation-delay:.3s;
+}
+
+/* Header tabel */
+th{
+    position:sticky;
+    top:0;
+    z-index:1;
+}
+
+/* Baris tabel */
+tbody tr{
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp .5s ease forwards;
+}
+
+tbody tr:nth-child(1){animation-delay:.1s;}
+tbody tr:nth-child(2){animation-delay:.2s;}
+tbody tr:nth-child(3){animation-delay:.3s;}
+tbody tr:nth-child(4){animation-delay:.4s;}
+tbody tr:nth-child(5){animation-delay:.5s;}
+tbody tr:nth-child(6){animation-delay:.6s;}
+tbody tr:nth-child(7){animation-delay:.7s;}
+tbody tr:nth-child(8){animation-delay:.8s;}
+tbody tr:nth-child(9){animation-delay:.9s;}
+tbody tr:nth-child(10){animation-delay:1s;}
+
+/* Hover tabel */
+tr:hover{
+    background:#fff5f0;
+    transform:scale(1.01);
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+/* Tombol */
+.btn{
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px) scale(1.05);
+}
+
+/* Badge */
+.badge{
+    transition:.3s;
+}
+
+.badge:hover{
+    transform:scale(1.08);
+}
+
+/* Nomor */
+.number{
+    transition:.3s;
+}
+
+tr:hover .number{
+    color:#ff5e62;
+    transform:scale(1.1);
+}
+
+/* KEYFRAMES */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
 </style>
 @endsection
 

@@ -110,8 +110,135 @@ tr:hover{
     gap:15px;
     text-align:center;
 }
-
 }
+/* ==========================
+   ANIMASI DATA PELANGGAN
+========================== */
+
+/* Hero */
+.hero-customer{
+    opacity:0;
+    transform:translateY(-30px);
+    animation:fadeDown .8s ease forwards;
+}
+
+.hero-customer::before{
+    animation:float 6s ease-in-out infinite;
+}
+
+/* Counter */
+.hero-count{
+    animation:pulse 2s infinite;
+}
+
+/* Card */
+.customer-card{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp .8s ease forwards;
+    animation-delay:.3s;
+}
+
+/* Tombol */
+.btn-add,
+.btn-warning,
+.btn-danger{
+    transition:.3s;
+}
+
+.btn-add:hover,
+.btn-warning:hover,
+.btn-danger:hover{
+    transform:translateY(-3px) scale(1.05);
+}
+
+/* Header tabel */
+th{
+    position:sticky;
+    top:0;
+    z-index:1;
+}
+
+/* Animasi baris tabel */
+table tr{
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp .5s ease forwards;
+}
+
+table tr:nth-child(1){animation-delay:.1s;}
+table tr:nth-child(2){animation-delay:.2s;}
+table tr:nth-child(3){animation-delay:.3s;}
+table tr:nth-child(4){animation-delay:.4s;}
+table tr:nth-child(5){animation-delay:.5s;}
+table tr:nth-child(6){animation-delay:.6s;}
+table tr:nth-child(7){animation-delay:.7s;}
+table tr:nth-child(8){animation-delay:.8s;}
+table tr:nth-child(9){animation-delay:.9s;}
+table tr:nth-child(10){animation-delay:1s;}
+
+/* Hover tabel */
+tr:hover{
+    background:#eef8ff;
+    transform:scale(1.01);
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+}
+
+/* Nomor ID */
+.number{
+    transition:.3s;
+}
+
+tr:hover .number{
+    color:#2563eb;
+    transform:scale(1.1);
+}
+
+/* Keyframes */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
 </style>
 @endsection
 
