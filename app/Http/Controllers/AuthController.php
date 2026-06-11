@@ -76,4 +76,22 @@ public function logout()
     return redirect('/login')
         ->with('success', 'Berhasil logout!');
 }
+public function resetPassword(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6|confirmed'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return back()->with('error', 'Email tidak ditemukan');
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return redirect('/login')->with('success', 'Password berhasil diubah');
+}
 }

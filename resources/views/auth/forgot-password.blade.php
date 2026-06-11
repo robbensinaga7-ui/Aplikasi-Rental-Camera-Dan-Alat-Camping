@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login - Camping Rental</title>
+<title>Lupa Password - Camping Rental</title>
 
-<!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -18,7 +17,6 @@
     font-family:'Poppins',sans-serif;
 }
 
-/* BODY */
 body{
     min-height:100vh;
     display:flex;
@@ -32,7 +30,6 @@ body{
     background-position:center;
 }
 
-/* OVERLAY */
 .overlay{
     position:absolute;
     inset:0;
@@ -44,7 +41,6 @@ body{
     backdrop-filter:blur(4px);
 }
 
-/* ANIMATED CIRCLES */
 .circle{
     position:absolute;
     border-radius:50%;
@@ -75,22 +71,15 @@ body{
     animation-delay:4s;
 }
 
-/* LOGIN CARD */
 .card{
     position:relative;
     z-index:2;
-
     width:380px;
     padding:35px;
-
     border-radius:24px;
-
     background:rgba(255,255,255,0.12);
-
     backdrop-filter:blur(16px);
-
     border:1px solid rgba(255,255,255,0.2);
-
     box-shadow:
         0 10px 30px rgba(0,0,0,0.25),
         inset 0 1px 1px rgba(255,255,255,0.2);
@@ -98,298 +87,221 @@ body{
     animation:fadeUp 1s ease;
 }
 
-/* LOGO */
 .logo{
     width:85px;
     height:85px;
     margin:auto;
     margin-bottom:18px;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     border-radius:50%;
-
     background:linear-gradient(135deg,#43e97b,#38f9d7);
-
     font-size:38px;
 
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
 
-    animation:pulse 3s infinite;
+    animation:pulse 2.5s infinite;
 }
 
-/* TITLE */
 h2{
     text-align:center;
     color:white;
-    font-size:30px;
     margin-bottom:8px;
-    font-weight:700;
+    animation:slideDown .8s ease;
 }
 
-/* SUBTITLE */
 .subtitle{
     text-align:center;
     color:rgba(255,255,255,0.8);
     font-size:14px;
-    margin-bottom:28px;
+    margin-bottom:25px;
 }
 
-/* ERROR */
-.error{
-    background:rgba(255,0,0,0.15);
-    color:#fff;
-    padding:12px;
-    border-radius:12px;
-    text-align:center;
-    margin-bottom:18px;
-    font-size:13px;
-    border:1px solid rgba(255,255,255,0.2);
-}
-
-/* INPUT GROUP */
 .input-group{
     margin-bottom:18px;
-    position:relative;
 }
 
-/* INPUT */
 .input-group input{
     width:100%;
     padding:14px 16px;
-
     border:none;
     outline:none;
-
     border-radius:14px;
-
     background:rgba(255,255,255,0.15);
-
     color:white;
-    font-size:14px;
-
-    border:1px solid transparent;
-
-    transition:0.3s;
+    transition:.3s;
 }
 
-/* PLACEHOLDER */
+.input-group input:focus{
+    background:rgba(255,255,255,0.25);
+    box-shadow:0 0 0 4px rgba(67,233,123,.2);
+    transform:translateY(-2px);
+}
+
 .input-group input::placeholder{
     color:rgba(255,255,255,0.7);
 }
 
-/* FOCUS */
-.input-group input:focus{
-    border-color:#43e97b;
-    background:rgba(255,255,255,0.2);
-
-    box-shadow:0 0 0 4px rgba(67,233,123,0.15);
-}
-
-/* BUTTON */
 .btn-login{
     width:100%;
     padding:14px;
-
     border:none;
     border-radius:14px;
-
     background:linear-gradient(135deg,#43e97b,#38f9d7);
-
     color:white;
     font-size:15px;
     font-weight:600;
-
     cursor:pointer;
-
-    transition:0.4s;
+    transition:.4s;
 }
 
-/* BUTTON HOVER */
 .btn-login:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 24px rgba(67,233,123,0.35);
+    transform:translateY(-4px);
+    box-shadow:0 15px 25px rgba(67,233,123,.35);
 }
 
-/* FOOTER */
+.btn-login:active{
+    transform:scale(.98);
+}
+
 .footer{
     margin-top:20px;
     text-align:center;
-    color:rgba(255,255,255,0.85);
-    font-size:13px;
+    color:white;
 }
 
 .footer a{
     color:#43e97b;
     text-decoration:none;
-    font-weight:600;
-}
-
-.footer a:hover{
-    text-decoration:underline;
-}
-
-/* ANIMATION */
-@keyframes fadeUp{
-
-from{
-    opacity:0;
-    transform:translateY(40px);
-}
-
-to{
-    opacity:1;
-    transform:translateY(0);
-}
-
 }
 
 @keyframes float{
-
-0%{
-    transform:translateY(0px);
+0%{transform:translateY(0);}
+50%{transform:translateY(20px);}
+100%{transform:translateY(0);}
+}
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-50%{
-    transform:translateY(20px);
-}
-
-100%{
-    transform:translateY(0px);
-}
-
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 @keyframes pulse{
-
-0%{
-    transform:scale(1);
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.08);
+    }
+    100%{
+        transform:scale(1);
+    }
 }
 
-50%{
-    transform:scale(1.08);
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(20px);
+    }
+    100%{
+        transform:translateY(0);
+    }
 }
-
-100%{
-    transform:scale(1);
-}
-
-}
-
-/* RESPONSIVE */
-@media(max-width:480px){
-
-.card{
-    width:92%;
-    padding:28px;
-}
-
-h2{
-    font-size:24px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- OVERLAY -->
 <div class="overlay"></div>
 
-<!-- BACKGROUND ANIMATION -->
 <div class="circle circle1"></div>
 <div class="circle circle2"></div>
 <div class="circle circle3"></div>
 
-<!-- LOGIN CARD -->
 <div class="card">
 
-    <!-- LOGO -->
-    <div class="logo">
-        🏕️
-    </div>
+    <div class="logo">🔑</div>
 
-    <!-- TITLE -->
-    <h2>Camping Rental</h2>
+    <h2>Lupa Password</h2>
 
     <p class="subtitle">
-        Login untuk memulai petualanganmu
+        Masukkan email dan password baru
     </p>
 
-
-    <!-- FORM -->
-    <form method="POST" action="{{ route('login') }}">
-
+    <form action="{{ route('reset.password') }}" method="POST">
         @csrf
 
-        <!-- EMAIL -->
         <div class="input-group">
-            <input
-                type="email"
-                name="email"
-                placeholder="Masukkan Email"
-                required>
+            <input type="email"
+                   name="email"
+                   placeholder="Masukkan Email"
+                   required>
         </div>
 
-        <!-- PASSWORD -->
         <div class="input-group">
-            <input
-                type="password"
-                name="password"
-                placeholder="Masukkan Password"
-                required>
+            <input type="password"
+                   name="password"
+                   placeholder="Password Baru"
+                   required>
         </div>
 
-        <div style="text-align:right;margin-bottom:15px;">
-    <a href="{{ route('forgot.password') }}"
-       style="color:#43e97b;font-size:13px;text-decoration:none;">
-        Lupa Password?
-    </a>
-</div>
+        <div class="input-group">
+            <input type="password"
+                   name="password_confirmation"
+                   placeholder="Konfirmasi Password"
+                   required>
+        </div>
 
-        <!-- BUTTON -->
         <button type="submit" class="btn-login">
-            Login Sekarang
+            Ganti Password
         </button>
-
     </form>
 
-    <!-- FOOTER -->
     <div class="footer">
-        Belum punya akun?
-        <a href="/register">
-            Daftar di sini
+        <a href="{{ route('login') }}">
+            ← Kembali ke Login
         </a>
     </div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-@if(session('success'))
-<script>
-Swal.fire({
-    toast:true,
-    position:'top-end',
-    icon:'success',
-    title:'{{ session("success") }}',
-    showConfirmButton:false,
-    timer:3000,
-    timerProgressBar:true
-});
-</script>
-@endif
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if(session('error'))
 <script>
 Swal.fire({
     icon:'error',
-    title:'Login Gagal',
-    text:'{{ session("error") }}',
-    confirmButtonColor:'#e74c3c'
+    title:'Gagal',
+    text:'{{ session("error") }}'
+});
+</script>
+@endif
+
+@if(session('success'))
+<script>
+Swal.fire({
+    icon:'success',
+    title:'Berhasil',
+    text:'{{ session("success") }}'
 });
 </script>
 @endif

@@ -275,7 +275,7 @@ tr:hover{
 <a href="/logout"
    class="btn btn-danger"
    style="margin-top:20px;text-align:center;width:100%;">
-   🚪 Logout
+   🚪 Keluar
 </a>
 
     </div>
