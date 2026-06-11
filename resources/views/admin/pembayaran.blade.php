@@ -304,7 +304,8 @@ tr:hover{
 
 /* Badge */
 .badge{
-    transition:.3s;
+    display:inline-block;
+    animation:float 3s infinite ease-in-out;
 }
 
 .badge:hover{
@@ -346,21 +347,92 @@ tr:hover .total-price{
 }
 
 @keyframes float{
-    0%,100%{
+    0%{
         transform:translateY(0);
     }
     50%{
         transform:translateY(-10px);
     }
+    100%{
+        transform:translateY(0);
+    }
+}
+.hero-payment{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed,#ec4899);
+    color:white;
+    padding:30px;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 15px 40px rgba(79,70,229,.3);
+    animation:fadeDown .8s ease;
+}
+
+.hero-payment::before{
+    content:'';
+    position:absolute;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    top:-80px;
+    right:-60px;
+    animation:float 6s infinite ease-in-out;
+}
+
+.hero-payment::after{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    bottom:-60px;
+    left:-60px;
+    animation:float 8s infinite ease-in-out;
+}
+
+.hero-payment h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.hero-payment p{
+    opacity:.9;
+}
+.bg-circle{
+    position:fixed;
+    border-radius:50%;
+    z-index:-1;
+}
+
+.bg1{
+    width:350px;
+    height:350px;
+    background:rgba(79,172,254,.08);
+    top:-100px;
+    right:-100px;
+    animation:float 8s infinite ease-in-out;
+}
+
+.bg2{
+    width:250px;
+    height:250px;
+    background:rgba(236,72,153,.08);
+    bottom:-80px;
+    left:-80px;
+    animation:float 10s infinite ease-in-out;
 }
 </style>
 @endsection
 
 @section('content')
 
-<h1 class="page-title">
-    💳 Konfirmasi Pembayaran
-</h1>
+<div class="hero-payment">
+    <h1>💳 Konfirmasi Pembayaran</h1>
+    <p>Kelola pembayaran pelanggan dan verifikasi bukti transfer</p>
+</div>
 
 <!-- TOP CARD -->
 <div class="card-container">

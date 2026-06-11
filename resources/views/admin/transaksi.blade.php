@@ -239,7 +239,8 @@ tbody tr:nth-child(10){animation-delay:1s;}
 
 /* Badge */
 .badge{
-    transition:.3s;
+    display:inline-block;
+    animation:float 3s infinite ease-in-out;
 }
 
 .badge:hover{
@@ -304,11 +305,14 @@ tr:hover .total-price{
 }
 
 @keyframes float{
-    0%,100%{
+    0%{
         transform:translateY(0);
     }
     50%{
-        transform:translateY(-15px);
+        transform:translateY(-10px);
+    }
+    100%{
+        transform:translateY(0);
     }
 }
 

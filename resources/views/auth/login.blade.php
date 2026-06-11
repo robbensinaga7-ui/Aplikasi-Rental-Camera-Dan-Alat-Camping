@@ -344,6 +344,13 @@ h2{
                 required>
         </div>
 
+        <div style="text-align:right;margin-bottom:15px;">
+    <a href="{{ route('forgot.password') }}"
+       style="color:#43e97b;font-size:13px;text-decoration:none;">
+        Lupa Password?
+    </a>
+</div>
+
         <!-- BUTTON -->
         <button type="submit" class="btn-login">
             Login Sekarang

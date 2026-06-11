@@ -25,9 +25,16 @@ class PelangganController extends Controller
     }
 
     public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
-        $user->update($request->only(['name', 'email', 'phone', 'address']));
-        return redirect()->back()->with('success', 'Profile updated successfully.');
-    }
+{
+    $user = User::findOrFail(Auth::id());
+
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
+    ]);
+
+    return redirect()->back()->with('success', 'Profile updated successfully.');
+}
 }

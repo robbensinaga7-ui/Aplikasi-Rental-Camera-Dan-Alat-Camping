@@ -322,78 +322,74 @@ tr:hover .number{
 
 <table>
 
-    <tr>
-        <th>No</th>
-        <th>Customer</th>
-        <th>Produk</th>
-        <th>Qty</th>
-        <th>Tanggal Pinjam</th>
-        <th>Tanggal Kembali</th>
-        <th>Status</th>
-        <th>Aksi</th>
-    </tr>
-
-    @php $found = false; @endphp
-
-    @foreach ($data as $i => $item)
-
-        @if($item->status == 'menunggu_konfirmasi')
-
-        @php $found = true; @endphp
-
+    <thead>
         <tr>
+            <th>No</th>
+            <th>Customer</th>
+            <th>Produk</th>
+            <th>Qty</th>
+            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
 
-            <td class="number">
-                {{ $i+1 }}
-            </td>
+    <tbody>
 
-            <td>
-                {{ $item->user->name ?? '-' }}
-            </td>
+    @forelse ($data as $i => $item)
 
-            <td>
-                {{ $item->product->name ?? '-' }}
-            </td>
+    <tr>
 
-            <td>
-                {{ $item->qty }}
-            </td>
+        <td class="number">{{ $i+1 }}</td>
 
-            <td>
-                {{ $item->rent_date }}
-            </td>
+        <td>{{ $item->user->name ?? '-' }}</td>
 
-            <td>
-                {{ $item->return_date }}
-            </td>
+        <td>{{ $item->product->name ?? '-' }}</td>
 
-            <td>
+        <td>{{ $item->qty }}</td>
+
+        <td>{{ $item->rent_date }}</td>
+
+        <td>{{ $item->return_date }}</td>
+
+        <td>
+            @if($item->status == 'menunggu_konfirmasi')
                 <span class="badge badge-orange">
                     Menunggu
                 </span>
-            </td>
+            @elseif($item->status == 'dikembalikan')
+                <span class="badge"
+                      style="background:linear-gradient(135deg,#00c853,#69f0ae);">
+                    Dikembalikan
+                </span>
+            @endif
+        </td>
 
-            <td>
+        <td>
 
-                <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+            @if($item->status == 'menunggu_konfirmasi')
 
-                    @csrf
+            <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+                @csrf
+                <button class="btn btn-green">
+                    ✔ Konfirmasi
+                </button>
+            </form>
 
-                    <button class="btn btn-green">
-                        ✔ Konfirmasi
-                    </button>
+            @else
 
-                </form>
+            <span style="color:#00c853;font-weight:bold;">
+                ✓ Selesai
+            </span>
 
-            </td>
+            @endif
 
-        </tr>
+        </td>
 
-        @endif
+    </tr>
 
-    @endforeach
-
-    @if(!$found)
+    @empty
 
     <tr>
         <td colspan="8" class="empty-data">
@@ -401,7 +397,9 @@ tr:hover .number{
         </td>
     </tr>
 
-    @endif
+    @endforelse
+
+    </tbody>
 
 </table>
 
