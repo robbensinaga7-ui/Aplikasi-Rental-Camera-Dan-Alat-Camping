@@ -24,17 +24,34 @@ class PelangganController extends Controller
         return view('pelanggan.profile', compact('user'));
     }
 
-    public function updateProfile(Request $request)
+   public function updateProfile(Request $request)
 {
     $user = User::findOrFail(Auth::id());
 
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'address' => $request->address,
-    ]);
+    if ($request->hasFile('photo')) {
 
-    return redirect()->back()->with('success', 'Profile updated successfully.');
+        $file = $request->file('photo');
+
+        $filename = time().'_'.$file->getClientOriginalName();
+
+        $file->move(
+            public_path('uploads/profile'),
+            $filename
+        );
+
+        $user->photo = $filename;
+    }
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->address = $request->address;
+
+    $user->save();
+
+    return redirect()->back()->with(
+        'success',
+        'Profile updated successfully.'
+    );
 }
 }

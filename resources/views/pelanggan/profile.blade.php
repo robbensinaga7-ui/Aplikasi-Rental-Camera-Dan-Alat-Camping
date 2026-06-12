@@ -117,9 +117,15 @@
 
     <div class="profile-header">
 
-        <div class="profile-avatar">
-            {{ strtoupper(substr(Auth::user()->name,0,1)) }}
-        </div>
+        <div class="profile-avatar" style="overflow:hidden;">
+    @if(Auth::user()->photo)
+        <img src="{{ asset('uploads/profile/' . Auth::user()->photo) }}"
+             alt="Foto Profil"
+             style="width:100%;height:100%;object-fit:cover;">
+    @else
+        {{ strtoupper(substr(Auth::user()->name,0,1)) }}
+    @endif
+</div>
 
         <h2>{{ Auth::user()->name }}</h2>
 
@@ -167,9 +173,11 @@
         <!-- FORM EDIT -->
         <div id="editForm" style="display:none;">
 
-            <form action="/pelanggan/profile/update" method="POST">
+    <form action="/pelanggan/profile/update"
+          method="POST"
+          enctype="multipart/form-data">
 
-                @csrf
+            @csrf
 
                 <div style="margin-bottom:15px;">
                     <label>Nama</label>
@@ -205,7 +213,14 @@
                         class="form-control"
                         style="height:100px;">{{ Auth::user()->address }}</textarea>
                 </div>
-
+<div style="margin-bottom:15px;">
+    <label>Foto Profil</label>
+    <input
+        type="file"
+        name="photo"
+        accept="image/*"
+        class="form-control">
+</div>
                 <button type="submit" class="btn-save">
                     💾 Update Profile
                 </button>
