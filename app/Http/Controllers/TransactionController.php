@@ -100,23 +100,31 @@ public function adminDashboard()
             'chart'
         ));
     }
-    public function bayar(Request $request, int $id)
+ public function bayar(Request $request, int $id)
 {
+    $t = Transaction::findOrFail($id);
+
     $request->validate([
         'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
-    $t = Transaction::findOrFail($id);
-
     $file = $request->file('bukti');
-    $path = $file->store('bukti_pembayaran', 'public');
+
+    $path = $file->store(
+        'bukti_pembayaran',
+        'public'
+    );
 
     $t->payment_proof = $path;
     $t->payment_status = 'pending';
     $t->is_paid = false;
+
     $t->save();
 
-    return back()->with('success', 'Upload berhasil, menunggu admin');
+    return back()->with(
+        'success',
+        'Upload berhasil, menunggu admin'
+    );
 }
 
 private function hitungDenda(Transaction $transaksi)
@@ -153,13 +161,32 @@ public function acc(int $id)
 {
     $t = Transaction::findOrFail($id);
 
+    // CEK KTP
+    if (!$t->ktp_image) {
+        return back()->with(
+            'error',
+            '❌ Peminjaman tidak dapat disetujui karena pelanggan belum mengupload foto KTP.'
+        );
+    }
+
+    // CEK BUKTI PEMBAYARAN
+    if (!$t->payment_proof) {
+        return back()->with(
+            'error',
+            '❌ Peminjaman tidak dapat disetujui karena pelanggan belum mengupload bukti pembayaran.'
+        );
+    }
+
     $t->update([
         'payment_status' => 'approved',
         'is_paid' => true,
         'paid_at' => now()
     ]);
 
-    return back()->with('success', 'Pembayaran disetujui');
+    return back()->with(
+        'success',
+        '✅ Pembayaran berhasil disetujui.'
+    );
 }
 
 public function tolak(int $id)

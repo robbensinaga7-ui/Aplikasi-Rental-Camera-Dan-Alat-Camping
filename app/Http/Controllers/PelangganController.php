@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -11,47 +12,77 @@ class PelangganController extends Controller
 {
     public function index()
     {
-          $name = Auth::user()->name;
-    $products = Product::all();
-    $transactions = Transaction::where('user_id', Auth::id())->get();
+        $name = Auth::user()->name;
+        $products = Product::all();
+        $transactions = Transaction::where('user_id', Auth::id())->get();
 
-    return view('pelanggan.dashboard', compact('name', 'products', 'transactions'));
+        return view('pelanggan.dashboard', compact(
+            'name',
+            'products',
+            'transactions'
+        ));
     }
-    
+
     public function profile()
     {
         $user = Auth::user();
+
         return view('pelanggan.profile', compact('user'));
     }
 
-   public function updateProfile(Request $request)
-{
-    $user = User::findOrFail(Auth::id());
+    public function updateProfile(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
 
-    if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
 
-        $file = $request->file('photo');
+            $file = $request->file('photo');
 
-        $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
 
-        $file->move(
-            public_path('uploads/profile'),
-            $filename
+            $file->move(
+                public_path('uploads/profile'),
+                $filename
+            );
+
+            $user->photo = $filename;
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+
+        $user->save();
+
+        return redirect()->back()->with(
+            'success',
+            'Profile updated successfully.'
         );
-
-        $user->photo = $filename;
     }
 
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->phone = $request->phone;
-    $user->address = $request->address;
+    public function uploadKtp(Request $request, $id)
+    {
+        $request->validate([
+            'ktp' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
-    $user->save();
+        $transaction = Transaction::findOrFail($id);
 
-    return redirect()->back()->with(
-        'success',
-        'Profile updated successfully.'
-    );
-}
+        if ($request->hasFile('ktp')) {
+
+            $path = $request->file('ktp')->store(
+                'ktp',
+                'public'
+            );
+
+            $transaction->ktp_image = $path;
+            $transaction->save();
+        }
+
+        return back()->with(
+            'success',
+            'KTP berhasil diupload.'
+        );
+    }
 }

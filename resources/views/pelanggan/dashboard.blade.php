@@ -432,6 +432,30 @@ td{
 
 <div class="dashboard-wrapper">
 
+@if(session('error'))
+<div style="
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('error') }}
+</div>
+@endif
+
+@if(session('success'))
+<div style="
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('success') }}
+</div>
+@endif
+
 <div class="hero-dashboard">
     <h2>👋 Halo, {{ $name }}</h2>
     <p>
@@ -479,7 +503,8 @@ td{
     <th>Total</th>
     <th>Status</th>
     <th>Status Bayar</th>
-    <th>Bukti</th>
+    <th>Bukti Bayar</th>
+    <th>KTP</th>
 </tr>
 
 @foreach($transactions as $t)
@@ -612,14 +637,20 @@ td{
     <!-- BUKTI -->
     <td>
 
-        @if($t->payment_proof)
+      @if($t->payment_proof)
 
-            <img
-            src="{{ asset('storage/'.$t->payment_proof) }}"
-            class="bukti-img">
+    <img
+    src="{{ url('storage/'.$t->payment_proof) }}"
+    class="bukti-img"
+    alt="Bukti Pembayaran">
 
-        @endif
+@else
 
+    <span class="badge badge-belum">
+        Belum Upload
+    </span>
+
+@endif
         @if(!$t->payment_proof && $t->status != 'dikembalikan')
 
             <form
@@ -657,7 +688,39 @@ td{
         @endif
 
     </td>
+<td>
 
+    @if($t->ktp_image)
+
+    <img
+    src="{{ url('storage/'.$t->ktp_image) }}"
+    class="bukti-img"
+    alt="KTP">
+
+    @elseif($t->status != 'dikembalikan')
+
+        <form
+        action="{{ route('transaksi.uploadKtp', $t->id) }}"
+        method="POST"
+        enctype="multipart/form-data">
+
+            @csrf
+
+            <input
+                type="file"
+                name="ktp"
+                accept="image/*"
+                required>
+
+            <button type="submit" class="btn-bayar">
+                Upload KTP
+            </button>
+
+        </form>
+
+    @endif
+
+</td>
 </tr>
 
 @endforeach

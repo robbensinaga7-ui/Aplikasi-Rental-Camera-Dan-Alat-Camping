@@ -341,7 +341,29 @@ tr:hover .total-price{
     </div>
 
 </div>
+@if(session('error'))
+<div style="
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('error') }}
+</div>
+@endif
 
+@if(session('success'))
+<div style="
+    background:#dcfce7;
+    color:#166534;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('success') }}
+</div>
+@endif
 <div class="table-box">
 
 <table class="table">
@@ -358,6 +380,7 @@ tr:hover .total-price{
             <th>Status</th>
             <th>Denda</th>
             <th>Bukti</th>
+            <th>KTP Penyewa</th>
             <th>Pembayaran</th>
             <th>Aksi</th>
         </tr>
@@ -379,7 +402,7 @@ tr:hover .total-price{
 
             <td>{{ $item->rent_date }}</td>
 
-            <td>{{ $item->return_date }}</td>
+            <td>{{ $item->return_date }}</td> 
 
             <td class="total-price">
                 Rp {{ number_format($item->price + $item->fine,0,',','.') }}
@@ -444,6 +467,24 @@ tr:hover .total-price{
                 @endif
 
             </td>
+            <!-- KTP PENYEWA -->
+            <td>
+
+                 @if($item->ktp_image)
+
+                  <img
+                     src="{{ asset('storage/'.$item->ktp_image) }}"
+                    width="70">
+
+                  @else
+
+                    <span class="badge badge-orange">
+                        Belum Upload
+                      </span>
+
+    @endif
+
+</td>
 
             <!-- PEMBAYARAN -->
             <td>
