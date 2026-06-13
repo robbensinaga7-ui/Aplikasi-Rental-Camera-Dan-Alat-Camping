@@ -262,6 +262,33 @@ public function pengembalian()
 
     return view('admin.pengembalian', compact('data'));
 }
+public function uploadDokumen(Request $request, $id)
+{
+    $request->validate([
+        'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        'ktp'   => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
+
+    $t = Transaction::findOrFail($id);
+
+    $paymentProof = $request->file('bukti')
+        ->store('bukti_pembayaran', 'public');
+
+    $ktp = $request->file('ktp')
+        ->store('ktp', 'public');
+
+    $t->payment_proof = $paymentProof;
+    $t->ktp_image = $ktp;
+    $t->payment_status = 'pending';
+    $t->is_paid = false;
+
+    $t->save();
+
+    return back()->with(
+        'success',
+        'Dokumen berhasil diupload'
+    );
+} 
 public function batalkan(int $id)
 {
     $transaksi = Transaction::findOrFail($id);

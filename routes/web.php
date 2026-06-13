@@ -118,6 +118,6 @@ Route::post('/pelanggan/profile/update', [PelangganController::class, 'updatePro
         ->name('transaksi.bayar');
 });
 Route::post(
-    '/transaksi/{id}/upload-ktp',
-    [PelangganController::class, 'uploadKtp']
-)->name('transaksi.uploadKtp');
+    '/transaksi/{id}/upload-dokumen',
+    [TransactionController::class,'uploadDokumen']
+)->name('transaksi.uploadDokumen');

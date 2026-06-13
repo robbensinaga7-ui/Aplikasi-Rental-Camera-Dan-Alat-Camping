@@ -290,7 +290,65 @@ input[type=file]{
     font-size:12px;
     margin-top:5px;
 }
+.modal-img{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.85);
+    justify-content:center;
+    align-items:center;
+}
 
+.modal-img img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:15px;
+}
+
+.close-modal{
+    position:absolute;
+    top:20px;
+    right:30px;
+    color:white;
+    font-size:40px;
+    cursor:pointer;
+}
+.payment-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.7);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+}
+
+.payment-content{
+    background:white;
+    width:450px;
+    max-width:90%;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.payment-content h3{
+    margin-bottom:15px;
+    color:#2563eb;
+}
+
+.payment-content p{
+    margin:10px 0;
+    font-size:16px;
+}
 /* RESPONSIVE */
 @media(max-width:768px){
 
@@ -503,8 +561,7 @@ td{
     <th>Total</th>
     <th>Status</th>
     <th>Status Bayar</th>
-    <th>Bukti Bayar</th>
-    <th>KTP</th>
+    <th>Dokumen</th>
 </tr>
 
 @foreach($transactions as $t)
@@ -634,101 +691,115 @@ td{
 
 </td>
 
-    <!-- BUKTI -->
-    <td>
 
-      @if($t->payment_proof)
-
-    <img
-    src="{{ url('storage/'.$t->payment_proof) }}"
-    class="bukti-img"
-    alt="Bukti Pembayaran">
-
-@else
-
-    <span class="badge badge-belum">
-        Belum Upload
-    </span>
-
-@endif
-        @if(!$t->payment_proof && $t->status != 'dikembalikan')
-
-            <form
-            action="{{ route('transaksi.bayar', $t->id) }}"
-            method="POST"
-            enctype="multipart/form-data">
-
-                @csrf
-
-                <input type="file" name="bukti" required>
-
-                <button type="submit" class="btn-bayar">
-                    Upload
-                </button>
-
-            </form>
-
-        @elseif($t->payment_status == 'rejected')
-
-            <form
-            action="{{ route('transaksi.bayar', $t->id) }}"
-            method="POST"
-            enctype="multipart/form-data">
-
-                @csrf
-
-                <input type="file" name="bukti" required>
-
-                <button type="submit" class="btn-bayar">
-                    Upload Ulang
-                </button>
-
-            </form>
-
-        @endif
-
-    </td>
 <td>
 
-    @if($t->ktp_image)
+@if($t->payment_proof && $t->ktp_image)
 
-    <img
-    src="{{ url('storage/'.$t->ktp_image) }}"
-    class="bukti-img"
-    alt="KTP">
+    <div>
+        <b>✅ Dokumen Lengkap</b><br>
 
-    @elseif($t->status != 'dikembalikan')
+    <a href="javascript:void(0)"
+  data-image="{{ url('storage/'.$t->payment_proof) }}"
+   onclick="showImage(this.dataset.image); return false;">
+   📄 Lihat Bukti
+</a>
 
-        <form
-        action="{{ route('transaksi.uploadKtp', $t->id) }}"
-        method="POST"
-        enctype="multipart/form-data">
+|
 
-            @csrf
+<a href="javascript:void(0)"
+   data-image="{{ url('storage/'.$t->ktp_image) }}"
+   onclick="showImage(this.dataset.image); return false;">
+   🪪 Lihat KTP
+</a>
+    </div>
 
-            <input
-                type="file"
-                name="ktp"
-                accept="image/*"
-                required>
+@else
+<button
+    type="button"
+    class="btn-bayar"
+    onclick="openPaymentModal()">
+    💳 Lihat Rekening Tujuan
+</button>
 
-            <button type="submit" class="btn-bayar">
-                Upload KTP
-            </button>
+<br><br>
+<form
+    action="{{ route('transaksi.uploadDokumen',$t->id) }}"
+    method="POST"
+    enctype="multipart/form-data">
 
-        </form>
+    @csrf
 
-    @endif
+    <label>Bukti Pembayaran</label>
+    <input type="file" name="bukti" accept="image/*" required>
+
+    <br><br>
+
+    <label>Foto KTP</label>
+    <input type="file" name="ktp" accept="image/*" required>
+
+    <br><br>
+
+    <button type="submit" class="btn-bayar">
+        Upload Dokumen
+    </button>
+
+</form>
+
+@endif
 
 </td>
+
 </tr>
 
 @endforeach
 
 </table>
 
+<!-- MODAL GAMBAR -->
+<div id="imageModal" class="modal-img">
+    <span class="close-modal" onclick="closeImage()">&times;</span>
+    <img id="modalImage">
 </div>
 
+<!-- MODAL PEMBAYARAN -->
+<div id="paymentModal" class="payment-modal">
+
+    <div class="payment-content">
+
+        <h3>💳 Informasi Pembayaran</h3>
+
+        <p><strong>Bank:</strong> BCA</p>
+
+        <p><strong>No Rekening:</strong><br>1234567890</p>
+
+        <p><strong>Atas Nama:</strong><br>Rental Camping</p>
+
+        <button class="btn-batal" onclick="closePaymentModal()">
+            Tutup
+        </button>
+
+    </div>
+
 </div>
+
+<script>
+function showImage(src){
+    document.getElementById('imageModal').style.display='flex';
+    document.getElementById('modalImage').src=src;
+}
+
+function closeImage(){
+    document.getElementById('imageModal').style.display='none';
+}
+
+function openPaymentModal(){
+    document.getElementById('paymentModal').style.display='flex';
+}
+
+function closePaymentModal(){
+    document.getElementById('paymentModal').style.display='none';
+}
+</script>
 
 @endsection
