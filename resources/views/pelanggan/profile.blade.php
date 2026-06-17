@@ -187,9 +187,23 @@ body::after{
 <div class="profile-card">
 
     <div class="profile-header">
+<<<<<<< HEAD
         <div class="profile-avatar">
             {{ strtoupper(substr(Auth::user()->name,0,1)) }}
         </div>
+=======
+
+        <div class="profile-avatar" style="overflow:hidden;">
+    @if(Auth::user()->photo)
+        <img src="{{ asset('uploads/profile/' . Auth::user()->photo) }}"
+             alt="Foto Profil"
+             style="width:100%;height:100%;object-fit:cover;">
+    @else
+        {{ strtoupper(substr(Auth::user()->name,0,1)) }}
+    @endif
+</div>
+
+>>>>>>> 43b8fdba4f07bb71004354d084aae6df63c6da75
         <h2>{{ Auth::user()->name }}</h2>
         <p>{{ Auth::user()->email }}</p>
     </div>
@@ -234,8 +248,16 @@ body::after{
         <!-- EDIT -->
         <div id="editForm" style="display:none;">
 
+<<<<<<< HEAD
             <form action="/pelanggan/profile/update" method="POST">
                 @csrf
+=======
+    <form action="/pelanggan/profile/update"
+          method="POST"
+          enctype="multipart/form-data">
+
+            @csrf
+>>>>>>> 43b8fdba4f07bb71004354d084aae6df63c6da75
 
                 <div style="margin-bottom:15px;">
                     <label>Nama</label>
@@ -256,9 +278,21 @@ body::after{
                     <label>Alamat</label>
                     <textarea name="address" class="form-control" style="height:100px;">{{ Auth::user()->address }}</textarea>
                 </div>
+<div style="margin-bottom:15px;">
+    <label>Foto Profil</label>
+    <input
+        type="file"
+        name="photo"
+        accept="image/*"
+        class="form-control">
+</div>
+                <button type="submit" class="btn-save">
+                    💾 Update Profile
+                </button>
 
-                <button type="submit" class="btn-save">💾 Update Profile</button>
-                <button type="button" onclick="hideEditForm()" class="btn-cancel">❌ Batal</button>
+                <button type="button" onclick="hideEditForm()" class="btn-cancel">
+                    ❌ Batal
+                </button>
 
             </form>
 
