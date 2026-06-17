@@ -61,7 +61,7 @@ class PelangganController extends Controller
         );
     }
 
-    public function uploadKtp(Request $request, $id)
+    public function uploadKtp(Request $request, int $id)
     {
         $request->validate([
             'ktp' => 'required|image|mimes:jpg,jpeg,png|max:2048'
