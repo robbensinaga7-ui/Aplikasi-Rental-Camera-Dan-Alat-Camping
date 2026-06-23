@@ -1,25 +1,61 @@
 @extends('layouts.pelanggan')
 
 @section('title','Profile Saya')
+
 @section('style')
 <style>
 
-.profile-card{
-    max-width:750px;
-    margin:auto;
-    background:white;
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+body{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    min-height:100vh;
 }
 
+/* Hiasan background */
+body::before,
+body::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    opacity:.2;
+}
+
+body::before{
+    width:200px;
+    height:200px;
+    background:white;
+    top:50px;
+    left:50px;
+}
+
+body::after{
+    width:300px;
+    height:300px;
+    background:white;
+    bottom:50px;
+    right:50px;
+}
+
+/* Card */
+.profile-card{
+    max-width:750px;
+    margin:40px auto;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(12px);
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    animation:fadeIn 1s ease;
+}
+
+/* Header */
 .profile-header{
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    background:linear-gradient(135deg,#4facfe,#00c6ff);
     padding:40px;
     text-align:center;
     color:white;
 }
 
+/* Avatar animasi */
 .profile-avatar{
     width:100px;
     height:100px;
@@ -33,31 +69,38 @@
     align-items:center;
     margin:auto;
     margin-bottom:15px;
+    animation:float 3s ease-in-out infinite;
 }
 
+/* Body */
 .profile-body{
     padding:30px;
 }
 
+/* Item */
 .profile-item{
     background:#f8fbff;
     padding:15px;
     border-radius:15px;
     margin-bottom:15px;
+    transition:.3s;
+}
+
+.profile-item:hover{
+    transform:translateX(5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
 }
 
 .profile-item label{
-    display:block;
     font-size:13px;
     color:#64748b;
-    margin-bottom:5px;
 }
 
 .profile-item p{
-    color:#1e293b;
     font-weight:600;
 }
 
+/* Form */
 .form-control{
     width:100%;
     padding:12px;
@@ -72,40 +115,68 @@
     box-shadow:0 0 10px rgba(52,152,219,.2);
 }
 
-.btn-edit{
-    background:linear-gradient(135deg,#3498db,#6c9cff);
-    color:white;
-    border:none;
+/* Button */
+.btn-edit,
+.btn-save,
+.btn-cancel{
     padding:12px 20px;
+    border:none;
     border-radius:12px;
     cursor:pointer;
+    color:white;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-edit{
+    background:linear-gradient(135deg,#3498db,#6c9cff);
 }
 
 .btn-save{
     background:linear-gradient(135deg,#2ecc71,#27ae60);
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:12px;
-    cursor:pointer;
 }
 
 .btn-cancel{
     background:linear-gradient(135deg,#e74c3c,#c0392b);
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:12px;
-    cursor:pointer;
     margin-left:10px;
 }
 
+.btn-edit:hover,
+.btn-save:hover,
+.btn-cancel:hover{
+    transform:scale(1.05);
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Success */
 .success-box{
     background:#d4edda;
     color:#155724;
     padding:12px;
     border-radius:12px;
     margin-bottom:15px;
+    animation:fadeIn .5s ease;
+}
+
+/* Animasi view switch */
+.fade{
+    animation:fadeSwitch .4s ease;
+}
+
+/* Keyframes */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeSwitch{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
 }
 
 </style>
@@ -128,9 +199,7 @@
 </div>
 
         <h2>{{ Auth::user()->name }}</h2>
-
         <p>{{ Auth::user()->email }}</p>
-
     </div>
 
     <div class="profile-body">
@@ -141,8 +210,8 @@
             </div>
         @endif
 
-        <!-- TAMPIL DATA -->
-        <div id="profileView">
+        <!-- VIEW -->
+        <div id="profileView" class="fade">
 
             <div class="profile-item">
                 <label>Nama</label>
@@ -170,7 +239,7 @@
 
         </div>
 
-        <!-- FORM EDIT -->
+        <!-- EDIT -->
         <div id="editForm" style="display:none;">
 
     <form action="/pelanggan/profile/update"
@@ -181,37 +250,22 @@
 
                 <div style="margin-bottom:15px;">
                     <label>Nama</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value="{{ Auth::user()->name }}"
-                        class="form-control">
+                    <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control">
                 </div>
 
                 <div style="margin-bottom:15px;">
                     <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value="{{ Auth::user()->email }}"
-                        class="form-control">
+                    <input type="email" name="email" value="{{ Auth::user()->email }}" class="form-control">
                 </div>
 
                 <div style="margin-bottom:15px;">
                     <label>No HP</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        value="{{ Auth::user()->phone }}"
-                        class="form-control">
+                    <input type="text" name="phone" value="{{ Auth::user()->phone }}" class="form-control">
                 </div>
 
                 <div style="margin-bottom:15px;">
                     <label>Alamat</label>
-                    <textarea
-                        name="address"
-                        class="form-control"
-                        style="height:100px;">{{ Auth::user()->address }}</textarea>
+                    <textarea name="address" class="form-control" style="height:100px;">{{ Auth::user()->address }}</textarea>
                 </div>
 <div style="margin-bottom:15px;">
     <label>Foto Profil</label>
@@ -241,17 +295,18 @@
 
 function showEditForm(){
     document.getElementById('profileView').style.display='none';
-    document.getElementById('editForm').style.display='block';
+    let form = document.getElementById('editForm');
+    form.style.display='block';
+    form.classList.add('fade');
 }
 
 function hideEditForm(){
-    document.getElementById('profileView').style.display='block';
     document.getElementById('editForm').style.display='none';
+    let view = document.getElementById('profileView');
+    view.style.display='block';
+    view.classList.add('fade');
 }
 
 </script>
-
-
-</div>
 
 @endsection

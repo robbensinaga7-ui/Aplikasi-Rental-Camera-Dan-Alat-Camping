@@ -262,7 +262,7 @@ public function pengembalian()
 
     return view('admin.pengembalian', compact('data'));
 }
-public function uploadDokumen(Request $request, $id)
+public function uploadDokumen(Request $request, int $id)
 {
     $request->validate([
         'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048',

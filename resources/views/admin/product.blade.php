@@ -205,7 +205,18 @@ table tr:hover{
 }
 
 .search-box input{
-    width:100%;
+    width:280px;
+    padding:12px 18px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.search-box input:focus{
+    width:340px;
+    box-shadow:0 8px 25px rgba(79,172,254,.25);
 }
 }
 
@@ -370,7 +381,10 @@ table tr:hover{
 <div class="page-header">
 
     <div class="search-box">
-        <input type="text" placeholder="🔍 Cari Produk...">
+       <input
+    type="text"
+    id="searchProduct"
+    placeholder="🔍 Cari Produk...">
     </div>
 
     <a href="/product/create" class="btn btn-add">
@@ -410,7 +424,7 @@ table tr:hover{
 
     @foreach($products as $index => $product)
 
-    <tr>
+    <tr class="product-row">
 
         <td>{{ $index + 1 }}</td>
 
@@ -420,7 +434,7 @@ table tr:hover{
             src="{{ $product->image ? asset('storage/'.$product->image) : 'https://via.placeholder.com/80' }}">
         </td>
 
-        <td>
+       <td class="product-name">
             <b>{{ $product->name }}</b>
         </td>
 
@@ -503,6 +517,29 @@ document.querySelectorAll('.btn-hapus').forEach(button => {
             }
 
         });
+
+    });
+
+});
+</script>
+<script>
+const searchInput = document.getElementById('searchProduct');
+
+searchInput.addEventListener('keyup', function(){
+
+    let keyword = this.value.toLowerCase();
+
+    document.querySelectorAll('.product-row').forEach(row => {
+
+        let productName = row.querySelector('.product-name')
+                             .innerText
+                             .toLowerCase();
+
+        if(productName.includes(keyword)){
+            row.style.display = '';
+        }else{
+            row.style.display = 'none';
+        }
 
     });
 

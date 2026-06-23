@@ -6,20 +6,58 @@
 
 <style>
 
+body{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    min-height:100vh;
+}
+
+/* Hiasan bulat */
+body::before,
+body::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    opacity:.2;
+}
+
+body::before{
+    width:200px;
+    height:200px;
+    background:white;
+    top:50px;
+    left:50px;
+}
+
+body::after{
+    width:300px;
+    height:300px;
+    background:white;
+    bottom:50px;
+    right:50px;
+}
+
+/* Container */
 .form-container{
     max-width:700px;
     margin:auto;
+    padding-top:40px;
+    animation:fadeIn 1s ease;
 }
 
+/* Card */
 .form-card{
-    background:white;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
     border-radius:25px;
     overflow:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    transform:translateY(30px);
+    animation:slideUp 0.8s ease forwards;
 }
 
+/* Header */
 .form-header{
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    background:linear-gradient(135deg,#4facfe,#00c6ff);
     color:white;
     text-align:center;
     padding:30px;
@@ -29,35 +67,61 @@
     margin-bottom:8px;
 }
 
+/* Icon animasi */
+.icon-box{
+    font-size:60px;
+    margin-bottom:10px;
+    animation:float 3s infinite ease-in-out;
+}
+
+/* Body */
 .form-body{
     padding:30px;
 }
 
+/* Floating label */
 .form-group{
-    margin-bottom:18px;
+    position:relative;
+    margin-bottom:22px;
 }
 
-.form-group label{
-    display:block;
-    margin-bottom:8px;
-    font-weight:600;
-    color:#334155;
-}
-
-.form-control{
+.form-group input,
+.form-group textarea{
     width:100%;
-    padding:12px 15px;
+    padding:14px;
     border:1px solid #dbe2ea;
     border-radius:12px;
+    outline:none;
     transition:.3s;
 }
 
-.form-control:focus{
-    outline:none;
+.form-group label{
+    position:absolute;
+    top:12px;
+    left:15px;
+    color:#888;
+    background:white;
+    padding:0 5px;
+    transition:.3s;
+    pointer-events:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
     border-color:#3498db;
     box-shadow:0 0 0 4px rgba(52,152,219,0.15);
 }
 
+.form-group input:focus + label,
+.form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label{
+    top:-10px;
+    font-size:12px;
+    color:#3498db;
+}
+
+/* Button */
 .btn-save{
     background:linear-gradient(135deg,#2ecc71,#27ae60);
     color:white;
@@ -66,6 +130,12 @@
     border-radius:12px;
     cursor:pointer;
     font-weight:600;
+    transition:.3s;
+}
+
+.btn-save:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(46,204,113,0.4);
 }
 
 .btn-back{
@@ -76,16 +146,30 @@
     border-radius:12px;
     margin-left:10px;
     font-weight:600;
+    transition:.3s;
 }
 
-.btn-save:hover,
 .btn-back:hover{
-    opacity:.9;
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(231,76,60,0.4);
 }
 
-.icon-box{
-    font-size:60px;
-    margin-bottom:10px;
+/* Animations */
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes slideUp{
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
 }
 
 </style>
@@ -95,80 +179,43 @@
     <div class="form-card">
 
         <div class="form-header">
-
-            <div class="icon-box">
-                👤
-            </div>
-
+            <div class="icon-box">👤</div>
             <h2>Tambah Data Pelanggan</h2>
-
-            <p>
-                Isi data pelanggan dengan lengkap
-            </p>
-
+            <p>Isi data pelanggan dengan lengkap</p>
         </div>
 
         <div class="form-body">
 
             <form action="/admin/pelanggan/store" method="POST">
-
                 @csrf
 
                 <div class="form-group">
+                    <input type="text" name="name" placeholder=" " required>
                     <label>Nama Lengkap</label>
-                    <input
-                        type="text"
-                        name="name"
-                        class="form-control"
-                        placeholder="Masukkan nama pelanggan"
-                        required>
                 </div>
 
                 <div class="form-group">
+                    <input type="email" name="email" placeholder=" " required>
                     <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Masukkan email"
-                        required>
                 </div>
 
                 <div class="form-group">
+                    <input type="text" name="phone" placeholder=" ">
                     <label>No HP</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        class="form-control"
-                        placeholder="Masukkan nomor HP">
                 </div>
 
                 <div class="form-group">
+                    <textarea name="address" rows="4" placeholder=" "></textarea>
                     <label>Alamat</label>
-                    <textarea
-                        name="address"
-                        class="form-control"
-                        rows="4"
-                        placeholder="Masukkan alamat pelanggan"></textarea>
                 </div>
 
                 <div class="form-group">
+                    <input type="password" name="password" placeholder=" " required>
                     <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Masukkan password"
-                        required>
                 </div>
 
-                <button type="submit" class="btn-save">
-                    💾 Simpan Data
-                </button>
-
-                <a href="/admin/pelanggan" class="btn-back">
-                    ↩ Kembali
-                </a>
+                <button type="submit" class="btn-save">💾 Simpan</button>
+                <a href="/admin/pelanggan" class="btn-back">↩ Kembali</a>
 
             </form>
 
