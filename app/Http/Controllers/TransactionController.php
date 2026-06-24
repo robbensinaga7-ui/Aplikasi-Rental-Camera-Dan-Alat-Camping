@@ -225,18 +225,29 @@ public function konfirmasiKembali(int $id)
 
     $returnDate = Carbon::parse($transaksi->return_date);
 
-    if ($today->gt($returnDate)) {
+if ($today->gt($return_date)) {
+    $late_days = $today->diffInDays($return_date);
+}
+    $fine_late = $late_days * 10000;
 
-        $lateDays = $returnDate->diffInDays($today);
+    // DENDA KONDISI
+    $fine_damage = 0;
+    $fine_lost = 0;
 
-        $dendaPerHari = 10000;
+    if ($request->kondisi == 'rusak_ringan') {
+        $fine_damage = 50000;
+    } elseif ($request->kondisi == 'rusak_berat') {
+        $fine_damage = 150000;
+    }elseif ($request->kondisi == 'hilang') {
 
-        $transaksi->fine = $lateDays * $dendaPerHari;
+    $harga = $t->product->price_per_day ?? 0;
 
-    } else {
-
-        $transaksi->fine = 0;
+    if ($harga <= 0) {
+        $harga = $t->price / $t->qty;
     }
+
+    $fine_lost = $harga * 10 * $t->qty;
+}
 
     // UPDATE STATUS
     $transaksi->status = 'dikembalikan';
