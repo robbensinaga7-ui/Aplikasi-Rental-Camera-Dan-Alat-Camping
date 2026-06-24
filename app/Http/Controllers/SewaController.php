@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class SewaController extends Controller
 {
@@ -27,14 +26,11 @@ public function store(Request $request)
         return back()->with('error', 'Stok tidak cukup!');
     }
 
-    //  HITUNG HARI
-    $rent = Carbon::parse($request->rent_date);
-    $return = Carbon::parse($request->return_date);
 
-    $days = $rent->diffInDays($return) + 1;
+    
 
     //  HITUNG TOTAL
-    $totalPrice = $product->price * $days * $request->qty;
+    $totalPrice = $product->price * $request->qty;
 
     //  SIMPAN TRANSAKSI
     Transaction::create([

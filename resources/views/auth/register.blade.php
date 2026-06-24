@@ -290,7 +290,57 @@ h2{
 }
 
 }
+.password-group{
+    position:relative;
+}
 
+.toggle-password{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* GARIS MIRING */
+#slash{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:22px;
+    height:2px;
+    background:white;
+
+    transform:translate(-50%, -50%) rotate(45deg) scaleX(0);
+    transform-origin:center;
+
+    transition:0.3s ease;
+    opacity:0;
+}
+
+/* SAAT AKTIF */
+.toggle-password.active #slash{
+    transform:translate(-50%, -50%) rotate(45deg) scaleX(1);
+    opacity:1;
+}
+
+/* ANIMASI ICON */
+#eyeIcon{
+    transition:0.3s ease;
+}
+
+.toggle-password.active #eyeIcon{
+    transform:scale(0.9) rotate(-10deg);
+    opacity:0.7;
+}
+
+/* HOVER EFFECT */
+.toggle-password:hover #eyeIcon{
+    filter:drop-shadow(0 0 6px #43e97b);
+}
 </style>
 </head>
 
@@ -367,14 +417,31 @@ h2{
                 required>
         </div>
 
-        <!-- PASSWORD -->
-        <div class="input-group">
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required>
-        </div>
+      <div class="input-group password-group">
+    <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        required>
+
+    <span class="toggle-password" onclick="togglePassword()">
+        <!-- EYE ICON -->
+        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" 
+             width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5
+                   c4.478 0 8.268 2.943 9.542 7
+                   -1.274 4.057-5.064 7-9.542 7
+                   -4.477 0-8.268-2.943-9.542-7z"/>
+        </svg>
+
+        <!-- GARIS MIRING -->
+        <span id="slash"></span>
+    </span>
+</div>
 
         <!-- BUTTON -->
         <button type="submit" class="btn-register">
@@ -392,6 +459,19 @@ h2{
     </div>
 
 </div>
+<script>
+function togglePassword() {
+    const pass = document.getElementById("password");
+    const toggle = document.querySelector(".toggle-password");
 
+    if (pass.type === "password") {
+        pass.type = "text";
+        toggle.classList.remove("active");
+    } else {
+        pass.type = "password";
+        toggle.classList.add("active");
+    }
+}
+</script>
 </body>
 </html>

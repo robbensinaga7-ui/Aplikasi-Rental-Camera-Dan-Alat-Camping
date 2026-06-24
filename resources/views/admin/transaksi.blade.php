@@ -404,51 +404,35 @@ tr:hover .total-price{
 
             <td>{{ $item->return_date }}</td> 
 
-            <td class="total-price">
-                Rp {{ number_format($item->price + $item->fine,0,',','.') }}
-            </td>
+           <td class="total-price">
+   Rp {{ number_format($item->total_price ?: $item->price,0,',','.') }}
+</td>
 
             <td>
+    @if($item->status == 'dipinjam')
+        <span class="badge badge-blue">Dipinjam</span>
 
-                @if($item->status == 'dipinjam')
+    @elseif($item->status == 'menunggu_konfirmasi')
+        <span class="badge badge-orange">Menunggu</span>
 
-                    <span class="badge badge-blue">
-                        Dipinjam
-                    </span>
+    @elseif($item->status == 'dikembalikan')
+        <span class="badge badge-green">Selesai</span>
 
-                @elseif($item->status == 'menunggu_konfirmasi')
+    @elseif($item->status == 'terlambat')
+        <span class="badge badge-orange">Terlambat</span>
 
-                    <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
-                        @csrf
-                        <button class="btn btn-green">
-                            Konfirmasi
-                        </button>
-                    </form>
+    @elseif($item->status == 'ditolak')
+        <span class="badge badge-red">Ditolak</span>
 
-                @elseif($item->status == 'dikembalikan')
-
-                    <span class="badge badge-green">
-                        Selesai
-                    </span>
-
-                @elseif($item->status == 'ditolak')
-
-                    <span class="badge badge-red">
-                        Ditolak
-                    </span>
-
-                    @elseif($item->status == 'dibatalkan')
-
-    <span class="badge badge-red">
-        Dibatalkan
-    </span>
-
-                @endif
-
-            </td>
+    @elseif($item->status == 'dibatalkan')
+        <span class="badge badge-red">Dibatalkan</span>
+    @endif
+</td>
 
             <td class="fine">
-                Rp {{ number_format($item->fine ?? 0,0,',','.') }}
+                <div style="color:#facc15;">⏰ Telat: Rp {{ number_format($item->fine_late,0,',','.') }}</div>
+    <div style="color:#fb923c;">⚠️ Rusak: Rp {{ number_format($item->fine_damage,0,',','.') }}</div>
+    <div style="color:#ef4444;">❌ Hilang: Rp {{ number_format($item->fine_lost,0,',','.') }}</div>
             </td>
 
             <!-- BUKTI -->
@@ -538,27 +522,51 @@ tr:hover .total-price{
             </td>
 
             <td>
+@if($item->status == 'menunggu_konfirmasi')
 
-                @if($item->status == 'dipinjam')
+     <div style="margin-bottom:10px; font-size:13px;">
 
-                    <form action="/kembalikan/{{ $item->id }}"
-                    method="POST">
+        @if($item->late_days > 0)
+            <span class="badge badge-orange">
+                ⏰ Terlambat {{ $item->late_days }} hari
+            </span>
 
-                        @csrf
+            <div style="color:#ef4444; font-weight:bold; margin-top:5px;">
+                Denda: Rp {{ number_format($item->fine_late_preview,0,',','.') }}
+            </div>
+        @else
+            <span class="badge badge-green">
+                ✔ Tepat Waktu
+            </span>
+        @endif
 
-                        <button class="btn btn-blue">
-                            Kembalikan
-                        </button>
+    <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+        @csrf
 
-                    </form>
+         <label style="font-size:12px;">Kondisi Barang:</label>
 
-                @else
+        <select name="kondisi" required>
+            <option value="">-- Pilih Kondisi --</option>
+            <option value="baik">✔ Baik</option>
+            <option value="rusak_ringan">🔧 Rusak Ringan</option>
+            <option value="rusak_berat">⚠️ Rusak Berat</option>
+            <option value="hilang">❌ Hilang</option>
+        </select>
 
-                    ✔
+        <button class="btn btn-green">Konfirmasi</button>
+    </form>
 
-                @endif
+@elseif($item->status == 'dipinjam')
 
-            </td>
+    <form action="/kembalikan/{{ $item->id }}" method="POST">
+        @csrf
+        <button class="btn btn-blue">Kembalikan</button>
+    </form>
+
+@else
+    ✔
+@endif
+</td>
 
         </tr>
 

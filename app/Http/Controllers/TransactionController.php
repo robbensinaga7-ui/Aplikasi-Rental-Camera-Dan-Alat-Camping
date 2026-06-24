@@ -13,6 +13,19 @@ class TransactionController extends Controller
     public function index()
 {
     $data = Transaction::with(['product', 'user'])->get();
+
+    foreach ($data as $item) {
+        $today = now();
+
+        if ($today->gt($item->return_date)) {
+            $item->late_days = abs($today->diffInDays($item->return_date));
+            $item->fine_late_preview = $item->late_days * 10000;
+        } else {
+            $item->late_days = 0;
+            $item->fine_late_preview = 0;
+        }
+    }
+
     return view('admin.transaksi', compact('data'));
 }
 
@@ -41,12 +54,8 @@ class TransactionController extends Controller
         return back()->with('error', 'Stok tidak cukup');
     }
 
-    $rent = Carbon::parse($request->rent_date);
-$return = Carbon::parse($request->return_date);
-
-$days = $rent->diffInDays($return) + 1;
 $product = Product::findOrFail($request->product_id);
-$totalPrice = $product->price_per_day * $days * $request->qty;
+$totalPrice = $product->price_per_day * $request->qty;
 
 Transaction::create([
     'user_id' => Auth::id(),
@@ -55,17 +64,15 @@ Transaction::create([
     'rent_date' => $request->rent_date,
     'return_date' => $request->return_date,
     'price' => $totalPrice,
-    'fine' => 0,
     'status' => 'dipinjam'
 ]);
 
-    $product->stock -= $request->qty;
-    $product->save();
+    $product->decrement('stock', $request->qty);
 
     return redirect('/admin/transaksi')->with('success', 'Berhasil transaksi');
 }
 
-    public function dashboard(Request $request)
+public function dashboard(Request $request)
 {
     $name = $request->user_id;
 
@@ -74,6 +81,18 @@ Transaction::create([
             $query->where('user_id', $name);
         })
         ->get();
+
+    // Tambahkan perulangan ini agar data dihitung dengan benar secara real-time
+    foreach ($transactions as $item) {
+        $today = now();
+        if ($today->gt($item->return_date)) {
+            $item->late_days = abs($today->diffInDays($item->return_date));
+            $item->fine_late_preview = $item->late_days * 10000;
+        } else {
+            $item->late_days = 0;
+            $item->fine_late_preview = 0;
+        }
+    }
 
     $products = Product::all();
 
@@ -127,30 +146,7 @@ public function adminDashboard()
     );
 }
 
-private function hitungDenda(Transaction $transaksi)
-{
-    $today = Carbon::now();
-    $returnDate = Carbon::parse($transaksi->return_date);
 
-    if ($today->gt($returnDate)) {
-        $lateDays = $returnDate->diffInDays($today);
-
-        $dendaPerHari = 10000; 
-
-        return $lateDays * $dendaPerHari;
-    }
-
-    return 0;
-}
-public function kembalikan(int $id)
-{
-    $t = Transaction::findOrFail($id);
-
-    $t->status = 'menunggu_konfirmasi';
-    $t->save();
-
-    return back()->with('success', 'Pengembalian diajukan, menunggu admin');
-}
 public function adminPembayaran()
 {
     $transactions = Transaction::with('product')->get();
@@ -179,7 +175,6 @@ public function acc(int $id)
 
     $t->update([
         'payment_status' => 'approved',
-        'is_paid' => true,
         'paid_at' => now()
     ]);
 
@@ -192,7 +187,9 @@ public function acc(int $id)
 public function tolak(int $id)
 {
     $t = Transaction::findOrFail($id);
-
+if ($t->status === 'ditolak') {
+    return back()->with('error','Sudah ditolak');
+}
     $t->update([
         'payment_status' => 'rejected',
         'status' => 'ditolak',
@@ -201,36 +198,53 @@ public function tolak(int $id)
 
     
     $product = Product::find($t->product_id);
-    $product->stock += $t->qty;
-    $product->save();
+    $product->increment('stock', $t->qty);
 
     return back()->with('success', 'Pembayaran ditolak');
 }
 public function ajukanKembali(int $id)
 {
     $t = Transaction::findOrFail($id);
-
+if ($t->status !== 'dipinjam') {
+    return back()->with('error','Tidak bisa ajukan');
+}
     $t->status = 'menunggu_konfirmasi';
     $t->save();
 
     return back()->with('success', 'Menunggu konfirmasi admin');
 }
 
-public function konfirmasiKembali(int $id)
+public function konfirmasiKembali(Request $request, int $id)
 {
-    $transaksi = Transaction::find($id);
+    $request->validate([
+        'kondisi' => 'required|in:baik,rusak_ringan,rusak_berat,hilang'
+    ]);
 
-    // HITUNG DENDA
-    $today = Carbon::now();
+    $t = Transaction::findOrFail($id);
 
-    $returnDate = Carbon::parse($transaksi->return_date);
+    if ($t->status === 'dikembalikan') {
+        return back()->with('error', 'Barang sudah dikembalikan');
+    }
+    if (!in_array($t->status, ['dipinjam', 'menunggu_konfirmasi'])) {
+        return back()->with('error', 'Status tidak valid');
+    }
 
-if ($today->gt($return_date)) {
-    $late_days = $today->diffInDays($return_date);
-}
+
+    // Hitung ulang harga sewa dasar yang valid
+    $correctPrice = $t->price;
+
+    // 2. HITUNG DENDA TELAT (Pastikan Tanggal Real-Time vs Return Date)
+    $today = now()->startOfDay(); 
+    $return_date = Carbon::parse($t->return_date)->startOfDay();
+    $late_days = 0;
+
+    if ($today->gt($return_date)) {
+        // Paksa absolute (true) di parameter kedua diffInDays agar tidak minus
+        $late_days = $today->diffInDays($return_date);
+    }
     $fine_late = $late_days * 10000;
 
-    // DENDA KONDISI
+    // 3. DENDA KONDISI BARANG
     $fine_damage = 0;
     $fine_lost = 0;
 
@@ -238,23 +252,31 @@ if ($today->gt($return_date)) {
         $fine_damage = 50000;
     } elseif ($request->kondisi == 'rusak_berat') {
         $fine_damage = 150000;
-    }elseif ($request->kondisi == 'hilang') {
-
-    $harga = $t->product->price_per_day ?? 0;
-
-    if ($harga <= 0) {
-        $harga = $t->price / $t->qty;
+    } elseif ($request->kondisi == 'hilang') {
+        $harga_dasar = $t->product->price_per_day ?? ($t->price / $t->qty);
+        $fine_lost = $harga_dasar * 10 * $t->qty;
     }
 
-    $fine_lost = $harga * 10 * $t->qty;
-}
+    // 4. TOTAL AKHIR YANG SEBENARNYA
+    $total = $correctPrice + $fine_late + $fine_damage + $fine_lost;
 
-    // UPDATE STATUS
-    $transaksi->status = 'dikembalikan';
+    // 5. UPDATE SEMUA KE DATABASE
+    $t->update([
+        'price'       => $correctPrice, // Simpan harga sewa yang benar ke database
+        'status'      => 'dikembalikan',
+        'fine_late'   => $fine_late,
+        'fine_damage' => $fine_damage,
+        'fine_lost'   => $fine_lost,
+        'late_days'   => $late_days,
+        'condition'   => $request->kondisi,
+        'total_price' => $total
+    ]);
 
-    $transaksi->save();
+    // Kembalikan stok barang
+    $product = $t->product;
+    $product->increment('stock', $t->qty);
 
-    return back()->with('success', 'Pengembalian berhasil dikonfirmasi');
+    return back()->with('success', 'Pengembalian dikonfirmasi + denda berhasil diperbarui');
 }
 public function peminjaman()
 {
@@ -291,7 +313,7 @@ public function uploadDokumen(Request $request, int $id)
     $t->payment_proof = $paymentProof;
     $t->ktp_image = $ktp;
     $t->payment_status = 'pending';
-    $t->is_paid = false;
+    
 
     $t->save();
 
@@ -305,11 +327,13 @@ public function batalkan(int $id)
     $transaksi = Transaction::findOrFail($id);
 
     // kembalikan stok
+    if ($transaksi->status === 'dibatalkan') {
+    return back()->with('error','Sudah dibatalkan');
+}
     $product = Product::find($transaksi->product_id);
 
     if($product){
-        $product->stock += $transaksi->qty;
-        $product->save();
+       $product->increment('stock', $transaksi->qty);
     }
 
     $transaksi->status = 'dibatalkan';
