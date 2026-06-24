@@ -17,15 +17,11 @@
         <div>
             <h3>📞 Contact</h3>
             <p>1. 0882-7121-6873</p>
-            <p>2. 0822-9193-2168</p>
-            <p>3. 0813-7003-8500</p>
         </div>
 
         <div>
             <h3>📧 Email</h3>
             <p>1. robbensinaga7@gmail.com</p>
-            <p>2. claudyamanurung05@gmail.com</p>
-            <p>3. feddly.nababan@gmail.com</p>
         </div>
 
     </div>
