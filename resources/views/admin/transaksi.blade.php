@@ -324,6 +324,40 @@ tr:hover .total-price{
         opacity:.7;
     }
 }
+.kondisi-box{
+    background:#f8fafc;
+    padding:12px;
+    border-radius:12px;
+    margin-top:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.kondisi-box label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:5px;
+    color:#334155;
+}
+
+.kondisi-select{
+    width:100%;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    margin-bottom:8px;
+    transition:.3s;
+}
+
+.kondisi-select:focus{
+    border-color:#4facfe;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(79,172,254,.2);
+}
+
+.full{
+    width:100%;
+}
 </style>
 @endsection
 
@@ -543,17 +577,21 @@ tr:hover .total-price{
     <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
         @csrf
 
-         <label style="font-size:12px;">Kondisi Barang:</label>
+        <div class="kondisi-box">
 
-        <select name="kondisi" required>
-            <option value="">-- Pilih Kondisi --</option>
-            <option value="baik">✔ Baik</option>
-            <option value="rusak_ringan">🔧 Rusak Ringan</option>
-            <option value="rusak_berat">⚠️ Rusak Berat</option>
-            <option value="hilang">❌ Hilang</option>
-        </select>
+    <label>Kondisi Barang</label>
 
-        <button class="btn btn-green">Konfirmasi</button>
+    <select name="kondisi" required class="kondisi-select">
+        <option value="">-- Pilih Kondisi --</option>
+        <option value="baik">✔ Baik</option>
+        <option value="rusak_ringan">🔧 Rusak Ringan</option>
+        <option value="rusak_berat">⚠️ Rusak Berat</option>
+        <option value="hilang">❌ Hilang</option>
+    </select>
+
+    <button class="btn btn-green full">Konfirmasi</button>
+
+</div>
     </form>
 
 @elseif($item->status == 'dipinjam')
