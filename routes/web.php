@@ -123,3 +123,5 @@ Route::post(
     '/transaksi/{id}/upload-dokumen',
     [TransactionController::class,'uploadDokumen']
 )->name('transaksi.uploadDokumen');
+Route::post('/upload-rusak/{id}', [TransactionController::class, 'uploadRusak'])
+    ->name('transaksi.uploadRusak');

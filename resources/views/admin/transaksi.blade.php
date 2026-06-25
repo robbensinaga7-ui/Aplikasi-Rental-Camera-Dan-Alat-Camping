@@ -416,6 +416,7 @@ tr:hover .total-price{
             <th>Bukti</th>
             <th>KTP Penyewa</th>
             <th>Pembayaran</th>
+            <th>Foto Rusak</th> 
             <th>Aksi</th>
         </tr>
     </thead>
@@ -554,6 +555,15 @@ tr:hover .total-price{
                 @endif
 
             </td>
+
+            <!-- FOTO RUSAK -->
+<td>
+    @if($item->damage_photo)
+        <img src="{{ asset('storage/'.$item->damage_photo) }}" width="70">
+    @else
+        <span style="color:#94a3b8;">-</span>
+    @endif
+</td>
 
             <td>
 @if($item->status == 'menunggu_konfirmasi')

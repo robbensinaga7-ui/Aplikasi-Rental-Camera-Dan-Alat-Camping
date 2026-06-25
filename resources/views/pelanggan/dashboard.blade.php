@@ -564,6 +564,7 @@ td{
     <th>Status</th>
     <th>Status Bayar</th>
     <th>Dokumen</th>
+    <th>Upload Foto Barang Rusak</th>
 </tr>
 
 @foreach($transactions as $t)
@@ -655,15 +656,13 @@ Rp {{ number_format(
             Dipinjam
         </span>
 
-        <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
+      <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
+    @csrf
 
-            @csrf
-
-            <button class="btn-ajukan">
-                Ajukan Pengembalian
-            </button>
-
-        </form>
+    <button class="btn-ajukan">
+        Ajukan Pengembalian
+    </button>
+</form>
 
         <form action="/batalkan/{{ $t->id }}" method="POST">
 
@@ -786,7 +785,34 @@ Rp {{ number_format(
 @endif
 
 </td>
+<td>
 
+@if($t->damage_photo)
+    <a href="javascript:void(0)"
+       data-image="{{ url('storage/'.$t->damage_photo) }}"
+       onclick="showImage(this.dataset.image); return false;">
+       📸 Lihat Foto
+    </a>
+
+@elseif($t->status == 'dipinjam')
+
+    <form action="{{ route('transaksi.uploadRusak',$t->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <input type="file" name="foto_rusak" accept="image/*" required>
+
+        <br><br>
+
+        <button type="submit" class="btn-bayar">
+            Upload
+        </button>
+    </form>
+
+@else
+    <span style="color:#94a3b8;">-</span>
+@endif
+
+</td>
 </tr>
 
 @endforeach
