@@ -559,6 +559,8 @@ td{
     <th>Sewa</th>
     <th>Kembali</th>
     <th>Total</th>
+    <th>Detail Biaya</th>
+    <th>Kondisi</th>
     <th>Status</th>
     <th>Status Bayar</th>
     <th>Dokumen</th>
@@ -566,7 +568,7 @@ td{
 
 @foreach($transactions as $t)
 
-<tr>
+<tr @if($t->fine_preview > 0) style="background:#fff5f5;" @endif>
 
     <td>
         {{ $t->product->name ?? '-' }}
@@ -577,17 +579,73 @@ td{
     </td>
 
     <td>
-        {{ $t->rent_date }}
+        {{ \Carbon\Carbon::parse($t->rent_date)->format('d M Y') }}
     </td>
 
     <td>
-        {{ $t->return_date }}
+        {{ \Carbon\Carbon::parse($t->return_date)->format('d M Y') }}
     </td>
 
-    <td>
-        Rp {{ number_format($t->price + $t->fine,0,',','.') }}
-    </td>
+   <td class="total-price">
+Rp {{ number_format(
+    ($t->price ?? 0)
+    + ($t->fine_late ?? 0)
+    + ($t->fine_damage ?? 0)
+    + ($t->fine_lost ?? 0)
+,0,',','.') }}
+</td>
 
+<td>
+    Sewa: Rp {{ number_format($t->price,0,',','.') }} <br>
+
+    @if($t->fine_late > 0)
+        ⏰ Telat: Rp {{ number_format($t->fine_late,0,',','.') }} <br>
+    @endif
+
+    @if($t->fine_damage > 0)
+        🔧 Rusak: Rp {{ number_format($t->fine_damage,0,',','.') }} <br>
+    @endif
+
+    @if($t->fine_lost > 0)
+        ❌ Hilang: Rp {{ number_format($t->fine_lost,0,',','.') }}
+    @endif
+
+    @if(
+        $t->fine_late == 0 &&
+        $t->fine_damage == 0 &&
+        $t->fine_lost == 0
+    )
+        <span style="color:green;">✔️ Tidak ada denda</span>
+    @endif
+    @if($t->status == 'dipinjam' && $t->fine_preview > 0)
+    <br>
+    <span style="color:red;">
+        ⚠️ Estimasi telat {{  $t->late_days_preview}} hari<br>
+        Denda: Rp {{ number_format($t->fine_preview,0,',','.') }}
+    </span>
+    <br>
+    <small style="color:#f39c12;">
+        *Denda final ditentukan admin saat pengembalian
+    </small>
+@endif
+</td>
+<td>
+    @if($t->status == 'dikembalikan')
+
+        @if(($t->fine_lost ?? 0) > 0)
+        <span class="badge badge-belum">❌ Hilang</span>
+
+    @elseif(($t->fine_damage ?? 0) > 0)
+        <span class="badge badge-pending">🔧 Rusak</span>
+
+    @else
+        <span class="badge badge-lunas">✔️ Baik</span>
+    @endif
+
+    @else
+        <span style="color:#94a3b8;">-</span>
+    @endif
+</td>
     <!-- STATUS -->
 <td>
 
@@ -622,9 +680,14 @@ td{
 
     @elseif($t->status == 'menunggu_konfirmasi')
 
-        <span class="badge badge-pending">
-            Menunggu
-        </span>
+       <span class="badge badge-pending">
+    Dicek Admin
+</span>
+
+<br>
+<small style="color:#64748b;">
+    Barang sedang diperiksa
+</small>
 
     @elseif($t->status == 'dikembalikan')
 
@@ -651,46 +714,20 @@ td{
    <!-- PAYMENT -->
 <td>
 
-    @if($t->payment_status == 'dibatalkan')
+   @if($t->payment_status == 'pending')
+    <span class="badge badge-pending">Menunggu</span>
 
-        <span class="badge badge-belum">
-            Dibatalkan
-        </span>
+@elseif($t->payment_status == 'approved')
+    <span class="badge badge-lunas">Lunas</span>
 
-    @elseif(!$t->payment_status)
+@elseif($t->payment_status == 'rejected')
+    <span class="badge badge-belum">Ditolak</span>
 
-        <span class="badge badge-belum">
-            Belum
-        </span>
-
-    @elseif($t->payment_status == 'pending')
-
-        <span class="badge badge-pending">
-            Menunggu
-        </span>
-
-    @elseif($t->payment_status == 'approved')
-
-        <span class="badge badge-lunas">
-            Lunas
-        </span>
-
-    @elseif($t->payment_status == 'rejected')
-
-        <span class="badge badge-belum">
-            Ditolak
-        </span>
-
-    @elseif($t->payment_status == 'dibatalkan')
-
-    <span class="badge badge-belum">
-        Dibatalkan
-    </span>
-
-    @endif
+@elseif($t->payment_status == 'dibatalkan')
+    <span class="badge badge-belum">Dibatalkan</span>
+@endif
 
 </td>
-
 
 <td>
 

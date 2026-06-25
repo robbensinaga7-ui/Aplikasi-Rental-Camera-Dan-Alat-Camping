@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Product;
+use App\Models\User;
 class Transaction extends Model
 {
    protected $fillable = [
@@ -14,11 +15,17 @@ class Transaction extends Model
     'return_date',
     'status',
     'price',
-    'fine',
+     'fine_late',
+    'fine_damage',
+    'fine_lost',
+    'late_days',
+'condition',
+'total_price',
     'payment_status',
+    'ktp_image',
     'payment_proof',
-    'is_paid',
     'paid_at'
+    
 ];
 
     public function product()

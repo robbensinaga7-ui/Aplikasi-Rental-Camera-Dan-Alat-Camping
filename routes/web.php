@@ -25,7 +25,9 @@ Route::prefix('pages')->group(function () {
     return view('pages.product', compact('products'));
     });
 });
-
+Route::get('/', function () {
+    return view('welcome');
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH
