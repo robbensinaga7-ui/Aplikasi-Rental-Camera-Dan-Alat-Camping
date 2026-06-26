@@ -49,65 +49,109 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR UPGRADE (AMAN) */
+/* SIDEBAR MODERN */
 .sidebar{
-width:260px;
-background:linear-gradient(180deg,#0f172a,#1e293b,#334155);
-padding:20px;
-position:fixed;
-top:0;
-left:-260px;
-bottom:0;
-overflow-y:auto;
-box-shadow:5px 0 25px rgba(0,0,0,.25);
-transition:.3s ease;
-z-index:1000;
+    width:260px;
+    background:rgba(15,23,42,0.85);
+    backdrop-filter:blur(18px);
+    padding:20px;
+    position:fixed;
+    top:0;
+    left:-260px;
+    bottom:0;
+    overflow-y:auto;
+    box-shadow:5px 0 30px rgba(0,0,0,.3);
+    transition:.35s ease;
+    z-index:1000;
+    border-right:1px solid rgba(255,255,255,0.08);
 }
 
-.sidebar h2{
-color:white;
-text-align:center;
-margin-bottom:30px;
-font-size:26px;
-font-weight:700;
+/* HEADER / PROFILE */
+.sidebar .profile{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.sidebar .profile img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,0.2);
+    margin-bottom:10px;
+}
+
+.sidebar .profile h3{
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+}
+
+.sidebar .profile p{
+    font-size:12px;
+    color:#94a3b8;
 }
 
 /* MENU */
 .sidebar a{
-display:flex;
-align-items:center;
-gap:12px;
-text-decoration:none;
-color:#e2e8f0;
-padding:13px 15px;
-border-radius:12px;
-margin-bottom:8px;
-transition:.25s;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#cbd5f5;
+    padding:12px 14px;
+    border-radius:12px;
+    margin-bottom:10px;
+    transition:.3s;
+    position:relative;
+}
+
+/* ICON STYLE */
+.sidebar a span{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.08);
+    font-size:16px;
 }
 
 /* HOVER */
 .sidebar a:hover{
-background:rgba(255,255,255,.08);
-color:#fff;
-transform:translateX(4px);
+    background:rgba(79,172,254,0.15);
+    color:#fff;
+    transform:translateX(6px);
 }
 
-/* ACTIVE */
+/* ACTIVE MENU */
 .sidebar a.active{
-background:rgba(79,172,254,.25);
-color:#fff;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:#fff;
+    font-weight:500;
+}
+
+/* GARIS AKTIF */
+.sidebar a.active::before{
+    content:'';
+    position:absolute;
+    left:-10px;
+    top:50%;
+    transform:translateY(-50%);
+    width:5px;
+    height:60%;
+    border-radius:10px;
+    background:#00f2fe;
 }
 
 /* LOGOUT */
 .sidebar .btn-danger{
-border-radius:12px;
-margin-top:20px;
+    margin-top:20px;
+    border-radius:12px;
+    width:100%;
 }
 
-.sidebar.show{
-left:0;
-}
-
+.sidebar.show{ left:0; }
 
 .content{
     width:100%;
@@ -266,7 +310,11 @@ tr:hover{
 
     <div class="sidebar">
 
-        <h2>🏕 Admin</h2>
+       <div class="profile">
+    <img src="https://i.pravatar.cc/100" alt="admin">
+    <h3>Admin</h3>
+    <p>Administrator</p>
+</div>
 
        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
     <span>🏠</span> Dashboard
@@ -284,9 +332,6 @@ tr:hover{
     <span>💰</span> Transaksi
 </a>
 
-<a href="/admin/pembayaran" class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
-    <span>💳</span> Pembayaran
-</a>
 
 <a href="/admin/peminjaman" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
     <span>📥</span> Peminjaman

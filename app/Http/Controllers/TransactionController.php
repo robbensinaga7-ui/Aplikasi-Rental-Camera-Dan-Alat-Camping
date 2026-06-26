@@ -255,7 +255,8 @@ if ($today->gt($return_date)) {
             'fine_lost' => $fine_lost,
             'late_days' => $late_days,
             'condition' => $request->kondisi,
-            'total_price' => $total
+            'total_price' => $total,
+            'returned_at' => now() 
         ]);
 
         $product = $t->product;
@@ -324,7 +325,7 @@ if ($today->gt($return_date)) {
 
         return back()->with('success', 'Pesanan berhasil dibatalkan');
     }
-    public function uploadRusak(Request $request, $id)
+    public function uploadRusak(Request $request, int $id)
 {
     $request->validate([
         'foto_rusak' => 'required|image|mimes:jpg,jpeg,png|max:2048'

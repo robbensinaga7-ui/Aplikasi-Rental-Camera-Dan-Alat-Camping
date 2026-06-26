@@ -24,7 +24,8 @@ class Transaction extends Model
     'payment_status',
     'ktp_image',
     'payment_proof',
-    'paid_at'
+    'paid_at',
+    'returned_at'
     
 ];
 

@@ -410,6 +410,7 @@ tr:hover .total-price{
             <th>Qty</th>
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
+            <th>Tanggal Dikembalikan</th>
             <th>Total</th>
             <th>Status</th>
             <th>Denda</th>
@@ -438,6 +439,14 @@ tr:hover .total-price{
             <td>{{ $item->rent_date }}</td>
 
             <td>{{ $item->return_date }}</td> 
+
+            <td>
+    @if($item->returned_at)
+        {{ \Carbon\Carbon::parse($item->returned_at)->format('d M Y') }}
+    @else
+        <span style="color:#94a3b8;">-</span>
+    @endif
+</td>
 
            <td class="total-price">
    Rp {{ number_format($item->total_price ?: $item->price,0,',','.') }}

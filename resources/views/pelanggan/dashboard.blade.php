@@ -483,13 +483,111 @@ td{
 .hero-dashboard::before{
     animation:float 5s infinite ease-in-out;
 }
+/* TOP PROFILE */
+.top-profile{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(15px);
+    padding:20px 25px;
+    border-radius:20px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* LEFT */
+.top-profile .left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.top-profile .left img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #4facfe;
+    image-rendering:-webkit-optimize-contrast;
+}
+
+/* TEXT */
+.top-profile .left p{
+    font-size:13px;
+    color:#64748b;
+}
+
+.top-profile .left h2{
+    font-size:22px;
+    font-weight:700;
+}
+
+.top-profile .role{
+    background:#4facfe;
+    color:white;
+    font-size:11px;
+    padding:4px 10px;
+    border-radius:20px;
+}
+
+/* RIGHT */
+.top-profile .right{
+    display:flex;
+    gap:15px;
+}
+
+.info-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:white;
+    padding:10px 15px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+    font-size:13px;
+}
 </style>
 @endsection
 
 @section('content')
 
 <div class="dashboard-wrapper">
+<div class="top-profile">
 
+    <div class="left">
+      <img 
+    src="{{ Auth::user()->photo 
+        ? asset('uploads/profile/'.Auth::user()->photo) 
+        : 'https://i.pravatar.cc/300' }}"
+    alt="Foto Profil"
+    loading="lazy"
+>
+
+        <div>
+            <p>Selamat datang kembali,</p>
+            <h2>{{ Auth::user()->name }} 👋</h2>
+            <span class="role">Pelanggan</span>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="info-box">
+            📅 <div>
+                <small>Tanggal</small>
+                <b>{{ date('d M Y') }}</b>
+            </div>
+        </div>
+
+        <div class="info-box">
+            ⏰ <div>
+                <small>Waktu</small>
+                <b id="jam"></b>
+            </div>
+        </div>
+    </div>
+
+</div>
 @if(session('error'))
 <div style="
     background:#fee2e2;
@@ -558,6 +656,7 @@ td{
     <th>Qty</th>
     <th>Sewa</th>
     <th>Kembali</th>
+    <th>Tanggal kembalikan Barang</th>
     <th>Total</th>
     <th>Detail Biaya</th>
     <th>Kondisi</th>
@@ -586,6 +685,21 @@ td{
     <td>
         {{ \Carbon\Carbon::parse($t->return_date)->format('d M Y') }}
     </td>
+
+    <td>
+@if($t->returned_at)
+
+    {{ \Carbon\Carbon::parse($t->returned_at)->format('d M Y') }}
+
+@else
+
+    <span style="color:#94a3b8;">
+        Belum dikembalikan
+    </span>
+
+@endif
+</td>
+
 
    <td class="total-price">
 Rp {{ number_format(
@@ -864,5 +978,18 @@ function closePaymentModal(){
     document.getElementById('paymentModal').style.display='none';
 }
 </script>
+<script>
+function updateJam(){
+    const now = new Date();
+    let jam = now.getHours().toString().padStart(2,'0');
+    let menit = now.getMinutes().toString().padStart(2,'0');
+    let detik = now.getSeconds().toString().padStart(2,'0');
 
+    document.getElementById('jam').innerHTML =
+        jam+':'+menit+':'+detik;
+}
+
+setInterval(updateJam,1000);
+updateJam();
+</script>
 @endsection

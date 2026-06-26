@@ -57,19 +57,24 @@ body::after{
 
 /* Avatar animasi */
 .profile-avatar{
-    width:100px;
-    height:100px;
+    width:120px;
+    height:120px;
     border-radius:50%;
+    overflow:hidden;
     background:white;
-    color:#3498db;
-    font-size:40px;
-    font-weight:bold;
     display:flex;
     justify-content:center;
     align-items:center;
     margin:auto;
     margin-bottom:15px;
-    animation:float 3s ease-in-out infinite;
+    border:3px solid #fff;
+}
+
+.profile-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    image-rendering:-webkit-optimize-contrast;
 }
 
 /* Body */
@@ -190,9 +195,11 @@ body::after{
 
         <div class="profile-avatar" style="overflow:hidden;">
     @if(Auth::user()->photo)
-        <img src="{{ asset('uploads/profile/' . Auth::user()->photo) }}"
-             alt="Foto Profil"
-             style="width:100%;height:100%;object-fit:cover;">
+        <img 
+    src="{{ asset('uploads/profile/' . Auth::user()->photo) }}"
+    alt="Foto Profil"
+    loading="lazy"
+>
     @else
         {{ strtoupper(substr(Auth::user()->name,0,1)) }}
     @endif
