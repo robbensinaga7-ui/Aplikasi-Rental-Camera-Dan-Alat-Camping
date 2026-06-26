@@ -49,55 +49,65 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR */
+/* SIDEBAR UPGRADE (AMAN) */
 .sidebar{
-    width:260px;
-    background:linear-gradient(
-        180deg,
-        #0f172a,
-        #1e293b,
-        #334155
-    );
-    padding:20px;
-    position:fixed;
-    top:0;
-    left:-260px;
-    bottom:0;
-    overflow-y:auto;
-    box-shadow:5px 0 25px rgba(0,0,0,.25);
-    transition:.4s ease;
-    z-index:1000;
-}
-
-.sidebar.show{
-    left:0;
+width:260px;
+background:linear-gradient(180deg,#0f172a,#1e293b,#334155);
+padding:20px;
+position:fixed;
+top:0;
+left:-260px;
+bottom:0;
+overflow-y:auto;
+box-shadow:5px 0 25px rgba(0,0,0,.25);
+transition:.3s ease;
+z-index:1000;
 }
 
 .sidebar h2{
-    color:white;
-    text-align:center;
-    margin-bottom:35px;
-    font-size:28px;
-    font-weight:700;
+color:white;
+text-align:center;
+margin-bottom:30px;
+font-size:26px;
+font-weight:700;
 }
 
+/* MENU */
 .sidebar a{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    text-decoration:none;
-    color:white;
-    padding:14px 16px;
-    border-radius:14px;
-    margin-bottom:10px;
-    transition:.3s;
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+color:#e2e8f0;
+padding:13px 15px;
+border-radius:12px;
+margin-bottom:8px;
+transition:.25s;
 }
 
-.sidebar a:hover,
-.sidebar a.active{
-    background:rgba(255,255,255,.15);
-    transform:translateX(6px);
+/* HOVER */
+.sidebar a:hover{
+background:rgba(255,255,255,.08);
+color:#fff;
+transform:translateX(4px);
 }
+
+/* ACTIVE */
+.sidebar a.active{
+background:rgba(79,172,254,.25);
+color:#fff;
+}
+
+/* LOGOUT */
+.sidebar .btn-danger{
+border-radius:12px;
+margin-top:20px;
+}
+
+.sidebar.show{
+left:0;
+}
+
 
 .content{
     width:100%;
@@ -258,38 +268,34 @@ tr:hover{
 
         <h2>🏕 Admin</h2>
 
-        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
-            🏠 Dashboard
-        </a>
-
-        <a href="/admin/product" class="{{ request()->is('admin/product*') ? 'active' : '' }}">
-            📦 Produk
-        </a>
-
-        <a href="/admin/pelanggan"
-           class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
-            👥 Pelanggan
-        </a>
-
-        <a href="/admin/transaksi"
-           class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
-            💰 Transaksi
-        </a>
-
-        <a href="/admin/pembayaran"
-   class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
-    💳 Pembayaran
+       <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
+    <span>🏠</span> Dashboard
 </a>
 
-        <a href="/admin/peminjaman"
-           class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
-            📥 Peminjaman
-        </a>
+<a href="/admin/product" class="{{ request()->is('admin/product*') ? 'active' : '' }}">
+    <span>📦</span> Produk
+</a>
 
-        <a href="/admin/pengembalian"
-           class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}">
-            📤 Pengembalian
-        </a>
+<a href="/admin/pelanggan" class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
+    <span>👥</span> Pelanggan
+</a>
+
+<a href="/admin/transaksi" class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
+    <span>💰</span> Transaksi
+</a>
+
+<a href="/admin/pembayaran" class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
+    <span>💳</span> Pembayaran
+</a>
+
+<a href="/admin/peminjaman" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
+    <span>📥</span> Peminjaman
+</a>
+
+<a href="/admin/pengembalian" class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}">
+    <span>📤</span> Pengembalian
+</a>
+
 
         <a href="/logout"
            class="btn btn-danger"

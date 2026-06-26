@@ -49,55 +49,87 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR */
+/* SIDEBAR MODERN */
 .sidebar{
-    width:260px;
-    background:linear-gradient(
-        180deg,
-        #0f172a,
-        #1e293b,
-        #334155
-    );
-    padding:20px;
-    position:fixed;
-    top:0;
-    left:-260px;
-    bottom:0;
-    overflow-y:auto;
-    box-shadow:5px 0 25px rgba(0,0,0,.25);
-    transition:.4s ease;
-    z-index:1000;
+width:260px;
+background:linear-gradient(180deg,#0f172a,#1e293b);
+padding:20px;
+position:fixed;
+top:0;
+left:-260px;
+bottom:0;
+overflow-y:auto;
+box-shadow:5px 0 25px rgba(0,0,0,.3);
+transition:.4s ease;
+z-index:1000;
 }
 
 .sidebar.show{
-    left:0;
+left:0;
 }
 
 .sidebar h2{
-    color:white;
-    text-align:center;
-    margin-bottom:35px;
-    font-size:28px;
-    font-weight:700;
+color:#fff;
+text-align:center;
+margin-bottom:35px;
+font-size:26px;
+font-weight:700;
+letter-spacing:.5px;
 }
 
+/* MENU */
 .sidebar a{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    text-decoration:none;
-    color:white;
-    padding:14px 16px;
-    border-radius:14px;
-    margin-bottom:10px;
-    transition:.3s;
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+color:#cbd5f5;
+padding:14px 16px;
+border-radius:12px;
+margin-bottom:10px;
+transition:.3s;
+position:relative;
 }
 
-.sidebar a:hover,
-.sidebar a.active{
-    background:rgba(255,255,255,.15);
-    transform:translateX(6px);
+/* ICON */
+.sidebar a span{
+font-size:18px;
 }
+
+/* HOVER */
+.sidebar a:hover{
+background:rgba(255,255,255,.08);
+color:#fff;
+transform:translateX(5px);
+}
+
+/* ACTIVE */
+.sidebar a.active{
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+color:#fff;
+font-weight:600;
+}
+
+/* GARIS ACTIVE */
+.sidebar a.active::before{
+content:'';
+position:absolute;
+left:0;
+top:10px;
+bottom:10px;
+width:4px;
+background:#fff;
+border-radius:10px;
+}
+
+/* LOGOUT */
+.sidebar .btn-danger{
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
+border-radius:12px;
+margin-top:20px;
+text-align:center;
+}
+
 
 .content{
     width:100%;
@@ -259,24 +291,19 @@ tr:hover{
        <h2>🏕 Pelanggan</h2>
 
 <a href="/pelanggan/dashboard"
-   class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}">
-   🏠 Dashboard
-</a>
+class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}"> <span>🏠</span> Dashboard </a>
 
 <a href="/pelanggan/product"
-   class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
-   📦 Produk
-</a>
+class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}"> <span>📦</span> Produk </a>
 
-<a href="/pelanggan/profile">
-   👤 Profil
-</a>
+<a href="/pelanggan/profile"
+class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}"> <span>👤</span> Profil </a>
 
 <a href="/logout"
-   class="btn btn-danger"
-   style="margin-top:20px;text-align:center;width:100%;">
-   🚪 Keluar
-</a>
+class="btn btn-danger"
+style="width:100%;">
+🚪 Keluar </a>
+
 
     </div>
 
