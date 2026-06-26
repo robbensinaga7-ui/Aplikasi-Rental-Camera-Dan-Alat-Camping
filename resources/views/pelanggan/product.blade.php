@@ -562,7 +562,7 @@ class="form-input"
 required>
 
         <button type="submit" class="btn-sewa">
-            🚀 Sewa Sekarang
+            🚀 Sewa Sekarang 
         </button>
 
     </form>
