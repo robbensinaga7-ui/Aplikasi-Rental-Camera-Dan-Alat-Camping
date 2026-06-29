@@ -49,85 +49,103 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR MODERN */
+/* SIDEBAR */
 .sidebar{
-width:260px;
-background:linear-gradient(180deg,#0f172a,#1e293b);
-padding:20px;
-position:fixed;
-top:0;
-left:-260px;
-bottom:0;
-overflow-y:auto;
-box-shadow:5px 0 25px rgba(0,0,0,.3);
-transition:.4s ease;
-z-index:1000;
+    width:270px;
+    background:linear-gradient(180deg,#0f172a,#1e293b);
+    position:fixed;
+    top:0;
+    left:-270px;
+    bottom:0;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:.4s;
+    z-index:1000;
 }
 
+/* SHOW */
 .sidebar.show{
-left:0;
+    left:0;
 }
 
-.sidebar h2{
-color:#fff;
-text-align:center;
-margin-bottom:35px;
-font-size:26px;
-font-weight:700;
-letter-spacing:.5px;
+/* PROFILE */
+.sidebar-profile{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.sidebar-profile img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #4facfe;
+    margin-bottom:10px;
+}
+
+.sidebar-profile h3{
+    color:white;
+    font-size:18px;
+    margin-bottom:3px;
+}
+
+.sidebar-profile p{
+    color:#94a3b8;
+    font-size:13px;
 }
 
 /* MENU */
-.sidebar a{
-display:flex;
-align-items:center;
-gap:12px;
-text-decoration:none;
-color:#cbd5f5;
-padding:14px 16px;
-border-radius:12px;
-margin-bottom:10px;
-transition:.3s;
-position:relative;
+.menu{
+    flex:1;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#cbd5f5;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:10px;
+    transition:.3s;
 }
 
 /* ICON */
-.sidebar a span{
-font-size:18px;
+.menu a span{
+    font-size:18px;
 }
 
 /* HOVER */
-.sidebar a:hover{
-background:rgba(255,255,255,.08);
-color:#fff;
-transform:translateX(5px);
+.menu a:hover{
+    background:rgba(255,255,255,.08);
+    color:white;
+    transform:translateX(5px);
 }
 
 /* ACTIVE */
-.sidebar a.active{
-background:linear-gradient(135deg,#4facfe,#00f2fe);
-color:#fff;
-font-weight:600;
-}
-
-/* GARIS ACTIVE */
-.sidebar a.active::before{
-content:'';
-position:absolute;
-left:0;
-top:10px;
-bottom:10px;
-width:4px;
-background:#fff;
-border-radius:10px;
+.menu a.active{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    font-weight:600;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
 }
 
 /* LOGOUT */
-.sidebar .btn-danger{
-background:linear-gradient(135deg,#ff416c,#ff4b2b);
-border-radius:12px;
-margin-top:20px;
-text-align:center;
+.logout-btn{
+    text-align:center;
+    padding:12px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ff416c,#ff4b2b);
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    transform:scale(1.05);
 }
 
 
@@ -286,27 +304,44 @@ tr:hover{
 
 <div class="wrapper">
 
-    <div class="sidebar">
+   <div class="sidebar">
 
-       <h2>🏕 Pelanggan</h2>
+    <!-- PROFILE -->
+    <div class="sidebar-profile">
+        <img 
+            src="{{ Auth::user()->photo 
+                ? asset('uploads/profile/'.Auth::user()->photo) 
+                : 'https://i.pravatar.cc/300' }}">
+        <h3>{{ Auth::user()->name }}</h3>
+        <p>Pelanggan</p>
+    </div>
 
-<a href="/pelanggan/dashboard"
-class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}"> <span>🏠</span> Dashboard </a>
+    <!-- MENU -->
+    <div class="menu">
 
-<a href="/pelanggan/product"
-class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}"> <span>📦</span> Produk </a>
+        <a href="/pelanggan/dashboard"
+        class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}">
+            <span>🏠</span> Dashboard
+        </a>
 
-<a href="/pelanggan/profile"
-class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}"> <span>👤</span> Profil </a>
+        <a href="/pelanggan/product"
+        class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
+            <span>📦</span> Produk
+        </a>
 
-<a href="/logout"
-class="btn btn-danger"
-style="width:100%;">
-🚪 Keluar </a>
-
+        <a href="/pelanggan/profile"
+        class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}">
+            <span>👤</span> Profil
+        </a>
 
     </div>
 
+    <!-- LOGOUT -->
+    <a href="/logout" class="logout-btn">
+        🚪 Keluar
+    </a>
+
+</div>
     <div class="content">
         @yield('content')
     </div>
