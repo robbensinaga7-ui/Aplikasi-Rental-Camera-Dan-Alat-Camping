@@ -390,7 +390,7 @@ Rp {{ number_format($product->price,0,',','.') }} / hari
     @auth
 
     <a href="/booking/{{ $product->id }}" class="btn">
-        🚀 Sewa Sekarang 
+        🚀 Sewa Sekarang y
     </a>
 
     @endauth
