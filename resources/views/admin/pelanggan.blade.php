@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title','Data Peminjaman')
+@section('title','Data Pelanggan')
 
 @section('style')
 <style>
 
 /* HERO */
-.hero-loan{
-    background:linear-gradient(135deg,#36d1dc,#5b86e5);
+.hero-customer{
+    background:linear-gradient(135deg,#667eea,#764ba2);
     color:white;
     padding:25px 30px;
     border-radius:25px;
@@ -20,7 +20,7 @@
     overflow:hidden;
 }
 
-.hero-loan::before{
+.hero-customer::before{
     content:'';
     position:absolute;
     width:180px;
@@ -31,12 +31,12 @@
     right:-50px;
 }
 
-.hero-loan h1{
+.hero-customer h1{
     margin:0;
     font-size:32px;
 }
 
-.hero-loan p{
+.hero-customer p{
     margin-top:8px;
     opacity:.9;
 }
@@ -51,7 +51,7 @@
 }
 
 /* CARD */
-.loan-card{
+.customer-card{
     background:rgba(255,255,255,.95);
     backdrop-filter:blur(10px);
     border-radius:25px;
@@ -59,30 +59,27 @@
     box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
-/* TABLE */
-.table-box{
-    overflow-x:auto;
+/* BUTTON */
+.btn-add{
+    background:linear-gradient(135deg,#00c853,#69f0ae);
 }
 
+/* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
 }
 
 th{
-    background:linear-gradient(135deg,#0f172a,#334155);
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
     color:white;
     padding:14px;
-    font-size:14px;
-    white-space:nowrap;
 }
 
 td{
     padding:14px;
     text-align:center;
     border-bottom:1px solid #eee;
-    vertical-align:middle;
-    color:#334155;
 }
 
 tr{
@@ -93,70 +90,39 @@ tr:hover{
     background:#f5faff;
 }
 
-/* BADGE */
-.badge{
-    padding:7px 14px;
-    border-radius:20px;
-    font-size:12px;
-    color:white;
-    font-weight:600;
-    display:inline-block;
+.btn-warning{
+    background:linear-gradient(135deg,#ff9800,#ffc107);
 }
 
-.badge-blue{
-    background:linear-gradient(135deg,#4facfe,#00c6fb);
+.btn-danger{
+    background:linear-gradient(135deg,#ff5252,#ff1744);
 }
 
-.badge-green{
-    background:linear-gradient(135deg,#00c853,#69f0ae);
-}
-
-/* EMPTY */
-.empty-data{
-    text-align:center;
-    padding:35px;
-    color:#94a3b8;
-    font-size:15px;
-}
-
-/* ROW NUMBER */
 .number{
     font-weight:bold;
     color:#0f172a;
 }
 
-/* RESPONSIVE */
 @media(max-width:768px){
 
-.hero-loan{
+.hero-customer{
     flex-direction:column;
     gap:15px;
     text-align:center;
 }
-
-.hero-loan h1{
-    font-size:28px;
-}
-
-th,
-td{
-    padding:10px;
-    font-size:12px;
-}
-
 }
 /* ==========================
-   ANIMASI DATA PEMINJAMAN
+   ANIMASI DATA PELANGGAN
 ========================== */
 
 /* Hero */
-.hero-loan{
+.hero-customer{
     opacity:0;
     transform:translateY(-30px);
     animation:fadeDown .8s ease forwards;
 }
 
-.hero-loan::before{
+.hero-customer::before{
     animation:float 6s ease-in-out infinite;
 }
 
@@ -166,11 +132,24 @@ td{
 }
 
 /* Card */
-.loan-card{
+.customer-card{
     opacity:0;
     transform:translateY(30px);
     animation:fadeUp .8s ease forwards;
     animation-delay:.3s;
+}
+
+/* Tombol */
+.btn-add,
+.btn-warning,
+.btn-danger{
+    transition:.3s;
+}
+
+.btn-add:hover,
+.btn-warning:hover,
+.btn-danger:hover{
+    transform:translateY(-3px) scale(1.05);
 }
 
 /* Header tabel */
@@ -180,7 +159,7 @@ th{
     z-index:1;
 }
 
-/* Baris tabel muncul satu-satu */
+/* Animasi baris tabel */
 table tr{
     opacity:0;
     transform:translateY(20px);
@@ -205,16 +184,7 @@ tr:hover{
     box-shadow:0 5px 15px rgba(0,0,0,.05);
 }
 
-/* Badge */
-.badge{
-    transition:.3s;
-}
-
-.badge:hover{
-    transform:scale(1.08);
-}
-
-/* Nomor */
+/* Nomor ID */
 .number{
     transition:.3s;
 }
@@ -224,12 +194,7 @@ tr:hover .number{
     transform:scale(1.1);
 }
 
-/* Data kosong */
-.empty-data{
-    animation:pulse 2s infinite;
-}
-
-/* KEYFRAMES */
+/* Keyframes */
 
 @keyframes fadeUp{
     from{
@@ -254,11 +219,14 @@ tr:hover .number{
 }
 
 @keyframes pulse{
-    0%,100%{
+    0%{
         transform:scale(1);
     }
     50%{
         transform:scale(1.05);
+    }
+    100%{
+        transform:scale(1);
     }
 }
 
@@ -270,106 +238,87 @@ tr:hover .number{
         transform:translateY(-15px);
     }
 }
+
 </style>
 @endsection
 
 @section('content')
 
-<div class="hero-loan">
+<div class="hero-customer">
 
     <div>
-        <h1>📦 Data Peminjaman</h1>
-        <p>Kelola seluruh data peminjaman alat camping dan kamera</p>
+        <h1>👥 Data Pelanggan</h1>
+        <p>Kelola seluruh data pelanggan rental kamera dan alat camping</p>
     </div>
 
     <div class="hero-count">
-        {{ count($data) }} Data
+        {{ count($data) }} Pelanggan
     </div>
 
 </div>
 
-<div class="loan-card">
+<div class="customer-card">
 
-<div class="table-box">
+    <div style="margin-bottom:20px;">
 
-<table>
+        <a href="/admin/pelanggan/create"
+           class="btn btn-add">
+            ➕ Tambah Pelanggan
+        </a>
 
-    <tr>
-        <th>No</th>
-        <th>Customer</th>
-        <th>Produk</th>
-        <th>Qty</th>
-        <th>Tanggal Pinjam</th>
-        <th>Tanggal Kembali</th>
-        <th>Status</th>
-        <th>Keterangan</th>
-    </tr>
+    </div>
 
-    @php $found = false; @endphp
+    <div class="table-box">
 
-    @foreach ($data as $i => $item)
+        <table>
 
-        @if($item->status == 'dipinjam')
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>No HP</th>
+                <th>Alamat</th>
+                <th>Aksi</th>
+            </tr>
 
-        @php $found = true; @endphp
+            @foreach($data as $p)
 
-        <tr>
+            <tr>
 
-            <td class="number">
-                {{ $i+1 }}
-            </td>
+                <td class="number">
+                    {{ $p->id }}
+                </td>
 
-            <td>
-                {{ $item->user->name ?? '-' }}
-            </td>
+                <td>{{ $p->name }}</td>
 
-            <td>
-                {{ $item->product->name ?? '-' }}
-            </td>
+                <td>{{ $p->email }}</td>
 
-            <td>
-                {{ $item->qty }}
-            </td>
+                <td>{{ $p->phone }}</td>
 
-            <td>
-                {{ $item->rent_date }}
-            </td>
+                <td>{{ $p->address }}</td>
 
-            <td>
-                {{ $item->return_date }}
-            </td>
+                <td>
 
-            <td>
-                <span class="badge badge-blue">
-                    Dipinjam
-                </span>
-            </td>
+                    <a href="/admin/pelanggan/edit/{{ $p->id }}"
+                       class="btn btn-warning">
+                        ✏ Edit
+                    </a>
 
-            <td>
-                <span class="badge badge-green">
-                    Aktif
-                </span>
-            </td>
+                    <a href="/admin/pelanggan/delete/{{ $p->id }}"
+                       class="btn btn-danger"
+                       onclick="return confirm('Yakin hapus pelanggan?')">
+                        🗑 Hapus
+                    </a>
 
-        </tr>
+                </td>
 
-        @endif
+            </tr>
 
-    @endforeach
+            @endforeach
 
-    @if(!$found)
+        </table>
 
-    <tr>
-        <td colspan="8" class="empty-data">
-            📭 Tidak ada data peminjaman
-        </td>
-    </tr>
-
-    @endif
-
-</table>
-
-</div>
+    </div>
 
 </div>
 

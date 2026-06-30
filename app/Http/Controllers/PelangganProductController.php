@@ -13,4 +13,4 @@ class PelangganProductController extends Controller
             'name' => $request->user_id ?? null
         ]);
     }
-}
+} 

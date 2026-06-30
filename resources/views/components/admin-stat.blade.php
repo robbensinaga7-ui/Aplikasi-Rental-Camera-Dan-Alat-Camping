@@ -5,7 +5,6 @@
     </div>
 
     <h3>{{ $title }}</h3>
-
-    <p>{{ $value }}</p>
+<p class="counter">{{ $value }}</p>
 
 </div>

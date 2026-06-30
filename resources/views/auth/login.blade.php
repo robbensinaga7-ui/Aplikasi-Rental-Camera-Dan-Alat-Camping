@@ -320,12 +320,6 @@ h2{
         Login untuk memulai petualanganmu
     </p>
 
-    <!-- ERROR -->
-    @if(session('error'))
-        <div class="error">
-            {{ session('error') }}
-        </div>
-    @endif
 
     <!-- FORM -->
     <form method="POST" action="{{ route('login') }}">
@@ -366,6 +360,32 @@ h2{
     </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+<script>
+Swal.fire({
+    toast:true,
+    position:'top-end',
+    icon:'success',
+    title:'{{ session("success") }}',
+    showConfirmButton:false,
+    timer:3000,
+    timerProgressBar:true
+});
+</script>
+@endif
+
+@if(session('error'))
+<script>
+Swal.fire({
+    icon:'error',
+    title:'Login Gagal',
+    text:'{{ session("error") }}',
+    confirmButtonColor:'#e74c3c'
+});
+</script>
+@endif
 
 </body>
 </html>

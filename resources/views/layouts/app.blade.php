@@ -23,33 +23,109 @@ min-height:100vh;
 }
 
 /* NAVBAR */
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background: rgba(0,0,0,0.2);
-backdrop-filter: blur(8px);
-box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 60px;
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
 .logo{
-font-size:26px;
-font-weight:bold;
-color:white;
+    font-size:30px;
+    font-weight:800;
+    color:white;
+    letter-spacing:1px;
+}
+
+.menu{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .menu a{
-color:white;
-text-decoration:none;
-margin-left:25px;
-font-size:16px;
-transition:0.3s;
+    position:relative;
+    color:white;
+    text-decoration:none;
+    padding:10px 16px;
+    border-radius:10px;
+    transition:.3s;
+    font-weight:500;
+}
+
+/* garis bawah animasi */
+.menu a::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:4px;
+    width:0;
+    height:2px;
+    background:#ffd166;
+    transition:.3s;
+    transform:translateX(-50%);
+}
+
+.menu a:hover::after{
+    width:70%;
 }
 
 .menu a:hover{
-color:#ffd166;
+    color:#ffd166;
+}
+
+/* LOGIN */
+.btn-login{
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.2);
+}
+
+/* REGISTER */
+.btn-daftar{
+    background:linear-gradient(
+        135deg,
+        #ffd166,
+        #ffb703
+    );
+    color:#222 !important;
+    font-weight:700;
+    box-shadow:0 8px 20px rgba(255,209,102,.35);
+}
+
+.btn-daftar:hover{
+    transform:translateY(-3px);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.navbar{
+    padding:15px 20px;
+    flex-direction:column;
+    gap:15px;
+}
+
+.menu{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.logo{
+    font-size:24px;
+}
+
 }
 
 /* HERO */
@@ -402,12 +478,47 @@ background:#ffd166;
 color:#333;
 text-decoration:none;
 }
+.bg-circle1{
+    position:fixed;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    top:-100px;
+    left:-100px;
+    z-index:-1;
+}
+
+.bg-circle2{
+    position:fixed;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    right:-80px;
+    top:200px;
+    z-index:-1;
+}
+
+.bg-circle3{
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    bottom:-150px;
+    left:30%;
+    z-index:-1;
+}
+
 </style>
 
 </head>
 
 <body>
-
+<div class="bg-circle1"></div>
+<div class="bg-circle2"></div>
+<div class="bg-circle3"></div>
 @include('components.header')
 
 <main>
