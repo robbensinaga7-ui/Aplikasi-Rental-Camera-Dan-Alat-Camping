@@ -364,7 +364,7 @@ tr:hover .number{
 
     <tr>
         <td colspan="8" class="empty-data">
-            📭 Tidak ada data peminjaman
+             Tidak ada data peminjaman
         </td>
     </tr>
 

@@ -241,7 +241,7 @@ body::after{
             </div>
 
             <button onclick="showEditForm()" class="btn-edit">
-                ✏️ Edit Profile
+                 Edit Profile
             </button>
 
         </div>
@@ -283,11 +283,11 @@ body::after{
         class="form-control">
 </div>
                 <button type="submit" class="btn-save">
-                    💾 Update Profile
+                     Update Profile
                 </button>
 
                 <button type="button" onclick="hideEditForm()" class="btn-cancel">
-                    ❌ Batal
+                     Batal
                 </button>
 
             </form>

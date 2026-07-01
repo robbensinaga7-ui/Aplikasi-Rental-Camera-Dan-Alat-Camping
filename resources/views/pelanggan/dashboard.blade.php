@@ -573,14 +573,14 @@ td{
 
     <div class="right">
         <div class="info-box">
-            📅 <div>
+             <div>
                 <small>Tanggal</small>
                 <b>{{ date('d M Y') }}</b>
             </div>
         </div>
 
         <div class="info-box">
-            ⏰ <div>
+             <div>
                 <small>Waktu</small>
                 <b id="jam"></b>
             </div>
@@ -641,7 +641,7 @@ td{
 
 <!-- TITLE -->
 <h2 class="section-title">
-    📜 Riwayat Peminjaman
+     Riwayat Peminjaman
 </h2>
 
 <!-- TABLE -->
@@ -714,15 +714,15 @@ Rp {{ number_format(
     Sewa: Rp {{ number_format($t->price,0,',','.') }} <br>
 
     @if($t->fine_late > 0)
-        ⏰ Telat: Rp {{ number_format($t->fine_late,0,',','.') }} <br>
+         Telat: Rp {{ number_format($t->fine_late,0,',','.') }} <br>
     @endif
 
     @if($t->fine_damage > 0)
-        🔧 Rusak: Rp {{ number_format($t->fine_damage,0,',','.') }} <br>
+         Rusak: Rp {{ number_format($t->fine_damage,0,',','.') }} <br>
     @endif
 
     @if($t->fine_lost > 0)
-        ❌ Hilang: Rp {{ number_format($t->fine_lost,0,',','.') }}
+         Hilang: Rp {{ number_format($t->fine_lost,0,',','.') }}
     @endif
 
     @if(
@@ -730,7 +730,7 @@ Rp {{ number_format(
         $t->fine_damage == 0 &&
         $t->fine_lost == 0
     )
-        <span style="color:green;">✔️ Tidak ada denda</span>
+        <span style="color:green;"> Tidak ada denda</span>
     @endif
     @if($t->status == 'dipinjam' && $t->fine_preview > 0)
     <br>
@@ -748,13 +748,13 @@ Rp {{ number_format(
     @if($t->status == 'dikembalikan')
 
         @if(($t->fine_lost ?? 0) > 0)
-        <span class="badge badge-belum">❌ Hilang</span>
+        <span class="badge badge-belum"> Hilang</span>
 
     @elseif(($t->fine_damage ?? 0) > 0)
-        <span class="badge badge-pending">🔧 Rusak</span>
+        <span class="badge badge-pending"> Rusak</span>
 
     @else
-        <span class="badge badge-lunas">✔️ Baik</span>
+        <span class="badge badge-lunas"> Baik</span>
     @endif
 
     @else
@@ -786,7 +786,7 @@ Rp {{ number_format(
                 type="submit"
                 class="btn-batal"
                 onclick="return confirm('Yakin ingin membatalkan pesanan?')">
-                ❌ Batalkan Pesanan
+                 Batalkan Pesanan
             </button>
 
         </form>
@@ -847,12 +847,12 @@ Rp {{ number_format(
 @if($t->payment_proof && $t->ktp_image)
 
     <div>
-        <b>✅ Dokumen Lengkap</b><br>
+        <b> Dokumen Lengkap</b><br>
 
     <a href="javascript:void(0)"
   data-image="{{ url('storage/'.$t->payment_proof) }}"
    onclick="showImage(this.dataset.image); return false;">
-   📄 Lihat Bukti
+    Lihat Bukti
 </a>
 
 |
@@ -869,7 +869,7 @@ Rp {{ number_format(
     type="button"
     class="btn-bayar"
     onclick="openPaymentModal()">
-    💳 Lihat Rekening Tujuan
+     Lihat Rekening Tujuan
 </button>
 
 <br><br>
@@ -905,7 +905,7 @@ Rp {{ number_format(
     <a href="javascript:void(0)"
        data-image="{{ url('storage/'.$t->damage_photo) }}"
        onclick="showImage(this.dataset.image); return false;">
-       📸 Lihat Foto
+        Lihat Foto
     </a>
 
 @elseif($t->status == 'dipinjam')
@@ -944,7 +944,7 @@ Rp {{ number_format(
 
     <div class="payment-content">
 
-        <h3>💳 Informasi Pembayaran</h3>
+        <h3> Informasi Pembayaran</h3>
 
         <p><strong>Bank:</strong> BCA</p>
 

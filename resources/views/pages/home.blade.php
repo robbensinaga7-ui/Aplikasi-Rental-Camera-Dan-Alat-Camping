@@ -200,19 +200,19 @@ to{opacity:1;}
 <div class="why-container">
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="100">
-<div class="icon">✔️</div>
+<div class="icon"></div>
 <h3>Kualitas Terjamin</h3>
 <p>Semua peralatan dalam kondisi prima dan terawat</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="200">
-<div class="icon">💰</div>
+<div class="icon"></div>
 <h3>Harga Terjangkau</h3>
 <p>Harga sewa fleksibel sesuai kebutuhan Anda</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="300">
-<div class="icon">⚡</div>
+<div class="icon"></div>
 <h3>Proses Cepat</h3>
 <p>Booking mudah dan konfirmasi instan</p>
 </div>

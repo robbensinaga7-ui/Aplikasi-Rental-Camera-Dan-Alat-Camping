@@ -49,40 +49,39 @@ body{
     min-height:100vh;
 }
 
-/* SIDEBAR MODERN */
+/* SIDEBAR MODERN CLEAN */
 .sidebar{
     width:260px;
-    background:rgba(15,23,42,0.85);
-    backdrop-filter:blur(18px);
-    padding:20px;
+    background:rgba(15,23,42,0.95);
+    backdrop-filter:blur(20px);
+    padding:25px 18px;
     position:fixed;
     top:0;
     left:-260px;
     bottom:0;
     overflow-y:auto;
-    box-shadow:5px 0 30px rgba(0,0,0,.3);
     transition:.35s ease;
     z-index:1000;
-    border-right:1px solid rgba(255,255,255,0.08);
+    border-right:1px solid rgba(255,255,255,0.06);
 }
 
-/* HEADER / PROFILE */
+/* PROFILE */
 .sidebar .profile{
     text-align:center;
-    margin-bottom:30px;
+    margin-bottom:35px;
 }
 
 .sidebar .profile img{
-    width:70px;
-    height:70px;
+    width:75px;
+    height:75px;
     border-radius:50%;
-    border:3px solid rgba(255,255,255,0.2);
-    margin-bottom:10px;
+    border:3px solid rgba(255,255,255,0.15);
+    margin-bottom:12px;
 }
 
 .sidebar .profile h3{
     color:#fff;
-    font-size:16px;
+    font-size:17px;
     font-weight:600;
 }
 
@@ -97,61 +96,59 @@ body{
     align-items:center;
     gap:12px;
     text-decoration:none;
-    color:#cbd5f5;
+    color:#cbd5e1;
     padding:12px 14px;
     border-radius:12px;
-    margin-bottom:10px;
-    transition:.3s;
-    position:relative;
+    margin-bottom:8px;
+    transition:.25s ease;
+    font-size:14px;
 }
 
-/* ICON STYLE */
+/* ICON */
 .sidebar a span{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:35px;
-    height:35px;
-    border-radius:10px;
-    background:rgba(255,255,255,0.08);
-    font-size:16px;
+    width:auto;
+    height:auto;
+    background:none;
+    border-radius:0;
+    padding:0;
 }
 
 /* HOVER */
 .sidebar a:hover{
-    background:rgba(79,172,254,0.15);
+    background:rgba(79,172,254,0.12);
     color:#fff;
-    transform:translateX(6px);
+    transform:translateX(5px);
 }
 
-/* ACTIVE MENU */
+.sidebar a:hover span{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+}
+
+/* ACTIVE */
 .sidebar a.active{
     background:linear-gradient(135deg,#4facfe,#00f2fe);
     color:#fff;
     font-weight:500;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
 }
 
-/* GARIS AKTIF */
-.sidebar a.active::before{
-    content:'';
-    position:absolute;
-    left:-10px;
-    top:50%;
-    transform:translateY(-50%);
-    width:5px;
-    height:60%;
-    border-radius:10px;
-    background:#00f2fe;
+.sidebar a.active span{
+    background:rgba(255,255,255,0.2);
 }
 
-/* LOGOUT */
+/* LOGOUT BUTTON */
 .sidebar .btn-danger{
-    margin-top:20px;
+    margin-top:25px;
     border-radius:12px;
     width:100%;
+    text-align:center;
+    padding:12px;
 }
 
-.sidebar.show{ left:0; }
+/* SHOW */
+.sidebar.show{
+    left:0;
+}
 
 .content{
     width:100%;
@@ -317,35 +314,35 @@ tr:hover{
 </div>
 
        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
-    <span>🏠</span> Dashboard
+    <span></span> Dashboard
 </a>
 
 <a href="/admin/product" class="{{ request()->is('admin/product*') ? 'active' : '' }}">
-    <span>📦</span> Produk
+    <span></span> Produk
 </a>
 
 <a href="/admin/pelanggan" class="{{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
-    <span>👥</span> Pelanggan
+    <span></span> Pelanggan
 </a>
 
 <a href="/admin/transaksi" class="{{ request()->is('admin/transaksi*') ? 'active' : '' }}">
-    <span>💰</span> Transaksi
+    <span></span> Transaksi
 </a>
 
 
 <a href="/admin/peminjaman" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}">
-    <span>📥</span> Peminjaman
+    <span></span> Peminjaman
 </a>
 
 <a href="/admin/pengembalian" class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}">
-    <span>📤</span> Pengembalian
+    <span></span> Pengembalian
 </a>
 
 
         <a href="/logout"
            class="btn btn-danger"
            style="margin-top:20px;text-align:center;width:100%;">
-            🚪 Keluar
+             Keluar
         </a>
 
     </div>

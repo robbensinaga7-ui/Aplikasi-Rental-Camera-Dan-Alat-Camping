@@ -366,7 +366,7 @@ tr:hover .total-price{
 <div class="hero-transaksi">
 
     <div>
-        <h1>📄 Data Transaksi</h1>
+        <h1> Data Transaksi</h1>
         <p>Kelola transaksi penyewaan kamera dan alat camping</p>
     </div>
 
@@ -407,18 +407,15 @@ tr:hover .total-price{
             <th>No</th>
             <th>Customer</th>
             <th>Produk</th>
+            <th>Harga Barang</th>
             <th>Qty</th>
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
-            <th>Tanggal Dikembalikan</th>
             <th>Total</th>
             <th>Status</th>
-            <th>Denda</th>
             <th>Bukti</th>
             <th>KTP Penyewa</th>
             <th>Pembayaran</th>
-            <th>Foto Rusak</th> 
-            <th>Aksi</th>
         </tr>
     </thead>
 
@@ -434,19 +431,17 @@ tr:hover .total-price{
 
             <td>{{ $item->product->name ?? '-' }}</td>
 
+            <td class="total-price">
+    Rp {{ number_format($item->product->price ?? 0,0,',','.') }}
+</td>
+
             <td>{{ $item->qty }}</td>
 
             <td>{{ $item->rent_date }}</td>
 
             <td>{{ $item->return_date }}</td> 
 
-            <td>
-    @if($item->returned_at)
-        {{ \Carbon\Carbon::parse($item->returned_at)->format('d M Y') }}
-    @else
-        <span style="color:#94a3b8;">-</span>
-    @endif
-</td>
+            
 
            <td class="total-price">
    Rp {{ number_format($item->total_price ?: $item->price,0,',','.') }}
@@ -473,11 +468,7 @@ tr:hover .total-price{
     @endif
 </td>
 
-            <td class="fine">
-                <div style="color:#facc15;">⏰ Telat: Rp {{ number_format($item->fine_late,0,',','.') }}</div>
-    <div style="color:#fb923c;">⚠️ Rusak: Rp {{ number_format($item->fine_damage,0,',','.') }}</div>
-    <div style="color:#ef4444;">❌ Hilang: Rp {{ number_format($item->fine_lost,0,',','.') }}</div>
-            </td>
+            
 
             <!-- BUKTI -->
             <td>
@@ -564,66 +555,6 @@ tr:hover .total-price{
                 @endif
 
             </td>
-
-            <!-- FOTO RUSAK -->
-<td>
-    @if($item->damage_photo)
-        <img src="{{ asset('storage/'.$item->damage_photo) }}" width="70">
-    @else
-        <span style="color:#94a3b8;">-</span>
-    @endif
-</td>
-
-            <td>
-@if($item->status == 'menunggu_konfirmasi')
-
-     <div style="margin-bottom:10px; font-size:13px;">
-
-        @if($item->late_days > 0)
-            <span class="badge badge-orange">
-                ⏰ Terlambat {{ $item->late_days }} hari
-            </span>
-
-            <div style="color:#ef4444; font-weight:bold; margin-top:5px;">
-                Denda: Rp {{ number_format($item->fine_late_preview,0,',','.') }}
-            </div>
-        @else
-            <span class="badge badge-green">
-                ✔ Tepat Waktu
-            </span>
-        @endif
-
-    <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
-        @csrf
-
-        <div class="kondisi-box">
-
-    <label>Kondisi Barang</label>
-
-    <select name="kondisi" required class="kondisi-select">
-        <option value="">-- Pilih Kondisi --</option>
-        <option value="baik">✔ Baik</option>
-        <option value="rusak_ringan">🔧 Rusak Ringan</option>
-        <option value="rusak_berat">⚠️ Rusak Berat</option>
-        <option value="hilang">❌ Hilang</option>
-    </select>
-
-    <button class="btn btn-green full">Konfirmasi</button>
-
-</div>
-    </form>
-
-@elseif($item->status == 'dipinjam')
-
-    <form action="/kembalikan/{{ $item->id }}" method="POST">
-        @csrf
-        <button class="btn btn-blue">Kembalikan</button>
-    </form>
-
-@else
-    ✔
-@endif
-</td>
 
         </tr>
 
