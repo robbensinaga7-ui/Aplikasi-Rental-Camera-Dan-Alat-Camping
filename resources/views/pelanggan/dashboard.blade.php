@@ -467,7 +467,7 @@ td{
 
 /* BADGE */
 .badge{
-    animation:float 3s infinite ease-in-out;
+    animation:none;
 }
 
 /* IMAGE */
