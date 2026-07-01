@@ -441,6 +441,13 @@ to{
 }
 
 }
+.btn-sewa:disabled{
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
 
 </style>
 @endsection
@@ -448,7 +455,7 @@ to{
 @section('content')
 
 <h1 class="page-title">
-    📦 Produk Camping
+     Produk Camping
 </h1>
 
 <p class="page-subtitle">
@@ -459,7 +466,7 @@ to{
 
 <div class="hero-product">
 
-    <h1>🏕 Produk Camping</h1>
+    <h1>Produk Camping</h1>
 
     <p>
         Pilih perlengkapan camping terbaik untuk petualanganmu
@@ -513,7 +520,7 @@ to{
     </h3>
 
     <p class="product-info">
-        📦 Stok : {{ $product->stock }}
+         Stok : {{ $product->stock }}
     </p>
 
     <p class="product-price">
@@ -532,7 +539,7 @@ to{
         value="{{ $product->id }}">
 
        <label class="form-label">
-    📅 Tanggal Pinjam
+     Tanggal Pinjam
 </label>
 <input
 type="date"
@@ -541,7 +548,7 @@ class="form-input"
 required>
 
 <label class="form-label">
-    📆 Tanggal Kembali
+     Tanggal Kembali
 </label>
 <input
 type="date"
@@ -550,7 +557,7 @@ class="form-input"
 required>
 
 <label class="form-label">
-    📦 Qty
+     Qty
 </label>
 <input
 type="number"
@@ -561,9 +568,13 @@ max="{{ $product->stock }}"
 class="form-input"
 required>
 
-        <button type="submit" class="btn-sewa">
-            🚀 Sewa Sekarang 
-        </button>
+        <button 
+    type="submit" 
+    class="btn-sewa"
+    {{ $product->stock <= 0 ? 'disabled' : '' }}
+>
+    {{ $product->stock > 0 ? ' Sewa Sekarang' : ' Stok Habis' }}
+</button>
 
     </form>
 

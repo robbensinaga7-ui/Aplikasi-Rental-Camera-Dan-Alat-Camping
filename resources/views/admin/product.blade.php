@@ -464,7 +464,7 @@ table tr:hover{
 
             <a href="/product/{{ $product->id }}/edit"
             class="btn btn-edit">
-                ✏ Edit
+                 Edit
             </a>
 
             <form
@@ -477,7 +477,7 @@ style="display:inline;">
                 @method('DELETE')
 
                 <button type="button" class="btn btn-delete btn-hapus">
-    🗑 Hapus
+     Hapus
 </button>
             </form>
 

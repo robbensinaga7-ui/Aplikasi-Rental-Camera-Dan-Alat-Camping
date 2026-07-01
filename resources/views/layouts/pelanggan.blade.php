@@ -321,24 +321,24 @@ tr:hover{
 
         <a href="/pelanggan/dashboard"
         class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}">
-            <span>🏠</span> Dashboard
+            <span></span> Dashboard
         </a>
 
         <a href="/pelanggan/product"
         class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
-            <span>📦</span> Produk
+            <span></span> Produk
         </a>
 
         <a href="/pelanggan/profile"
         class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}">
-            <span>👤</span> Profil
+            <span></span> Profil
         </a>
 
     </div>
 
     <!-- LOGOUT -->
     <a href="/logout" class="logout-btn">
-        🚪 Keluar
+         Keluar
     </a>
 
 </div>

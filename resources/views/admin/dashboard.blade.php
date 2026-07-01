@@ -415,7 +415,7 @@
 <div class="card">
 
     <h3 style="margin-bottom:15px;">
-        🕒 Aktivitas Terbaru
+         Aktivitas Terbaru
     </h3>
 
     @foreach($latestTransaksi as $t)

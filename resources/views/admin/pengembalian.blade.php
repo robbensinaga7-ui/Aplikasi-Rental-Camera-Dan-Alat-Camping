@@ -326,17 +326,20 @@ tr:hover .number{
 <table>
 
     <thead>
-        <tr>
-            <th>No</th>
-            <th>Customer</th>
-            <th>Produk</th>
-            <th>Qty</th>
-            <th>Tanggal Pinjam</th>
-            <th>Tanggal Kembali</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
+<tr>
+    <th>No</th>
+    <th>Customer</th>
+    <th>Produk</th>
+    <th>Qty</th>
+    <th>Tanggal Pinjam</th>
+    <th>Tanggal Kembali</th>
+    <th>Tanggal Dikembalikan</th>
+    <th>Denda</th>
+    <th>Foto Rusak</th>
+    <th>Status</th>
+    <th>Aksi</th>
+</tr>
+</thead>
 
     <tbody>
 
@@ -344,59 +347,111 @@ tr:hover .number{
 
     <tr>
 
-        <td class="number">{{ $i+1 }}</td>
+<td class="number">{{ $i+1 }}</td>
 
-        <td>{{ $item->user->name ?? '-' }}</td>
+<td>{{ $item->user->name ?? '-' }}</td>
 
-        <td>{{ $item->product->name ?? '-' }}</td>
+<td>{{ $item->product->name ?? '-' }}</td>
 
-        <td>{{ $item->qty }}</td>
+<td>{{ $item->qty }}</td>
 
-        <td>{{ $item->rent_date }}</td>
+<td>{{ $item->rent_date }}</td>
 
-        <td>{{ $item->return_date }}</td>
+<td>{{ $item->return_date }}</td>
 
-        <td>
-            @if($item->status == 'menunggu_konfirmasi')
-                <span class="badge badge-orange">
-                    Menunggu
-                </span>
-            @elseif($item->status == 'dikembalikan')
-                <span class="badge"
-                      style="background:linear-gradient(135deg,#00c853,#69f0ae);">
-                    Dikembalikan
-                </span>
-            @endif
-        </td>
+<!-- TANGGAL DIKEMBALIKAN -->
+<td>
+    @if($item->returned_at)
+        {{ \Carbon\Carbon::parse($item->returned_at)->format('d M Y') }}
+    @else
+        <span style="color:#94a3b8;">-</span>
+    @endif
+</td>
 
-        <td>
+<!-- DENDA -->
+<td>
+    <div style="color:#facc15;">Telat: Rp {{ number_format($item->fine_late,0,',','.') }}</div>
+    <div style="color:#fb923c;">Rusak: Rp {{ number_format($item->fine_damage,0,',','.') }}</div>
+    <div style="color:#ef4444;">Hilang: Rp {{ number_format($item->fine_lost,0,',','.') }}</div>
+</td>
 
-            @if($item->status == 'menunggu_konfirmasi')
+<!-- FOTO RUSAK -->
+<td>
+    @if($item->damage_photo)
+        <img src="{{ asset('storage/'.$item->damage_photo) }}" width="70">
+    @else
+        <span style="color:#94a3b8;">-</span>
+    @endif
+</td>
 
-            <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
-                @csrf
-                <button class="btn btn-green">
-                    ✔ Konfirmasi
-                </button>
-            </form>
+<!-- STATUS -->
+<td>
+    @if($item->status == 'menunggu_konfirmasi')
+        <span class="badge badge-orange">Menunggu</span>
+    @elseif($item->status == 'dikembalikan')
+        <span class="badge"
+        style="background:linear-gradient(135deg,#00c853,#69f0ae);">
+        Selesai
+        </span>
+    @endif
+</td>
 
-            @else
+<!-- AKSI -->
+<td>
 
-            <span style="color:#00c853;font-weight:bold;">
-                ✓ Selesai
+@if($item->status == 'menunggu_konfirmasi')
+
+<form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
+    @csrf
+
+    <div style="margin-bottom:10px; font-size:13px;">
+
+        @if($item->late_days > 0)
+            <span class="badge badge-orange">
+                Terlambat {{ $item->late_days }} hari
             </span>
 
-            @endif
+            <div style="color:#ef4444; font-weight:bold; margin-top:5px;">
+                Denda: Rp {{ number_format($item->fine_late_preview,0,',','.') }}
+            </div>
+        @else
+            <span class="badge" style="background:#00c853;">
+                Tepat Waktu
+            </span>
+        @endif
+    </div>
 
-        </td>
+    <select name="kondisi" required style="padding:6px;border-radius:6px;margin-bottom:8px;">
+        <option value="">-- Pilih Kondisi --</option>
+        <option value="baik">Baik</option>
+        <option value="rusak_ringan">Rusak Ringan</option>
+        <option value="rusak_berat">Rusak Berat</option>
+        <option value="hilang">Hilang</option>
+    </select>
 
-    </tr>
+    <br>
+
+    <button class="btn btn-green">✔ Konfirmasi</button>
+
+</form>
+
+@else
+
+<span style="color:#00c853;font-weight:bold;">
+    ✓ Selesai
+</span>
+
+@endif
+
+</td>
+
+</tr>
 
     @empty
 
     <tr>
         <td colspan="8" class="empty-data">
-            📭 Tidak ada data pengembalian
+             Tidak ada data pengembalian
         </td>
     </tr>
 

@@ -15,12 +15,12 @@
         </div>
 
         <div>
-            <h3>📞 Contact</h3>
+            <h3> Contact</h3>
             <p>1. 0882-7121-6873</p>
         </div>
 
         <div>
-            <h3>📧 Email</h3>
+            <h3> Email</h3>
             <p>1. robbensinaga7@gmail.com</p>
         </div>
 

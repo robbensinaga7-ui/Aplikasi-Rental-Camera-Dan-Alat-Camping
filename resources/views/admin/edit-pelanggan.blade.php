@@ -202,7 +202,7 @@ body::after{
                     <label>Password Baru (Opsional)</label>
                 </div>
 
-                <button type="submit" class="btn-update">💾 Update</button>
+                <button type="submit" class="btn-update"> Update</button>
                 <a href="/admin/pelanggan" class="btn-back">↩ Kembali</a>
 
             </form>
