@@ -181,7 +181,7 @@ to{opacity:1;}
 <section class="hero">
 
 <div class="hero-text" data-aos="fade-right">
-<h1>Petualangan Dimulai dari Sini guys!</h1>
+<h1>Petualangan Dimulai dari Sini !</h1>
 
 <p>Sewa peralatan camping berkualitas untuk petualangan Anda. Mudah, cepat, dan terpercaya!</p>
 
