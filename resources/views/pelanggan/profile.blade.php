@@ -207,7 +207,7 @@
                 </div>
 
                 <button type="submit" class="btn-save">
-                    💾 Update Profile
+                    💾 Update Profile yok
                 </button>
 
                 <button type="button" onclick="hideEditForm()" class="btn-cancel">
