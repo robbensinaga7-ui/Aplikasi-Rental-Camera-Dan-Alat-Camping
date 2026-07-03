@@ -438,8 +438,8 @@
 
 <script>
 
-const labels = {!! json_encode($labels ?? []) !!};
-const data = {!! json_encode($data ?? []) !!};
+const labels = @json($labels ?? []);
+const data = @json($data ?? []);
 
 if(data.length !== 0){
 
