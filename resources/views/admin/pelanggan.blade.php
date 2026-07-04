@@ -65,15 +65,26 @@
 }
 
 /* TABLE */
-table{
+.table{
     width:100%;
     border-collapse:collapse;
 }
 
-th{
-    background:#020617; 
-    color:#f1f5f9;      
+.table th{
+    background:linear-gradient(135deg,#0f172a,#334155);
+    color:white;
     padding:14px;
+    font-size:14px;
+}
+
+.table td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.table tr:hover{
+    background:#eef8ff;
 }
 
 td{
@@ -270,7 +281,7 @@ tr:hover .number{
 
     <div class="table-box">
 
-        <table>
+       <table class="table">
 
             <tr>
                 <th>ID</th>

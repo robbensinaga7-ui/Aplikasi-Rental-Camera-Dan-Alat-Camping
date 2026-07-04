@@ -61,14 +61,16 @@ if ($today->gt($return_date)) {
         $totalPrice = $product->price_per_day * $request->qty;
 
         Transaction::create([
-            'user_id' => Auth::id(),
-            'product_id' => $request->product_id,
-            'qty' => $request->qty,
-            'rent_date' => $request->rent_date,
-            'return_date' => $request->return_date,
-            'price' => $totalPrice,
-            'status' => 'dipinjam'
-        ]);
+    'user_id' => Auth::id(),
+    'product_id' => $request->product_id,
+    'qty' => $request->qty,
+    'rent_date' => $request->rent_date,
+    'return_date' => $request->return_date,
+    'price' => $totalPrice,
+    'status' => 'menunggu_pembayaran',
+    'payment_status' => null,
+    'is_paid' => false
+]);
 
         $product->decrement('stock', $request->qty);
 
@@ -162,10 +164,12 @@ if ($today->gt($return_date)) {
             return back()->with('error', '❌ Bukti pembayaran belum ada');
         }
 
-        $t->update([
-            'payment_status' => 'approved',
-            'paid_at' => now()
-        ]);
+       $t->update([
+    'payment_status' => 'approved',
+    'status' => 'dipinjam', 
+    'is_paid' => true,
+    'paid_at' => now()
+]);
 
         return back()->with('success', '✅ Pembayaran disetujui');
     }
@@ -298,6 +302,7 @@ if ($today->gt($return_date)) {
         $t->payment_proof = $paymentProof;
         $t->ktp_image = $ktp;
         $t->payment_status = 'pending';
+        $t->status = 'menunggu_konfirmasi';
 
         $t->save();
 

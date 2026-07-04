@@ -69,10 +69,12 @@ Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
 | PENGEMBALIAN
 |--------------------------------------------------------------------------
 */
-Route::get('/pengembalian', [ReturnController::class, 'index']);
-Route::get('/pengembalian/create', [ReturnController::class, 'create']);
-Route::post('/pengembalian', [ReturnController::class, 'store']);
-
+Route::get('/pelanggan/pengembalian', [ReturnController::class, 'index'])
+    ->name('pengembalian.index');
+Route::post('/pengembalian', [ReturnController::class, 'store'])
+    ->name('pengembalian.store');
+Route::get('/pelanggan/pengembalian/{id}', [ReturnController::class, 'create'])
+    ->name('pengembalian.create');
 /*
 |--------------------------------------------------------------------------
 | ADMIN
