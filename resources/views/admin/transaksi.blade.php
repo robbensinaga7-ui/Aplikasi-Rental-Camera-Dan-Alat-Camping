@@ -240,7 +240,7 @@ tbody tr:nth-child(10){animation-delay:1s;}
 /* Badge */
 .badge{
     display:inline-block;
-    animation:float 3s infinite ease-in-out;
+    animation:none;
 }
 
 .badge:hover{

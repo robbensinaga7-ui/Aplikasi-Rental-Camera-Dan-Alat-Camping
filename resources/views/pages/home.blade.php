@@ -170,10 +170,7 @@ to{opacity:1;}
 100%{transform:translateY(0);}
 }
 
-@keyframes bounce{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
+
 
 </style>
 
@@ -181,7 +178,7 @@ to{opacity:1;}
 <section class="hero">
 
 <div class="hero-text" data-aos="fade-right">
-<h1>Petualangan Dimulai dari Sini guys!</h1>
+<h1>Petualangan Dimulai dari Sini !</h1>
 
 <p>Sewa peralatan camping berkualitas untuk petualangan Anda. Mudah, cepat, dan terpercaya!</p>
 
