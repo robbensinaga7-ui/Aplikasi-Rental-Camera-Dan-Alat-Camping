@@ -304,17 +304,6 @@ tr:hover .total-price{
     }
 }
 
-@keyframes float{
-    0%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-10px);
-    }
-    100%{
-        transform:translateY(0);
-    }
-}
 
 @keyframes blinkFine{
     0%,100%{
@@ -398,6 +387,34 @@ tr:hover .total-price{
     {{ session('success') }}
 </div>
 @endif
+<!-- MODAL -->
+<div id="imgModal" style="
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+">
+
+    <span onclick="closeModal()" style="
+        position:absolute;
+        top:20px;
+        right:30px;
+        font-size:30px;
+        color:white;
+        cursor:pointer;
+    ">✖</span>
+
+    <img id="modalImage" style="
+        max-width:80%;
+        max-height:80%;
+        border-radius:15px;
+        box-shadow:0 20px 40px rgba(0,0,0,.4);
+    ">
+</div>
 <div class="table-box">
 
 <table class="table">
@@ -457,9 +474,6 @@ tr:hover .total-price{
     @elseif($item->status == 'dikembalikan')
         <span class="badge badge-green">Selesai</span>
 
-    @elseif($item->status == 'terlambat')
-        <span class="badge badge-orange">Terlambat</span>
-
     @elseif($item->status == 'ditolak')
         <span class="badge badge-red">Ditolak</span>
 
@@ -473,36 +487,27 @@ tr:hover .total-price{
             <!-- BUKTI -->
             <td>
 
-                @if($item->payment_proof)
-
-                    <img
-                    src="{{ asset('storage/'.$item->payment_proof) }}"
-                    width="70">
-
-                @else
-
-                    -
-
-                @endif
+             @if($item->payment_proof)
+    <button class="btn btn-blue"
+        onclick="openModal('{{ asset('storage/'.$item->payment_proof) }}')">
+        👁 Lihat Bukti
+    </button>
+@else
+    -
+@endif
 
             </td>
             <!-- KTP PENYEWA -->
             <td>
 
-                 @if($item->ktp_image)
-
-                  <img
-                     src="{{ asset('storage/'.$item->ktp_image) }}"
-                    width="70">
-
-                  @else
-
-                    <span class="badge badge-orange">
-                        Belum Upload
-                      </span>
-
-    @endif
-
+                @if($item->ktp_image)
+    <button class="btn btn-blue"
+        onclick="openModal('{{ asset('storage/'.$item->ktp_image) }}')">
+        👁 Lihat KTP
+    </button>
+@else
+    <span class="badge badge-orange">Belum Upload</span>
+@endif
 </td>
 
             <!-- PEMBAYARAN -->
@@ -565,5 +570,17 @@ tr:hover .total-price{
 </table>
 
 </div>
+<script>
+function openModal(src){
+    const modal = document.getElementById('imgModal');
+    const img = document.getElementById('modalImage');
 
+    img.src = src;
+    modal.style.display = 'flex';
+}
+
+function closeModal(){
+    document.getElementById('imgModal').style.display = 'none';
+}
+</script>
 @endsection

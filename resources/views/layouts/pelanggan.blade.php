@@ -329,10 +329,16 @@ tr:hover{
             <span></span> Produk
         </a>
 
+         <a href="/pelanggan/pengembalian"
+        class="{{ request()->is('pelanggan/pengembalian') ? 'active' : '' }}">
+            <span></span> Pengembalian
+        </a>
+
         <a href="/pelanggan/profile"
         class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}">
             <span></span> Profil
         </a>
+
 
     </div>
 
