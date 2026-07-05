@@ -471,7 +471,7 @@ Memberikan layanan rental yang cepat, aman, modern, dan terpercaya bagi seluruh 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="200">
 <div class="icon"></div>
 <h3>Lengkap</h3>
-<p>Banyak pilihan alat camping dan petualangan.</p>
+<p>Banyak pilihan alat camping dan petualangan .</p>
 </div>
 
 </div>
