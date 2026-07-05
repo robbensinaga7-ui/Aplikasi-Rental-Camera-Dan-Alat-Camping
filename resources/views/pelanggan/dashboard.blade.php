@@ -632,7 +632,7 @@ td{
 
 <!-- TITLE -->
 <h2 class="section-title">
-     Peminjaman Barang
+     Data Peminjaman Barang
 </h2>
 
 <!-- TABLE -->

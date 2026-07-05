@@ -234,11 +234,11 @@ tr:hover{
     <th>No</th>
     <th>Produk</th>
     <th>Tgl Pinjam</th>
-    <th>Batas</th>
-    <th>Dikembalikan</th>
+    <th>Tgl Kembali</th>
+    <th>Tgl Pengembalian Barang</th>
     <th>Denda</th>
     <th>Status</th>
-    <th>Upload</th>
+    <th>Upload Barang Rusak</th>
     <th>Aksi</th>
 </tr>
 </thead>
