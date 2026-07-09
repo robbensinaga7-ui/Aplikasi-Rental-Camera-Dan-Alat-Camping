@@ -277,15 +277,17 @@ tr:hover{
 </td>
 
 <td>
-@if($trx->status == 'diajukan')
-<form action="{{ route('transaksi.uploadRusak', $trx->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <input type="file" name="foto_rusak">
-    <br>
-    <button class="btn-upload">Upload</button>
-</form>
+@if($trx->foto_rusak)
+    <img src="{{ asset('storage/'.$trx->foto_rusak) }}" width="80" style="border-radius:8px;">
+@elseif($trx->status == 'diajukan')
+    <form action="{{ route('transaksi.uploadRusak', $trx->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="foto_rusak" required>
+        <br>
+        <button class="btn-upload">Upload</button>
+    </form>
 @else
--
+    -
 @endif
 </td>
 
