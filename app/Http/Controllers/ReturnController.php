@@ -12,7 +12,7 @@ class ReturnController extends Controller
 {
     $data = Transaction::with('product')
     ->where('user_id', auth()->id())
-    ->whereIn('status', ['dipinjam', 'menunggu_konfirmasi', 'dikembalikan'])
+    ->whereIn('status', ['dipinjam','diajukan','menunggu_konfirmasi','dikembalikan'])
     ->get();
         foreach ($data as $item) {
 
@@ -73,7 +73,7 @@ $trx->save();
     ]);
 
     // update status
-    $trx->status = 'dikembalikan';
+    $trx->status = 'menunggu_konfirmasi';
     $trx->save();
 
     // balikin stok

@@ -277,10 +277,10 @@ tr:hover{
 </td>
 
 <td>
-@if($trx->status == 'dipinjam')
+@if($trx->status == 'diajukan')
 <form action="{{ route('transaksi.uploadRusak', $trx->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <input type="file" name="damage_photo">
+    <input type="file" name="foto_rusak">
     <br>
     <button class="btn-upload">Upload</button>
 </form>
