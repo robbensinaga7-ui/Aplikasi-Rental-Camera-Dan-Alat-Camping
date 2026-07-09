@@ -194,19 +194,20 @@ if ($today->gt($return_date)) {
         return back()->with('success', 'Pembayaran ditolak');
     }
 
-    public function ajukanKembali(int $id)
-    {
-        $t = Transaction::findOrFail($id);
+   public function ajukanKembali(int $id)
+{
+    $t = Transaction::findOrFail($id);
 
-        if ($t->status !== 'dipinjam') {
-            return back()->with('error', 'Tidak bisa ajukan');
-        }
-
-        $t->status = 'menunggu_konfirmasi';
-        $t->save();
-
-        return back()->with('success', 'Menunggu konfirmasi admin');
+    if ($t->status !== 'dipinjam') {
+        return back()->with('error', 'Tidak bisa ajukan');
     }
+
+    $t->status = 'diajukan';
+    $t->returned_at = now();
+    $t->save();
+
+    return back()->with('success', 'Pengembalian berhasil diajukan');
+}
 
     public function konfirmasiKembali(Request $request, int $id)
     {
@@ -220,7 +221,7 @@ if ($today->gt($return_date)) {
             return back()->with('error', 'Barang sudah dikembalikan');
         }
 
-        if (!in_array($t->status, ['dipinjam', 'menunggu_konfirmasi'])) {
+        if (!in_array($t->status, ['dipinjam', 'diajukan', 'menunggu_konfirmasi'])){
             return back()->with('error', 'Status tidak valid');
         }
 
@@ -278,14 +279,32 @@ if ($today->gt($return_date)) {
         return view('admin.peminjaman', compact('data'));
     }
 
-    public function pengembalian()
-    {
-        $data = Transaction::with(['product','user'])
-            ->whereIn('status', ['menunggu_konfirmasi','dikembalikan'])
-            ->get();
+   public function pengembalian()
+{
+    $data = Transaction::with(['product','user'])
+        ->whereIn('status', ['diajukan','menunggu_konfirmasi','dikembalikan'])
+        ->get();
 
-        return view('admin.pengembalian', compact('data'));
+    foreach ($data as $item) {
+
+        $return_date = Carbon::parse($item->return_date)->startOfDay();
+
+        
+        $compareDate = $item->returned_at
+            ? Carbon::parse($item->returned_at)->startOfDay()
+            : now()->startOfDay();
+
+        if ($compareDate->gt($return_date)) {
+            $item->late_days = $return_date->diffInDays($compareDate);
+            $item->fine_late_preview = $item->late_days * 10000;
+        } else {
+            $item->late_days = 0;
+            $item->fine_late_preview = 0;
+        }
     }
+
+    return view('admin.pengembalian', compact('data'));
+}
 
     public function uploadDokumen(Request $request, int $id)
     {

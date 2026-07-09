@@ -527,6 +527,137 @@ input[type="file"]{
         transform:scale(1);
     }
 }
+/* MODAL CONTENT UPGRADE */
+.payment-content{
+    background:white;
+    padding:30px;
+    border-radius:22px;
+    width:420px;
+    max-width:90%;
+    animation:zoomIn .35s ease;
+    position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,0.2);
+}
+
+/* HEADER */
+.modal-header h3{
+    font-size:22px;
+    font-weight:700;
+}
+
+.modal-header p{
+    font-size:13px;
+    color:#64748b;
+}
+
+/* BANK BOX */
+.bank-box{
+    background:linear-gradient(135deg,#f1f5f9,#e2e8f0);
+    padding:15px;
+    border-radius:14px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.bank-title{
+    font-size:12px;
+    color:#64748b;
+}
+
+.bank-name{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.bank-number{
+    font-size:18px;
+    font-weight:bold;
+    color:#1e293b;
+}
+
+.bank-owner{
+    font-size:12px;
+    color:#64748b;
+}
+
+/* INPUT GROUP */
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#334155;
+    display:block;
+    margin-bottom:6px;
+}
+
+.input-group input{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#f8fafc;
+}
+
+/* FILE GROUP (CUSTOM FILE STYLE 🔥) */
+.file-group{
+    margin-bottom:15px;
+}
+
+.file-group label{
+    font-size:13px;
+    font-weight:600;
+    display:block;
+    margin-bottom:6px;
+}
+
+.file-group input[type="file"]{
+    width:100%;
+    padding:8px;
+    border-radius:10px;
+    border:1px dashed #cbd5e1;
+    background:#f8fafc;
+    cursor:pointer;
+}
+
+/* BUTTON */
+.btn-submit{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#3b82f6,#60a5fa);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(59,130,246,.3);
+}
+
+/* CLOSE BUTTON */
+.close-modal{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:#f1f5f9;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.close-modal:hover{
+    background:#fee2e2;
+}
 </style>
 @endsection
 
@@ -670,44 +801,52 @@ required>
 <!-- MODAL SEWA -->
 <div id="sewaModal" class="payment-modal">
 
-    <div class="payment-content">
+   <div class="payment-content">
 
-        <!-- tombol close -->
-        <span class="close-modal" onclick="closeSewaModal()">✖</span>
+    <span class="close-modal" onclick="closeSewaModal()">✖</span>
 
-        <div class="modal-header">
-            <h3>Konfirmasi Sewa</h3>
-            <p>Lengkapi pembayaran untuk melanjutkan</p>
-        </div>
-
-        <div class="bank-box">
-            <strong>Transfer ke:</strong><br>
-            BCA - 1234567890<br>
-            Smartrent
-        </div>
-
-        <form id="formSewa" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <input type="hidden" name="product_id" id="product_id">
-
-            <label>Total Harga</label>
-            <input type="text" id="total_harga" class="form-input" readonly>
-
-            <label>Bukti Pembayaran</label>
-            <input type="file" name="bukti" accept="image/*" required>
-
-            <label>Foto KTP</label>
-            <input type="file" name="ktp" accept="image/*" required>
-
-            <br>
-
-            <button type="submit" class="btn-sewa">
-                 Kirim & Sewa
-            </button>
-        </form>
-
+    <div class="modal-header">
+        <h3>Konfirmasi Sewa</h3>
+        <p>Lengkapi pembayaran untuk melanjutkan</p>
     </div>
+
+    <!-- BANK -->
+    <div class="bank-box">
+        <div class="bank-title">Transfer ke</div>
+        <div class="bank-name">BCA</div>
+        <div class="bank-number">1234567890</div>
+        <div class="bank-owner">Smartrent</div>
+    </div>
+
+    <form id="formSewa" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <input type="hidden" name="product_id" id="product_id">
+
+        <!-- TOTAL -->
+        <div class="input-group">
+            <label>Total Harga</label>
+            <input type="text" id="total_harga" readonly>
+        </div>
+
+        <!-- FILE UPLOAD -->
+        <div class="file-group">
+            <label>Bukti Pembayaran</label>
+            <input type="file" name="bukti" required>
+        </div>
+
+        <div class="file-group">
+            <label>Foto KTP</label>
+            <input type="file" name="ktp" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Kirim & Sewa
+        </button>
+
+    </form>
+
+</div>
 
 </div>
 </div>

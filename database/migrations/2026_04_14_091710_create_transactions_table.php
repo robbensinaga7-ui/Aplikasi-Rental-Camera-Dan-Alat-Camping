@@ -21,7 +21,7 @@ $table->integer('qty');
 $table->date('rent_date');
 $table->date('return_date');
 
-$table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'ditolak','dibatalkan']);
+$table->enum('status', ['dipinjam', 'diajukan', 'menunggu_konfirmasi','dikembalikan', 'ditolak','dibatalkan']);
 
 $table->bigInteger('price')->default(0);
 

@@ -64,6 +64,9 @@ Route::resource('transaksi', TransactionController::class);
 Route::post('/ajukan-kembali/{id}', [TransactionController::class, 'ajukanKembali']);
 Route::post('/admin/konfirmasi-kembali/{id}', [TransactionController::class, 'konfirmasiKembali']);
 Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
+ Route::post('/admin/pengembalian/{id}/konfirmasi', [TransactionController::class, 'konfirmasiKembali'])
+    ->name('admin.konfirmasi');
+
 /*
 |--------------------------------------------------------------------------
 | PENGEMBALIAN
