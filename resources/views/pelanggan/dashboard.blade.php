@@ -650,6 +650,7 @@ td{
     <th>Total</th>
     <th>Status</th>
     <th>Status Bayar</th>
+    <th>Aksi</th>
 </tr>
 
 @foreach($transactions as $t)
@@ -725,7 +726,24 @@ $total = $t->price
 
 </td>
 
+<td>
 
+@if($t->status == 'dipinjam' && $t->payment_status == 'pending')
+
+<form action="/batalkan/{{ $t->id }}" method="POST">
+    @csrf
+
+    <button class="btn-batal"
+    onclick="return confirm('Yakin mau batalkan pesanan ini?')">
+        Batalkan
+    </button>
+</form>
+
+@else
+    -
+@endif
+
+</td>
 
 </tr>
 

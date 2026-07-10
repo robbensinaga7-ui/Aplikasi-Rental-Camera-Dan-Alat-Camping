@@ -328,40 +328,28 @@ if ($today->gt($return_date)) {
         return back()->with('success', 'Dokumen berhasil diupload');
     }
 
-    public function batalkan(int $id)
-    {
-        $transaksi = Transaction::findOrFail($id);
-
-        if ($transaksi->status === 'dibatalkan') {
-            return back()->with('error', 'Sudah dibatalkan');
-        }
-
-        $product = Product::find($transaksi->product_id);
-
-        if ($product) {
-            $product->increment('stock', $transaksi->qty);
-        }
-
-        $transaksi->status = 'dibatalkan';
-        $transaksi->payment_status = 'dibatalkan';
-        $transaksi->is_paid = false;
-        $transaksi->save();
-
-        return back()->with('success', 'Pesanan berhasil dibatalkan');
-    }
-    public function uploadRusak(Request $request, int $id)
+   public function batalkan(int $id)
 {
-    $request->validate([
-        'foto_rusak' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-    ]);
+    $transaksi = Transaction::findOrFail($id);
 
-    $t = Transaction::findOrFail($id);
+   
+    if (!(
+        $transaksi->status === 'dipinjam' &&
+        $transaksi->payment_status === 'pending'
+    )) {
+        return back()->with('error', 'Tidak bisa dibatalkan');
+    }
 
-    $path = $request->file('foto_rusak')->store('damage', 'public');
+    $product = Product::find($transaksi->product_id);
 
-   $t->foto_rusak = $path;
-    $t->save();
+    if ($product) {
+        $product->increment('stock', $transaksi->qty);
+    }
 
-    return back()->with('success','Foto kerusakan berhasil diupload');
+    $transaksi->status = 'dibatalkan';
+    $transaksi->payment_status = 'dibatalkan';
+    $transaksi->save();
+
+    return back()->with('success', 'Pesanan berhasil dibatalkan');
 }
 }
