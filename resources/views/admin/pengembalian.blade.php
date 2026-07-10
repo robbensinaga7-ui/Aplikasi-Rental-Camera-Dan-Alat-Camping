@@ -357,6 +357,47 @@ tr:hover .number{
     background:linear-gradient(135deg,#22c55e,#4ade80);
     border:none;
 }
+/* MODAL GAMBAR */
+.image-modal{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    padding-top:60px;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    text-align:center;
+}
+
+.image-modal img{
+    max-width:80%;
+    max-height:80%;
+    border-radius:12px;
+    animation:zoomImg .3s ease;
+}
+
+.close-img{
+    position:absolute;
+    top:20px;
+    right:40px;
+    color:white;
+    font-size:35px;
+    cursor:pointer;
+}
+
+/* ANIMASI */
+@keyframes zoomImg{
+    from{
+        transform:scale(0.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
 </style>
 @endsection
 
@@ -433,13 +474,17 @@ tr:hover .number{
 
 <!-- FOTO RUSAK -->
 <td>
-    @if($item->damage_photo)
-        <img src="{{ asset('storage/'.$item->damage_photo) }}" width="70">
-    @else
-        <span style="color:#94a3b8;">-</span>
-    @endif
+@if($item->foto_rusak)
+    <img 
+        src="{{ asset('storage/'.$item->foto_rusak) }}" 
+        width="70"
+        style="cursor:pointer;border-radius:8px"
+        onclick="showImage(this.src)"
+    >
+@else
+    <span style="color:#94a3b8;">-</span>
+@endif
 </td>
-
 <!-- STATUS -->
 <td>
     @if($item->status == 'menunggu_konfirmasi')
@@ -524,5 +569,18 @@ tr:hover .number{
 </div>
 
 </div>
-
+<div id="imageModal" class="image-modal" onclick="closeImage()">
+    <span class="close-img">&times;</span>
+    <img class="modal-content" id="previewImg">
+</div>
 @endsection
+<script>
+function showImage(src){
+    document.getElementById('imageModal').style.display = "block";
+    document.getElementById('previewImg').src = src;
+}
+
+function closeImage(){
+    document.getElementById('imageModal').style.display = "none";
+}
+</script>

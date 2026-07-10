@@ -359,7 +359,7 @@ if ($today->gt($return_date)) {
 
     $path = $request->file('foto_rusak')->store('damage', 'public');
 
-    $t->damage_photo = $path;
+   $t->foto_rusak = $path;
     $t->save();
 
     return back()->with('success','Foto kerusakan berhasil diupload');
