@@ -352,4 +352,20 @@ if ($today->gt($return_date)) {
 
     return back()->with('success', 'Pesanan berhasil dibatalkan');
 }
+public function uploadRusak(Request $request, int $id)
+{
+    $request->validate([
+        'foto_rusak' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
+
+    $trx = Transaction::findOrFail($id);
+
+    $file = $request->file('foto_rusak');
+    $path = $file->store('foto_rusak', 'public');
+
+    $trx->foto_rusak = $path;
+    $trx->save();
+
+    return back()->with('success', 'Foto kerusakan berhasil diupload');
+}
 }
