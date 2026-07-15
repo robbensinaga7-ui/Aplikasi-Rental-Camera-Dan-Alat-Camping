@@ -301,6 +301,103 @@ tr:hover .number{
         transform:translateY(0);
     }
 }
+/* ACTION BOX */
+.action-box{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:center;
+}
+
+/* LATE BOX */
+.late-box{
+    text-align:center;
+}
+
+.late-fine{
+    font-size:13px;
+    font-weight:bold;
+    color:#ef4444;
+    margin-top:4px;
+}
+
+/* ONTIME */
+.ontime-box{
+    background:#dcfce7;
+    color:#166534;
+    padding:6px 12px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* FORM */
+.action-box form{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    width:100%;
+}
+
+.action-box select{
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:12px;
+}
+
+/* DONE */
+.done-box{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+/* BUTTON IMPROVE */
+.btn-green{
+    background:linear-gradient(135deg,#22c55e,#4ade80);
+    border:none;
+}
+/* MODAL GAMBAR */
+.image-modal{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    padding-top:60px;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    text-align:center;
+}
+
+.image-modal img{
+    max-width:80%;
+    max-height:80%;
+    border-radius:12px;
+    animation:zoomImg .3s ease;
+}
+
+.close-img{
+    position:absolute;
+    top:20px;
+    right:40px;
+    color:white;
+    font-size:35px;
+    cursor:pointer;
+}
+
+/* ANIMASI */
+@keyframes zoomImg{
+    from{
+        transform:scale(0.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
 </style>
 @endsection
 
@@ -377,13 +474,17 @@ tr:hover .number{
 
 <!-- FOTO RUSAK -->
 <td>
-    @if($item->damage_photo)
-        <img src="{{ asset('storage/'.$item->damage_photo) }}" width="70">
-    @else
-        <span style="color:#94a3b8;">-</span>
-    @endif
+@if($item->foto_rusak)
+    <img 
+        src="{{ asset('storage/'.$item->foto_rusak) }}" 
+        width="70"
+        style="cursor:pointer;border-radius:8px"
+        onclick="showImage(this.src)"
+    >
+@else
+    <span style="color:#94a3b8;">-</span>
+@endif
 </td>
-
 <!-- STATUS -->
 <td>
     @if($item->status == 'menunggu_konfirmasi')
@@ -399,47 +500,51 @@ tr:hover .number{
 <!-- AKSI -->
 <td>
 
-@if($item->status == 'menunggu_konfirmasi')
+@if(in_array($item->status, ['diajukan','menunggu_konfirmasi']))
 
-<form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
-    @csrf
+<div class="action-box">
 
-    <div style="margin-bottom:10px; font-size:13px;">
-
-        @if($item->late_days > 0)
+    {{-- STATUS TELAT --}}
+    @if($item->late_days > 0)
+        <div class="late-box">
             <span class="badge badge-orange">
                 Terlambat {{ $item->late_days }} hari
             </span>
 
-            <div style="color:#ef4444; font-weight:bold; margin-top:5px;">
-                Denda: Rp {{ number_format($item->fine_late_preview,0,',','.') }}
+            <div class="late-fine">
+                Rp {{ number_format($item->fine_late_preview,0,',','.') }}
             </div>
-        @else
-            <span class="badge" style="background:#00c853;">
-                Tepat Waktu
-            </span>
-        @endif
-    </div>
+        </div>
+    @else
+        <div class="ontime-box">
+            ✔ Tepat Waktu
+        </div>
+    @endif
 
-    <select name="kondisi" required style="padding:6px;border-radius:6px;margin-bottom:8px;">
-        <option value="">-- Pilih Kondisi --</option>
-        <option value="baik">Baik</option>
-        <option value="rusak_ringan">Rusak Ringan</option>
-        <option value="rusak_berat">Rusak Berat</option>
-        <option value="hilang">Hilang</option>
-    </select>
+    {{-- FORM --}}
+    <form action="{{ route('admin.konfirmasi', $item->id) }}" method="POST">
+        @csrf
 
-    <br>
+        <select name="kondisi" required>
+            <option value="">Pilih kondisi</option>
+            <option value="baik">Baik</option>
+            <option value="rusak_ringan">Rusak Ringan</option>
+            <option value="rusak_berat">Rusak Berat</option>
+            <option value="hilang">Hilang</option>
+        </select>
 
-    <button class="btn btn-green">✔ Konfirmasi</button>
+        <button type="submit" class="btn btn-green">
+            ✔ Konfirmasi
+        </button>
+    </form>
 
-</form>
+</div>
 
-@else
+@elseif($item->status == 'dikembalikan')
 
-<span style="color:#00c853;font-weight:bold;">
-    ✓ Selesai
-</span>
+<div class="done-box">
+    ✔ Selesai
+</div>
 
 @endif
 
@@ -464,5 +569,18 @@ tr:hover .number{
 </div>
 
 </div>
-
+<div id="imageModal" class="image-modal" onclick="closeImage()">
+    <span class="close-img">&times;</span>
+    <img class="modal-content" id="previewImg">
+</div>
 @endsection
+<script>
+function showImage(src){
+    document.getElementById('imageModal').style.display = "block";
+    document.getElementById('previewImg').src = src;
+}
+
+function closeImage(){
+    document.getElementById('imageModal').style.display = "none";
+}
+</script>

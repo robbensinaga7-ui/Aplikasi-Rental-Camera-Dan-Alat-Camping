@@ -64,15 +64,20 @@ Route::resource('transaksi', TransactionController::class);
 Route::post('/ajukan-kembali/{id}', [TransactionController::class, 'ajukanKembali']);
 Route::post('/admin/konfirmasi-kembali/{id}', [TransactionController::class, 'konfirmasiKembali']);
 Route::post('/kembalikan/{id}', [TransactionController::class, 'kembalikan']);
+ Route::post('/admin/pengembalian/{id}/konfirmasi', [TransactionController::class, 'konfirmasiKembali'])
+    ->name('admin.konfirmasi');
+
 /*
 |--------------------------------------------------------------------------
 | PENGEMBALIAN
 |--------------------------------------------------------------------------
 */
-Route::get('/pengembalian', [ReturnController::class, 'index']);
-Route::get('/pengembalian/create', [ReturnController::class, 'create']);
-Route::post('/pengembalian', [ReturnController::class, 'store']);
-
+Route::get('/pelanggan/pengembalian', [ReturnController::class, 'index'])
+    ->name('pengembalian.index');
+Route::post('/pengembalian', [ReturnController::class, 'store'])
+    ->name('pengembalian.store');
+Route::get('/pelanggan/pengembalian/{id}', [ReturnController::class, 'create'])
+    ->name('pengembalian.create');
 /*
 |--------------------------------------------------------------------------
 | ADMIN

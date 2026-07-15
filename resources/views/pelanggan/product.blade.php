@@ -133,8 +133,7 @@
 /* PRODUCT CONTAINER */
 .product-container{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(350px,400px));
-    justify-content:center;
+    grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
     gap:25px;
 }
 
@@ -389,10 +388,7 @@ to{
     animation:zoomSlow 5s infinite ease-in-out;
 }
 
-/* BUTTON */
-.btn-sewa{
-    animation:pulse 2.5s infinite;
-}
+
 
 .btn-sewa:hover{
     transform:translateY(-4px) scale(1.03);
@@ -448,7 +444,220 @@ to{
     box-shadow: none;
     opacity: 0.7;
 }
+.payment-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
 
+/* ANIMASI MASUK */
+.payment-content{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    width:420px;
+    max-width:90%;
+    animation:zoomIn .35s ease;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+}
+
+/* CLOSE BUTTON */
+.close-modal{
+    position:absolute;
+    top:15px;
+    right:15px;
+    font-size:18px;
+    cursor:pointer;
+    color:#64748b;
+}
+
+.close-modal:hover{
+    color:#e74c3c;
+}
+
+/* HEADER */
+.modal-header{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.modal-header h3{
+    font-size:22px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.modal-header p{
+    font-size:13px;
+    color:#64748b;
+}
+
+/* INFO BOX */
+.bank-box{
+    background:#f1f5f9;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:15px;
+    text-align:center;
+    font-size:14px;
+}
+
+/* INPUT FILE */
+input[type="file"]{
+    margin-bottom:10px;
+}
+
+/* ANIMASI */
+@keyframes zoomIn{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+/* MODAL CONTENT UPGRADE */
+.payment-content{
+    background:white;
+    padding:30px;
+    border-radius:22px;
+    width:420px;
+    max-width:90%;
+    animation:zoomIn .35s ease;
+    position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,0.2);
+}
+
+/* HEADER */
+.modal-header h3{
+    font-size:22px;
+    font-weight:700;
+}
+
+.modal-header p{
+    font-size:13px;
+    color:#64748b;
+}
+
+/* BANK BOX */
+.bank-box{
+    background:linear-gradient(135deg,#f1f5f9,#e2e8f0);
+    padding:15px;
+    border-radius:14px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.bank-title{
+    font-size:12px;
+    color:#64748b;
+}
+
+.bank-name{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.bank-number{
+    font-size:18px;
+    font-weight:bold;
+    color:#1e293b;
+}
+
+.bank-owner{
+    font-size:12px;
+    color:#64748b;
+}
+
+/* INPUT GROUP */
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#334155;
+    display:block;
+    margin-bottom:6px;
+}
+
+.input-group input{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#f8fafc;
+}
+
+/* FILE GROUP (CUSTOM FILE STYLE 🔥) */
+.file-group{
+    margin-bottom:15px;
+}
+
+.file-group label{
+    font-size:13px;
+    font-weight:600;
+    display:block;
+    margin-bottom:6px;
+}
+
+.file-group input[type="file"]{
+    width:100%;
+    padding:8px;
+    border-radius:10px;
+    border:1px dashed #cbd5e1;
+    background:#f8fafc;
+    cursor:pointer;
+}
+
+/* BUTTON */
+.btn-submit{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#3b82f6,#60a5fa);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(59,130,246,.3);
+}
+
+/* CLOSE BUTTON */
+.close-modal{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:#f1f5f9;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.close-modal:hover{
+    background:#fee2e2;
+}
 </style>
 @endsection
 
@@ -568,14 +777,14 @@ max="{{ $product->stock }}"
 class="form-input"
 required>
 
-        <button 
-    type="submit" 
+    <button 
+    type="button"
     class="btn-sewa"
+    onclick="openSewaModal(this, {{ $product->id }}, {{ $product->price }})"
     {{ $product->stock <= 0 ? 'disabled' : '' }}
 >
-    {{ $product->stock > 0 ? ' Sewa Sekarang' : ' Stok Habis' }}
+    {{ $product->stock > 0 ? 'Sewa Sekarang' : 'Stok Habis' }}
 </button>
-
     </form>
 
     </div>
@@ -589,7 +798,137 @@ required>
 </div>
 
 @endforelse
+<!-- MODAL SEWA -->
+<div id="sewaModal" class="payment-modal">
+
+   <div class="payment-content">
+
+    <span class="close-modal" onclick="closeSewaModal()">✖</span>
+
+    <div class="modal-header">
+        <h3>Konfirmasi Sewa</h3>
+        <p>Lengkapi pembayaran untuk melanjutkan</p>
+    </div>
+
+    <!-- BANK -->
+    <div class="bank-box">
+        <div class="bank-title">Transfer ke</div>
+        <div class="bank-name">BCA</div>
+        <div class="bank-number">1234567890</div>
+        <div class="bank-owner">Smartrent</div>
+    </div>
+
+    <form id="formSewa" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <input type="hidden" name="product_id" id="product_id">
+
+        <!-- TOTAL -->
+        <div class="input-group">
+            <label>Total Harga</label>
+            <input type="text" id="total_harga" readonly>
+        </div>
+
+        <!-- FILE UPLOAD -->
+        <div class="file-group">
+            <label>Bukti Pembayaran</label>
+            <input type="file" name="bukti" required>
+        </div>
+
+        <div class="file-group">
+            <label>Foto KTP</label>
+            <input type="file" name="ktp" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Kirim & Sewa
+        </button>
+
+    </form>
 
 </div>
 
+</div>
+</div>
+<script>
+function openSewaModal(btn, productId, price){
+
+    let card = btn.closest('.product-card');
+
+    let rent = card.querySelector('input[name="rent_date"]').value;
+    let kembali = card.querySelector('input[name="return_date"]').value;
+    let qty = card.querySelector('input[name="qty"]').value;
+
+    if(!rent || !kembali || !qty){
+        alert("Isi tanggal & qty dulu!");
+        return;
+    }
+
+    let t1 = new Date(rent);
+    let t2 = new Date(kembali);
+
+    let hari = Math.ceil((t2 - t1) / (1000 * 60 * 60 * 24));
+
+    if(hari <= 0){
+        alert("Tanggal tidak valid!");
+        return;
+    }
+
+    let total = price * qty * hari;
+
+    // tampilkan modal
+    document.getElementById('sewaModal').style.display = 'flex';
+
+    // isi hidden input
+    document.getElementById('product_id').value = productId;
+
+    // TAMBAH hidden input dinamis
+    let form = document.getElementById('formSewa');
+
+   
+
+    // hapus input lama
+form.querySelectorAll('.hidden-dynamic').forEach(e => e.remove());
+
+// buat manual (AMAN)
+let inputRent = document.createElement('input');
+inputRent.type = 'hidden';
+inputRent.name = 'rent_date';
+inputRent.value = rent;
+inputRent.classList.add('hidden-dynamic');
+
+let inputReturn = document.createElement('input');
+inputReturn.type = 'hidden';
+inputReturn.name = 'return_date';
+inputReturn.value = kembali;
+inputReturn.classList.add('hidden-dynamic');
+
+let inputQty = document.createElement('input');
+inputQty.type = 'hidden';
+inputQty.name = 'qty';
+inputQty.value = qty;
+inputQty.classList.add('hidden-dynamic');
+
+form.appendChild(inputRent);
+form.appendChild(inputReturn);
+form.appendChild(inputQty);
+
+    // tampilkan total
+    document.getElementById('total_harga').value =
+        "Rp " + total.toLocaleString('id-ID');
+
+    form.action = "/sewa";
+}
+
+function closeSewaModal(){
+    document.getElementById('sewaModal').style.display = 'none';
+}
+
+window.onclick = function(e){
+    let modal = document.getElementById('sewaModal');
+    if(e.target === modal){
+        modal.style.display = "none";
+    }
+}
+</script>
 @endsection

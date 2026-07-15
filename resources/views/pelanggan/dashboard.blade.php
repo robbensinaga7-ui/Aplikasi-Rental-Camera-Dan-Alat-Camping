@@ -161,7 +161,8 @@ th{
 
 /* TABLE HEADER */
 th{
-    background:linear-gradient(135deg,#3498db,#6c5ce7);
+    background:linear-gradient(135deg,#0f172a,#334155);
+    color:white;
 }
 
 /* TABLE CARD */
@@ -403,17 +404,7 @@ td{
     }
 }
 
-@keyframes float{
-    0%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-10px);
-    }
-    100%{
-        transform:translateY(0);
-    }
-}
+
 
 /* HERO */
 .hero-dashboard{
@@ -641,7 +632,7 @@ td{
 
 <!-- TITLE -->
 <h2 class="section-title">
-     Riwayat Peminjaman
+     Data Peminjaman Barang
 </h2>
 
 <!-- TABLE -->
@@ -656,14 +647,10 @@ td{
     <th>Qty</th>
     <th>Sewa</th>
     <th>Kembali</th>
-    <th>Tanggal kembalikan Barang</th>
     <th>Total</th>
-    <th>Detail Biaya</th>
-    <th>Kondisi</th>
     <th>Status</th>
     <th>Status Bayar</th>
-    <th>Dokumen</th>
-    <th>Upload Foto Barang Rusak</th>
+    <th>Aksi</th>
 </tr>
 
 @foreach($transactions as $t)
@@ -686,142 +673,39 @@ td{
         {{ \Carbon\Carbon::parse($t->return_date)->format('d M Y') }}
     </td>
 
-    <td>
-@if($t->returned_at)
+    
 
-    {{ \Carbon\Carbon::parse($t->returned_at)->format('d M Y') }}
 
-@else
+@php
+$total = $t->price
+        + ($t->fine_late ?? 0)
+        + ($t->fine_damage ?? 0)
+        + ($t->fine_lost ?? 0);
+@endphp
 
-    <span style="color:#94a3b8;">
-        Belum dikembalikan
-    </span>
-
-@endif
+<td class="total-price">
+    Rp {{ number_format($total,0,',','.') }}
 </td>
 
 
-   <td class="total-price">
-Rp {{ number_format(
-    ($t->price ?? 0)
-    + ($t->fine_late ?? 0)
-    + ($t->fine_damage ?? 0)
-    + ($t->fine_lost ?? 0)
-,0,',','.') }}
-</td>
 
-<td>
-    Sewa: Rp {{ number_format($t->price,0,',','.') }} <br>
-
-    @if($t->fine_late > 0)
-         Telat: Rp {{ number_format($t->fine_late,0,',','.') }} <br>
-    @endif
-
-    @if($t->fine_damage > 0)
-         Rusak: Rp {{ number_format($t->fine_damage,0,',','.') }} <br>
-    @endif
-
-    @if($t->fine_lost > 0)
-         Hilang: Rp {{ number_format($t->fine_lost,0,',','.') }}
-    @endif
-
-    @if(
-        $t->fine_late == 0 &&
-        $t->fine_damage == 0 &&
-        $t->fine_lost == 0
-    )
-        <span style="color:green;"> Tidak ada denda</span>
-    @endif
-    @if($t->status == 'dipinjam' && $t->fine_preview > 0)
-    <br>
-    <span style="color:red;">
-        ⚠️ Estimasi telat {{  $t->late_days_preview}} hari<br>
-        Denda: Rp {{ number_format($t->fine_preview,0,',','.') }}
-    </span>
-    <br>
-    <small style="color:#f39c12;">
-        *Denda final ditentukan admin saat pengembalian
-    </small>
-@endif
-</td>
-<td>
-    @if($t->status == 'dikembalikan')
-
-        @if(($t->fine_lost ?? 0) > 0)
-        <span class="badge badge-belum"> Hilang</span>
-
-    @elseif(($t->fine_damage ?? 0) > 0)
-        <span class="badge badge-pending"> Rusak</span>
-
-    @else
-        <span class="badge badge-lunas"> Baik</span>
-    @endif
-
-    @else
-        <span style="color:#94a3b8;">-</span>
-    @endif
-</td>
     <!-- STATUS -->
 <td>
-
     @if($t->status == 'dipinjam')
-
-        <span class="badge badge-pending">
-            Dipinjam
-        </span>
-
-      <form action="/ajukan-kembali/{{ $t->id }}" method="POST">
-    @csrf
-
-    <button class="btn-ajukan">
-        Ajukan Pengembalian
-    </button>
-</form>
-
-        <form action="/batalkan/{{ $t->id }}" method="POST">
-
-            @csrf
-
-            <button
-                type="submit"
-                class="btn-batal"
-                onclick="return confirm('Yakin ingin membatalkan pesanan?')">
-                 Batalkan Pesanan
-            </button>
-
-        </form>
+        <span class="badge badge-pending">Dipinjam</span>
 
     @elseif($t->status == 'menunggu_konfirmasi')
-
-       <span class="badge badge-pending">
-    Dicek Admin
-</span>
-
-<br>
-<small style="color:#64748b;">
-    Barang sedang diperiksa
-</small>
+        <span class="badge badge-pending">Dicek Admin</span>
 
     @elseif($t->status == 'dikembalikan')
-
-        <span class="badge badge-lunas">
-            Dikembalikan
-        </span>
+        <span class="badge badge-lunas">Dikembalikan</span>
 
     @elseif($t->status == 'ditolak')
-
-        <span class="badge badge-belum">
-            Ditolak
-        </span>
+        <span class="badge badge-belum">Ditolak</span>
 
     @elseif($t->status == 'dibatalkan')
-
-        <span class="badge badge-belum">
-            Dibatalkan
-        </span>
-
+        <span class="badge badge-belum">Dibatalkan</span>
     @endif
-
 </td>
 
    <!-- PAYMENT -->
@@ -844,140 +728,33 @@ Rp {{ number_format(
 
 <td>
 
-@if($t->payment_proof && $t->ktp_image)
+@if($t->status == 'dipinjam' && $t->payment_status == 'pending')
 
-    <div>
-        <b> Dokumen Lengkap</b><br>
-
-    <a href="javascript:void(0)"
-  data-image="{{ url('storage/'.$t->payment_proof) }}"
-   onclick="showImage(this.dataset.image); return false;">
-    Lihat Bukti
-</a>
-
-|
-
-<a href="javascript:void(0)"
-   data-image="{{ url('storage/'.$t->ktp_image) }}"
-   onclick="showImage(this.dataset.image); return false;">
-   🪪 Lihat KTP
-</a>
-    </div>
-
-@else
-<button
-    type="button"
-    class="btn-bayar"
-    onclick="openPaymentModal()">
-     Lihat Rekening Tujuan
-</button>
-
-<br><br>
-<form
-    action="{{ route('transaksi.uploadDokumen',$t->id) }}"
-    method="POST"
-    enctype="multipart/form-data">
-
+<form action="/batalkan/{{ $t->id }}" method="POST">
     @csrf
 
-    <label>Bukti Pembayaran</label>
-    <input type="file" name="bukti" accept="image/*" required>
-
-    <br><br>
-
-    <label>Foto KTP</label>
-    <input type="file" name="ktp" accept="image/*" required>
-
-    <br><br>
-
-    <button type="submit" class="btn-bayar">
-        Upload Dokumen
+    <button class="btn-batal"
+    onclick="return confirm('Yakin mau batalkan pesanan ini?')">
+        Batalkan
     </button>
-
 </form>
 
-@endif
-
-</td>
-<td>
-
-@if($t->damage_photo)
-    <a href="javascript:void(0)"
-       data-image="{{ url('storage/'.$t->damage_photo) }}"
-       onclick="showImage(this.dataset.image); return false;">
-        Lihat Foto
-    </a>
-
-@elseif($t->status == 'dipinjam')
-
-    <form action="{{ route('transaksi.uploadRusak',$t->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <input type="file" name="foto_rusak" accept="image/*" required>
-
-        <br><br>
-
-        <button type="submit" class="btn-bayar">
-            Upload
-        </button>
-    </form>
-
 @else
-    <span style="color:#94a3b8;">-</span>
+    -
 @endif
 
 </td>
+
 </tr>
 
 @endforeach
 
 </table>
 
-<!-- MODAL GAMBAR -->
-<div id="imageModal" class="modal-img">
-    <span class="close-modal" onclick="closeImage()">&times;</span>
-    <img id="modalImage">
-</div>
 
-<!-- MODAL PEMBAYARAN -->
-<div id="paymentModal" class="payment-modal">
-
-    <div class="payment-content">
-
-        <h3> Informasi Pembayaran</h3>
-
-        <p><strong>Bank:</strong> BCA</p>
-
-        <p><strong>No Rekening:</strong><br>1234567890</p>
-
-        <p><strong>Atas Nama:</strong><br>Rental Camping</p>
-
-        <button class="btn-batal" onclick="closePaymentModal()">
-            Tutup
-        </button>
-
-    </div>
 
 </div>
 
-<script>
-function showImage(src){
-    document.getElementById('imageModal').style.display='flex';
-    document.getElementById('modalImage').src=src;
-}
-
-function closeImage(){
-    document.getElementById('imageModal').style.display='none';
-}
-
-function openPaymentModal(){
-    document.getElementById('paymentModal').style.display='flex';
-}
-
-function closePaymentModal(){
-    document.getElementById('paymentModal').style.display='none';
-}
-</script>
 <script>
 function updateJam(){
     const now = new Date();

@@ -61,14 +61,16 @@ if ($today->gt($return_date)) {
         $totalPrice = $product->price_per_day * $request->qty;
 
         Transaction::create([
-            'user_id' => Auth::id(),
-            'product_id' => $request->product_id,
-            'qty' => $request->qty,
-            'rent_date' => $request->rent_date,
-            'return_date' => $request->return_date,
-            'price' => $totalPrice,
-            'status' => 'dipinjam'
-        ]);
+    'user_id' => Auth::id(),
+    'product_id' => $request->product_id,
+    'qty' => $request->qty,
+    'rent_date' => $request->rent_date,
+    'return_date' => $request->return_date,
+    'price' => $totalPrice,
+    'status' => 'menunggu_pembayaran',
+    'payment_status' => null,
+    'is_paid' => false
+]);
 
         $product->decrement('stock', $request->qty);
 
@@ -162,10 +164,12 @@ if ($today->gt($return_date)) {
             return back()->with('error', '❌ Bukti pembayaran belum ada');
         }
 
-        $t->update([
-            'payment_status' => 'approved',
-            'paid_at' => now()
-        ]);
+       $t->update([
+    'payment_status' => 'approved',
+    'status' => 'dipinjam', 
+    'is_paid' => true,
+    'paid_at' => now()
+]);
 
         return back()->with('success', '✅ Pembayaran disetujui');
     }
@@ -190,19 +194,20 @@ if ($today->gt($return_date)) {
         return back()->with('success', 'Pembayaran ditolak');
     }
 
-    public function ajukanKembali(int $id)
-    {
-        $t = Transaction::findOrFail($id);
+   public function ajukanKembali(int $id)
+{
+    $t = Transaction::findOrFail($id);
 
-        if ($t->status !== 'dipinjam') {
-            return back()->with('error', 'Tidak bisa ajukan');
-        }
-
-        $t->status = 'menunggu_konfirmasi';
-        $t->save();
-
-        return back()->with('success', 'Menunggu konfirmasi admin');
+    if ($t->status !== 'dipinjam') {
+        return back()->with('error', 'Tidak bisa ajukan');
     }
+
+    $t->status = 'diajukan';
+    $t->returned_at = now();
+    $t->save();
+
+    return back()->with('success', 'Pengembalian berhasil diajukan');
+}
 
     public function konfirmasiKembali(Request $request, int $id)
     {
@@ -216,7 +221,7 @@ if ($today->gt($return_date)) {
             return back()->with('error', 'Barang sudah dikembalikan');
         }
 
-        if (!in_array($t->status, ['dipinjam', 'menunggu_konfirmasi'])) {
+        if (!in_array($t->status, ['dipinjam', 'diajukan', 'menunggu_konfirmasi'])){
             return back()->with('error', 'Status tidak valid');
         }
 
@@ -274,14 +279,32 @@ if ($today->gt($return_date)) {
         return view('admin.peminjaman', compact('data'));
     }
 
-    public function pengembalian()
-    {
-        $data = Transaction::with(['product','user'])
-            ->whereIn('status', ['menunggu_konfirmasi','dikembalikan'])
-            ->get();
+   public function pengembalian()
+{
+    $data = Transaction::with(['product','user'])
+        ->whereIn('status', ['diajukan','menunggu_konfirmasi','dikembalikan'])
+        ->get();
 
-        return view('admin.pengembalian', compact('data'));
+    foreach ($data as $item) {
+
+        $return_date = Carbon::parse($item->return_date)->startOfDay();
+
+        
+        $compareDate = $item->returned_at
+            ? Carbon::parse($item->returned_at)->startOfDay()
+            : now()->startOfDay();
+
+        if ($compareDate->gt($return_date)) {
+            $item->late_days = $return_date->diffInDays($compareDate);
+            $item->fine_late_preview = $item->late_days * 10000;
+        } else {
+            $item->late_days = 0;
+            $item->fine_late_preview = 0;
+        }
     }
+
+    return view('admin.pengembalian', compact('data'));
+}
 
     public function uploadDokumen(Request $request, int $id)
     {
@@ -298,46 +321,51 @@ if ($today->gt($return_date)) {
         $t->payment_proof = $paymentProof;
         $t->ktp_image = $ktp;
         $t->payment_status = 'pending';
+        $t->status = 'menunggu_konfirmasi';
 
         $t->save();
 
         return back()->with('success', 'Dokumen berhasil diupload');
     }
 
-    public function batalkan(int $id)
-    {
-        $transaksi = Transaction::findOrFail($id);
+   public function batalkan(int $id)
+{
+    $transaksi = Transaction::findOrFail($id);
 
-        if ($transaksi->status === 'dibatalkan') {
-            return back()->with('error', 'Sudah dibatalkan');
-        }
-
-        $product = Product::find($transaksi->product_id);
-
-        if ($product) {
-            $product->increment('stock', $transaksi->qty);
-        }
-
-        $transaksi->status = 'dibatalkan';
-        $transaksi->payment_status = 'dibatalkan';
-        $transaksi->is_paid = false;
-        $transaksi->save();
-
-        return back()->with('success', 'Pesanan berhasil dibatalkan');
+   
+    if (!(
+        $transaksi->status === 'dipinjam' &&
+        $transaksi->payment_status === 'pending'
+    )) {
+        return back()->with('error', 'Tidak bisa dibatalkan');
     }
-    public function uploadRusak(Request $request, int $id)
+
+    $product = Product::find($transaksi->product_id);
+
+    if ($product) {
+        $product->increment('stock', $transaksi->qty);
+    }
+
+    $transaksi->status = 'dibatalkan';
+    $transaksi->payment_status = 'dibatalkan';
+    $transaksi->save();
+
+    return back()->with('success', 'Pesanan berhasil dibatalkan');
+}
+public function uploadRusak(Request $request, int $id)
 {
     $request->validate([
         'foto_rusak' => 'required|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
-    $t = Transaction::findOrFail($id);
+    $trx = Transaction::findOrFail($id);
 
-    $path = $request->file('foto_rusak')->store('damage', 'public');
+    $file = $request->file('foto_rusak');
+    $path = $file->store('foto_rusak', 'public');
 
-    $t->damage_photo = $path;
-    $t->save();
+    $trx->foto_rusak = $path;
+    $trx->save();
 
-    return back()->with('success','Foto kerusakan berhasil diupload');
+    return back()->with('success', 'Foto kerusakan berhasil diupload');
 }
 }
