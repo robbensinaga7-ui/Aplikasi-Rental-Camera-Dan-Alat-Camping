@@ -25,7 +25,9 @@ Route::prefix('pages')->group(function () {
     return view('pages.product', compact('products'));
     });
 });
-
+Route::get('/', function () {
+    return view('welcome');
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH
@@ -36,7 +38,12 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/login', [AuthController::class, 'showLogin']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('forgot.password');
 
+Route::post('/forgot-password', [App\Http\Controllers\AuthController::class, 'resetPassword'])
+    ->name('reset.password');
 Route::get('/logout', [AuthController::class, 'logout']);
 
 /*
@@ -111,4 +118,13 @@ Route::post('/pelanggan/profile/update', [PelangganController::class, 'updatePro
         ->name('sewa.store');
     Route::post('/transaksi/{id}/bayar', [TransactionController::class, 'bayar'])
         ->name('transaksi.bayar');
+});
+Route::post(
+    '/transaksi/{id}/upload-dokumen',
+    [TransactionController::class,'uploadDokumen']
+)->name('transaksi.uploadDokumen');
+Route::post('/upload-rusak/{id}', [TransactionController::class, 'uploadRusak'])
+    ->name('transaksi.uploadRusak');
+Route::get('/', function () {
+    return view('pages.home');
 });

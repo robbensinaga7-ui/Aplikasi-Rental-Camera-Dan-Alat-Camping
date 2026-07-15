@@ -239,7 +239,8 @@ tbody tr:nth-child(10){animation-delay:1s;}
 
 /* Badge */
 .badge{
-    transition:.3s;
+    display:inline-block;
+    animation:none;
 }
 
 .badge:hover{
@@ -304,11 +305,14 @@ tr:hover .total-price{
 }
 
 @keyframes float{
-    0%,100%{
+    0%{
         transform:translateY(0);
     }
     50%{
-        transform:translateY(-15px);
+        transform:translateY(-10px);
+    }
+    100%{
+        transform:translateY(0);
     }
 }
 
@@ -320,6 +324,40 @@ tr:hover .total-price{
         opacity:.7;
     }
 }
+.kondisi-box{
+    background:#f8fafc;
+    padding:12px;
+    border-radius:12px;
+    margin-top:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.kondisi-box label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:5px;
+    color:#334155;
+}
+
+.kondisi-select{
+    width:100%;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    margin-bottom:8px;
+    transition:.3s;
+}
+
+.kondisi-select:focus{
+    border-color:#4facfe;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(79,172,254,.2);
+}
+
+.full{
+    width:100%;
+}
 </style>
 @endsection
 
@@ -328,7 +366,7 @@ tr:hover .total-price{
 <div class="hero-transaksi">
 
     <div>
-        <h1>📄 Data Transaksi</h1>
+        <h1> Data Transaksi</h1>
         <p>Kelola transaksi penyewaan kamera dan alat camping</p>
     </div>
 
@@ -337,7 +375,29 @@ tr:hover .total-price{
     </div>
 
 </div>
+@if(session('error'))
+<div style="
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('error') }}
+</div>
+@endif
 
+@if(session('success'))
+<div style="
+    background:#dcfce7;
+    color:#166534;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-weight:600;">
+    {{ session('success') }}
+</div>
+@endif
 <div class="table-box">
 
 <table class="table">
@@ -347,15 +407,15 @@ tr:hover .total-price{
             <th>No</th>
             <th>Customer</th>
             <th>Produk</th>
+            <th>Harga Barang</th>
             <th>Qty</th>
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
             <th>Total</th>
             <th>Status</th>
-            <th>Denda</th>
             <th>Bukti</th>
+            <th>KTP Penyewa</th>
             <th>Pembayaran</th>
-            <th>Aksi</th>
         </tr>
     </thead>
 
@@ -371,58 +431,44 @@ tr:hover .total-price{
 
             <td>{{ $item->product->name ?? '-' }}</td>
 
+            <td class="total-price">
+    Rp {{ number_format($item->product->price ?? 0,0,',','.') }}
+</td>
+
             <td>{{ $item->qty }}</td>
 
             <td>{{ $item->rent_date }}</td>
 
-            <td>{{ $item->return_date }}</td>
+            <td>{{ $item->return_date }}</td> 
 
-            <td class="total-price">
-                Rp {{ number_format($item->price + $item->fine,0,',','.') }}
-            </td>
+            
+
+           <td class="total-price">
+   Rp {{ number_format($item->total_price ?: $item->price,0,',','.') }}
+</td>
 
             <td>
+    @if($item->status == 'dipinjam')
+        <span class="badge badge-blue">Dipinjam</span>
 
-                @if($item->status == 'dipinjam')
+    @elseif($item->status == 'menunggu_konfirmasi')
+        <span class="badge badge-orange">Menunggu</span>
 
-                    <span class="badge badge-blue">
-                        Dipinjam
-                    </span>
+    @elseif($item->status == 'dikembalikan')
+        <span class="badge badge-green">Selesai</span>
 
-                @elseif($item->status == 'menunggu_konfirmasi')
+    @elseif($item->status == 'terlambat')
+        <span class="badge badge-orange">Terlambat</span>
 
-                    <form action="/admin/konfirmasi-kembali/{{ $item->id }}" method="POST">
-                        @csrf
-                        <button class="btn btn-green">
-                            Konfirmasi
-                        </button>
-                    </form>
+    @elseif($item->status == 'ditolak')
+        <span class="badge badge-red">Ditolak</span>
 
-                @elseif($item->status == 'dikembalikan')
+    @elseif($item->status == 'dibatalkan')
+        <span class="badge badge-red">Dibatalkan</span>
+    @endif
+</td>
 
-                    <span class="badge badge-green">
-                        Selesai
-                    </span>
-
-                @elseif($item->status == 'ditolak')
-
-                    <span class="badge badge-red">
-                        Ditolak
-                    </span>
-
-                    @elseif($item->status == 'dibatalkan')
-
-    <span class="badge badge-red">
-        Dibatalkan
-    </span>
-
-                @endif
-
-            </td>
-
-            <td class="fine">
-                Rp {{ number_format($item->fine ?? 0,0,',','.') }}
-            </td>
+            
 
             <!-- BUKTI -->
             <td>
@@ -440,6 +486,24 @@ tr:hover .total-price{
                 @endif
 
             </td>
+            <!-- KTP PENYEWA -->
+            <td>
+
+                 @if($item->ktp_image)
+
+                  <img
+                     src="{{ asset('storage/'.$item->ktp_image) }}"
+                    width="70">
+
+                  @else
+
+                    <span class="badge badge-orange">
+                        Belum Upload
+                      </span>
+
+    @endif
+
+</td>
 
             <!-- PEMBAYARAN -->
             <td>
@@ -487,29 +551,6 @@ tr:hover .total-price{
                     <span class="badge badge-orange">
                         Belum
                     </span>
-
-                @endif
-
-            </td>
-
-            <td>
-
-                @if($item->status == 'dipinjam')
-
-                    <form action="/kembalikan/{{ $item->id }}"
-                    method="POST">
-
-                        @csrf
-
-                        <button class="btn btn-blue">
-                            Kembalikan
-                        </button>
-
-                    </form>
-
-                @else
-
-                    ✔
 
                 @endif
 

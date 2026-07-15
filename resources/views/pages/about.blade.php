@@ -379,21 +379,21 @@ Aplikasi rental modern untuk kebutuhan camping & petualangan Anda
 <section class="about-container">
 
 <div class="card" data-aos="fade-up" data-aos-delay="100">
-<h3>🎯 Tujuan</h3>
+<h3> Tujuan</h3>
 <p>
 Membantu pengelolaan rental agar lebih mudah, cepat, dan terorganisir.
 </p>
 </div>
 
 <div class="card" data-aos="fade-up" data-aos-delay="200">
-<h3>⚙️ Fitur</h3>
+<h3> Fitur</h3>
 <p>
 Manajemen barang, transaksi, dan perhitungan otomatis dalam satu sistem.
 </p>
 </div>
 
 <div class="card" data-aos="fade-up" data-aos-delay="300">
-<h3>🚀 Keunggulan</h3>
+<h3> Keunggulan</h3>
 <p>
 Desain modern, mudah digunakan, dan cocok untuk bisnis rental kecil maupun besar.
 </p>
@@ -424,20 +424,20 @@ Desain modern, mudah digunakan, dan cocok untuk bisnis rental kecil maupun besar
 <section class="vision">
 
 <h2 data-aos="fade-up">
-🎯 Visi & Misi
+ Visi & Misi
 </h2>
 
 <div class="vision-box">
 
 <div class="vision-card" data-aos="fade-right">
-<h3>🌟 Visi</h3>
+<h3> Visi</h3>
 <p>
 Menjadi platform rental alat camping dan petualangan terbaik yang mudah diakses oleh semua orang.
 </p>
 </div>
 
 <div class="vision-card" data-aos="fade-left">
-<h3>🚀 Misi</h3>
+<h3> Misi</h3>
 <p>
 Memberikan layanan rental yang cepat, aman, modern, dan terpercaya bagi seluruh pelanggan.
 </p>
@@ -451,25 +451,25 @@ Memberikan layanan rental yang cepat, aman, modern, dan terpercaya bagi seluruh 
 <section class="why-us">
 
 <h2 data-aos="fade-up">
-🏕️ Mengapa Memilih Kami?
+ Mengapa Memilih Kami?
 </h2>
 
 <div class="why-grid">
 
 <div class="why-item" data-aos="zoom-in">
-<div class="icon">⚡</div>
+<div class="icon"></div>
 <h3>Cepat</h3>
 <p>Proses peminjaman lebih cepat dan mudah.</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="100">
-<div class="icon">🔒</div>
+<div class="icon"></div>
 <h3>Aman</h3>
 <p>Data dan transaksi pelanggan terjamin aman.</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="200">
-<div class="icon">🎒</div>
+<div class="icon"></div>
 <h3>Lengkap</h3>
 <p>Banyak pilihan alat camping dan petualangan.</p>
 </div>
@@ -482,7 +482,7 @@ Memberikan layanan rental yang cepat, aman, modern, dan terpercaya bagi seluruh 
 <section class="team">
 
 <h2 data-aos="fade-up">
-👨‍💻 Developer Team
+ Developer Team
 </h2>
 
 <div class="team-box">

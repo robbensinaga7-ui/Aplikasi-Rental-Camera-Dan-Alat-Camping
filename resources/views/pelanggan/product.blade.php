@@ -233,7 +233,13 @@
     border-color:#3498db;
     box-shadow:0 0 0 4px rgba(52,152,219,0.1);
 }
-
+.form-label{
+    display:block;
+    margin-bottom:6px;
+    font-size:13px;
+    font-weight:600;
+    color:#334155;
+}
 /* BUTTON */
 .btn-sewa{
     width:100%;
@@ -435,6 +441,13 @@ to{
 }
 
 }
+.btn-sewa:disabled{
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
 
 </style>
 @endsection
@@ -442,7 +455,7 @@ to{
 @section('content')
 
 <h1 class="page-title">
-    📦 Produk Camping
+     Produk Camping
 </h1>
 
 <p class="page-subtitle">
@@ -453,7 +466,7 @@ to{
 
 <div class="hero-product">
 
-    <h1>🏕 Produk Camping</h1>
+    <h1>Produk Camping</h1>
 
     <p>
         Pilih perlengkapan camping terbaik untuk petualanganmu
@@ -507,7 +520,7 @@ to{
     </h3>
 
     <p class="product-info">
-        📦 Stok : {{ $product->stock }}
+         Stok : {{ $product->stock }}
     </p>
 
     <p class="product-price">
@@ -525,28 +538,43 @@ to{
         name="product_id"
         value="{{ $product->id }}">
 
-        <input
-        type="date"
-        name="rent_date"
-        class="form-input"
-        required>
+       <label class="form-label">
+     Tanggal Pinjam
+</label>
+<input
+type="date"
+name="rent_date"
+class="form-input"
+required>
 
-        <input
-        type="date"
-        name="return_date"
-        class="form-input"
-        required>
+<label class="form-label">
+     Tanggal Kembali
+</label>
+<input
+type="date"
+name="return_date"
+class="form-input"
+required>
 
-        <input
-        type="number"
-        name="qty"
-        value="1"
-        min="1"
-        class="form-input">
+<label class="form-label">
+     Qty
+</label>
+<input
+type="number"
+name="qty"
+value="1"
+min="1"
+max="{{ $product->stock }}"
+class="form-input"
+required>
 
-        <button type="submit" class="btn-sewa">
-            🚀 Sewa Sekarang
-        </button>
+        <button 
+    type="submit" 
+    class="btn-sewa"
+    {{ $product->stock <= 0 ? 'disabled' : '' }}
+>
+    {{ $product->stock > 0 ? ' Sewa Sekarang' : ' Stok Habis' }}
+</button>
 
     </form>
 

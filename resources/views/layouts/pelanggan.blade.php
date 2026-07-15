@@ -51,53 +51,103 @@ body{
 
 /* SIDEBAR */
 .sidebar{
-    width:260px;
-    background:linear-gradient(
-        180deg,
-        #0f172a,
-        #1e293b,
-        #334155
-    );
-    padding:20px;
+    width:270px;
+    background:linear-gradient(180deg,#0f172a,#1e293b);
     position:fixed;
     top:0;
-    left:-260px;
+    left:-270px;
     bottom:0;
-    overflow-y:auto;
-    box-shadow:5px 0 25px rgba(0,0,0,.25);
-    transition:.4s ease;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:.4s;
     z-index:1000;
 }
 
+/* SHOW */
 .sidebar.show{
     left:0;
 }
 
-.sidebar h2{
-    color:white;
+/* PROFILE */
+.sidebar-profile{
     text-align:center;
-    margin-bottom:35px;
-    font-size:28px;
-    font-weight:700;
+    margin-bottom:30px;
 }
 
-.sidebar a{
+.sidebar-profile img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #4facfe;
+    margin-bottom:10px;
+}
+
+.sidebar-profile h3{
+    color:white;
+    font-size:18px;
+    margin-bottom:3px;
+}
+
+.sidebar-profile p{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+/* MENU */
+.menu{
+    flex:1;
+}
+
+.menu a{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
     text-decoration:none;
-    color:white;
-    padding:14px 16px;
-    border-radius:14px;
+    color:#cbd5f5;
+    padding:14px;
+    border-radius:12px;
     margin-bottom:10px;
     transition:.3s;
 }
 
-.sidebar a:hover,
-.sidebar a.active{
-    background:rgba(255,255,255,.15);
-    transform:translateX(6px);
+/* ICON */
+.menu a span{
+    font-size:18px;
 }
+
+/* HOVER */
+.menu a:hover{
+    background:rgba(255,255,255,.08);
+    color:white;
+    transform:translateX(5px);
+}
+
+/* ACTIVE */
+.menu a.active{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    font-weight:600;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+/* LOGOUT */
+.logout-btn{
+    text-align:center;
+    padding:12px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ff416c,#ff4b2b);
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    transform:scale(1.05);
+}
+
 
 .content{
     width:100%;
@@ -254,32 +304,44 @@ tr:hover{
 
 <div class="wrapper">
 
-    <div class="sidebar">
+   <div class="sidebar">
 
-       <h2>🏕 Pelanggan</h2>
+    <!-- PROFILE -->
+    <div class="sidebar-profile">
+        <img 
+            src="{{ Auth::user()->photo 
+                ? asset('uploads/profile/'.Auth::user()->photo) 
+                : 'https://i.pravatar.cc/300' }}">
+        <h3>{{ Auth::user()->name }}</h3>
+        <p>Pelanggan</p>
+    </div>
 
-<a href="/pelanggan/dashboard"
-   class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}">
-   🏠 Dashboard
-</a>
+    <!-- MENU -->
+    <div class="menu">
 
-<a href="/pelanggan/product"
-   class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
-   📦 Produk
-</a>
+        <a href="/pelanggan/dashboard"
+        class="{{ request()->is('pelanggan/dashboard') ? 'active' : '' }}">
+            <span></span> Dashboard
+        </a>
 
-<a href="/pelanggan/profile">
-   👤 Profil
-</a>
+        <a href="/pelanggan/product"
+        class="{{ request()->is('pelanggan/product*') ? 'active' : '' }}">
+            <span></span> Produk
+        </a>
 
-<a href="/logout"
-   class="btn btn-danger"
-   style="margin-top:20px;text-align:center;width:100%;">
-   🚪 Logout
-</a>
+        <a href="/pelanggan/profile"
+        class="{{ request()->is('pelanggan/profile') ? 'active' : '' }}">
+            <span></span> Profil
+        </a>
 
     </div>
 
+    <!-- LOGOUT -->
+    <a href="/logout" class="logout-btn">
+         Keluar
+    </a>
+
+</div>
     <div class="content">
         @yield('content')
     </div>

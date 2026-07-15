@@ -170,10 +170,7 @@ to{opacity:1;}
 100%{transform:translateY(0);}
 }
 
-@keyframes bounce{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
+
 
 </style>
 
@@ -181,7 +178,7 @@ to{opacity:1;}
 <section class="hero">
 
 <div class="hero-text" data-aos="fade-right">
-<h1>Petualangan Dimulai dari Sini!</h1>
+<h1>Petualangan Dimulai dari Sini !</h1>
 
 <p>Sewa peralatan camping berkualitas untuk petualangan Anda. Mudah, cepat, dan terpercaya!</p>
 
@@ -203,19 +200,19 @@ to{opacity:1;}
 <div class="why-container">
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="100">
-<div class="icon">✔️</div>
+<div class="icon"></div>
 <h3>Kualitas Terjamin</h3>
 <p>Semua peralatan dalam kondisi prima dan terawat</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="200">
-<div class="icon">💰</div>
+<div class="icon"></div>
 <h3>Harga Terjangkau</h3>
 <p>Harga sewa fleksibel sesuai kebutuhan Anda</p>
 </div>
 
 <div class="why-item" data-aos="zoom-in" data-aos-delay="300">
-<div class="icon">⚡</div>
+<div class="icon"></div>
 <h3>Proses Cepat</h3>
 <p>Booking mudah dan konfirmasi instan</p>
 </div>

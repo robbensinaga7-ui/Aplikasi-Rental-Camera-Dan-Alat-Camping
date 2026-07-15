@@ -263,11 +263,14 @@ tr:hover .number{
 }
 
 @keyframes float{
-    0%,100%{
+    0%{
         transform:translateY(0);
     }
     50%{
-        transform:translateY(-15px);
+        transform:translateY(-10px);
+    }
+    100%{
+        transform:translateY(0);
     }
 }
 </style>
@@ -361,7 +364,7 @@ tr:hover .number{
 
     <tr>
         <td colspan="8" class="empty-data">
-            📭 Tidak ada data peminjaman
+             Tidak ada data peminjaman
         </td>
     </tr>
 

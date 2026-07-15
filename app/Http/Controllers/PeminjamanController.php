@@ -13,13 +13,13 @@ class PeminjamanController extends Controller
         return view('peminjaman', compact('peminjaman'));
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $data = Peminjaman::findOrFail($id);
         return view('detail_peminjaman', compact('data'));
     }
 
-    public function kembalikan($id)
+    public function kembalikan(int $id)
     {
         $data = Peminjaman::findOrFail($id);
         $data->status = 'selesai';

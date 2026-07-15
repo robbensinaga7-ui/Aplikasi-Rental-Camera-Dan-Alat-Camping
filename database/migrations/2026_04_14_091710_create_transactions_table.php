@@ -12,21 +12,34 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-        $table->id();
+      $table->id();
 
-    $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-    $table->foreignId('product_id')->constrained()->onDelete('cascade');
-    $table->integer('qty');
-    $table->date('rent_date');
-    $table->date('return_date');
-    $table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'terlambat','ditolak', 'dibatalkan']);
-    $table->integer('price')->default(0);
-$table->integer('fine')->default(0);
+$table->foreignId('user_id')->constrained()->restrictOnDelete();
+$table->foreignId('product_id')->constrained()->restrictOnDelete();
+
+$table->integer('qty');
+$table->date('rent_date');
+$table->date('return_date');
+
+$table->enum('status', ['dipinjam', 'menunggu_konfirmasi','dikembalikan', 'ditolak','dibatalkan']);
+
+$table->bigInteger('price')->default(0);
+
+$table->bigInteger('fine_late')->default(0);
+$table->bigInteger('fine_damage')->default(0);
+$table->bigInteger('fine_lost')->default(0);
+
+$table->integer('late_days')->default(0);
+
+$table->enum('condition', ['baik','rusak_ringan','rusak_berat','hilang'])->nullable();
+
+$table->bigInteger('total_price')->default(0);
+
 $table->enum('payment_status', ['pending','approved','rejected','dibatalkan'])->default('pending');
-        $table->boolean('is_paid')->default(false);
-        $table->timestamp('paid_at')->nullable();
+ $table->string('payment_proof')->nullable();
+$table->timestamp('paid_at')->nullable();
 
-        $table->timestamps();
+$table->timestamps();
     });
     }
 

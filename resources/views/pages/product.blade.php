@@ -304,7 +304,7 @@ to{opacity:1;}
 <!-- TITLE -->
 <div class="title" data-aos="fade-up">
 
-<h1>🏕 Katalog Produk</h1>
+<h1> Katalog Produk</h1>
 
 <p>
 Temukan peralatan camping terbaik untuk petualanganmu
@@ -390,7 +390,7 @@ Rp {{ number_format($product->price,0,',','.') }} / hari
     @auth
 
     <a href="/booking/{{ $product->id }}" class="btn">
-        🚀 Sewa Sekarang
+        🚀 Sewa Sekarang y
     </a>
 
     @endauth

@@ -7,7 +7,7 @@
 
 /* HERO */
 .hero-customer{
-    background:linear-gradient(135deg,#667eea,#764ba2);
+    background:#5a67d8;
     color:white;
     padding:25px 30px;
     border-radius:25px;
@@ -61,7 +61,7 @@
 
 /* BUTTON */
 .btn-add{
-    background:linear-gradient(135deg,#00c853,#69f0ae);
+    background:#00c853;
 }
 
 /* TABLE */
@@ -71,8 +71,8 @@ table{
 }
 
 th{
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
-    color:white;
+    background:#020617; 
+    color:#f1f5f9;      
     padding:14px;
 }
 
@@ -91,11 +91,11 @@ tr:hover{
 }
 
 .btn-warning{
-    background:linear-gradient(135deg,#ff9800,#ffc107);
+    background:#f59e0b;
 }
 
 .btn-danger{
-    background:linear-gradient(135deg,#ff5252,#ff1744);
+     background:#ef4444;
 }
 
 .number{
@@ -259,7 +259,7 @@ tr:hover .number{
 
 <div class="customer-card">
 
-    <div style="margin-bottom:20px;">
+    <div style="margin-bottom:20px; display:flex; justify-content:flex-end;">
 
         <a href="/admin/pelanggan/create"
            class="btn btn-add">
@@ -301,13 +301,13 @@ tr:hover .number{
 
                     <a href="/admin/pelanggan/edit/{{ $p->id }}"
                        class="btn btn-warning">
-                        ✏ Edit
+                         Edit
                     </a>
 
                     <a href="/admin/pelanggan/delete/{{ $p->id }}"
                        class="btn btn-danger"
                        onclick="return confirm('Yakin hapus pelanggan?')">
-                        🗑 Hapus
+                         Hapus
                     </a>
 
                 </td>

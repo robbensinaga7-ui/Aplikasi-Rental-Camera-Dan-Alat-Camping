@@ -47,7 +47,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(int $id)
 {
     $category = Category::findOrFail($id);
     return view('category.edit', compact('category'));
@@ -56,7 +56,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
 {
     $category = Category::findOrFail($id);
     $category->update([
@@ -69,7 +69,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(int $id)
 {
     Category::destroy($id);
     return redirect('/category');
